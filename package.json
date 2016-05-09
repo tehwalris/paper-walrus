@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "webpack --progress --colors",
-    "serve": "webpack-dev-server --content-base src/ --host 0.0.0.0 --port 8081"
+    "serve": "env DEBUG=true webpack-dev-server --content-base src/ --host 0.0.0.0 --port 8081"
   },
   "repository": {
     "type": "git",
@@ -50,6 +50,7 @@
     "react-dom": "^15.0.2",
     "react-redux": "^4.4.5",
     "redux": "^3.5.2",
-    "redux-devtools": "^3.3.1"
+    "redux-devtools": "^3.3.1",
+    "redux-thunk": "^2.0.1"
   }
 }

@@ -2,6 +2,10 @@
 const path = require('path'),
   webpack = require('webpack');
 
+var devFlagPlugin = new webpack.DefinePlugin({
+  __DEV__: process.env.DEBUG,
+});
+
 module.exports = {
   entry: './src/index.js',
   output: {
@@ -35,5 +39,6 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({_: 'lodash'}),
+    devFlagPlugin,
   ],
 };
