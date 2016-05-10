@@ -8,7 +8,8 @@ let createStoreWithMiddleware;
 if (__DEV__) {
   createStoreWithMiddleware = compose(
     applyMiddleware(thunkMiddleware),
-    persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/))
+    persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)),
+    window.devToolsExtension ? window.devToolsExtension() : f => f
   )(createStore);
 } else {
   createStoreWithMiddleware = compose(
