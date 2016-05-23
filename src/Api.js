@@ -10,6 +10,7 @@ export default class Api {
       this._socket.emit('getAllTags', resolve);
     });
   }
+
   findItems(options) {
     return new Promise(resolve => {
       this._socket.emit('findItems', options, resolve);

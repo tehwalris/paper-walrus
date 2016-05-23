@@ -11,6 +11,7 @@ class Home extends Component {
 
   componentDidMount() {
     const {actions} = this.props;
+    actions.loadTags();
     actions.loadTestData();
   }
 

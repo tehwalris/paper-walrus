@@ -16,3 +16,11 @@ export function loadTestData() {
     });
   }
 }
+
+export function loadTags() {
+  return function (dispatch) {
+    api.getAllTags().then(tags => {
+      dispatch({type: 'loadTags', tags});
+    });
+  }
+}

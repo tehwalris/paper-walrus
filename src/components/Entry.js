@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Radium from 'radium';
 import ContentPreview from './ContentPreview';
+import Tag from './Tag';
 
 @Radium
 export default class Entry extends Component {
@@ -15,7 +16,15 @@ export default class Entry extends Component {
     return (
       <div style={[styles.wrapper, style]}>
         <ContentPreview data={entry.data} style={styles.preview}/>
-        <div>Tags: {JSON.stringify(entry.tags)}</div>
+        <div style={styles.tagContainer}>
+          {entry.tags.map((tagId, i) => (
+          <Tag
+            key={i}
+            tagId={tagId}
+            style={styles.tag}
+          />
+          ))}
+        </div>
       </div>
     );
   }
@@ -23,10 +32,22 @@ export default class Entry extends Component {
   getStyles() {
     return {
       wrapper: {
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
         backgroundColor: 'green',
       },
       preview: {
         width: '100%',
+        height: '1px',
+        flexGrow: 1,
+        flexShrink: 1,
+      },
+      tagContainer: {
+        padding: '5px',
+      },
+      tag: {
+        margin: '5px',
       },
     };
   }
