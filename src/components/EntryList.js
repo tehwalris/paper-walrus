@@ -1,0 +1,40 @@
+import React, {Component} from 'react';
+import Radium from 'radium';
+import Entry from './Entry';
+
+@Radium
+export default class EntryList extends Component {
+  static propTypes = {
+    entries: React.PropTypes.array.isRequired,
+  }
+
+  render() {
+    const {entries} = this.props;
+    const styles = this.getStyles();
+    return (
+      <div style={styles.wrapper}>
+        {entries.map((entry, i) => (
+        <Entry
+          key={i}
+          entry={entry}
+          style={styles.entry}
+        />
+        ))}
+      </div>
+    );
+  }
+
+  getStyles() {
+    return {
+      wrapper: {
+        backgroundColor: 'red',
+        padding: '10px',
+      },
+      entry: {
+        width: '200px',
+        height: '200px',
+        margin: '10px',
+      },
+    };
+  }
+}
