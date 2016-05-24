@@ -7,6 +7,16 @@ import EntryList from '../components/EntryList';
 class Home extends Component {
   static propTypes = {
     search: React.PropTypes.object,
+    tags: React.PropTypes.object.isRequired,
+  }
+
+  static childContextTypes = {
+    tags: React.PropTypes.object,
+  }
+
+  getChildContext() {
+    const {tags} = this.props;
+    return {tags};
   }
 
   componentDidMount() {
@@ -35,7 +45,10 @@ class Home extends Component {
 }
 
 function mapStateToProps(state) {
-    return {search: state.data.search}
+  return {
+    tags: state.data.tags || {},
+    search: state.data.search,
+  };
 }
 
 function mapDispatchToProps(dispatch) {

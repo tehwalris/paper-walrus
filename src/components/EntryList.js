@@ -27,6 +27,8 @@ export default class EntryList extends Component {
   getStyles() {
     return {
       wrapper: {
+        display: 'flex',
+        flexWrap: 'wrap',
         backgroundColor: 'red',
         padding: '10px',
       },

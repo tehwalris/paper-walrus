@@ -8,12 +8,18 @@ export default class Tag extends Component {
     style: React.PropTypes.object,
   }
 
+  static contextTypes = {
+    tags: React.PropTypes.object.isRequired,
+  }
+
   render() {
     const {tagId, style} = this.props;
+    const tag = this.context.tags[tagId];
+    if(!tag) return <div/>;
     const styles = this.getStyles();
     return (
       <div style={[styles.tag, style]}>
-        walrus
+        {tag.name}
       </div>
     );
   }
