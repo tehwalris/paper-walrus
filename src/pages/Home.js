@@ -2,7 +2,10 @@ import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as actionCreators from '../actions/actionCreators';
+import TagSearchBar from '../components/TagSearchBar';
 import EntryList from '../components/EntryList';
+import FullscreenView from '../components/FullscreenView';
+import EntryCreator from '../components/EntryCreator';
 
 class Home extends Component {
   static propTypes = {
@@ -21,19 +24,30 @@ class Home extends Component {
 
   componentDidMount() {
     const {actions} = this.props;
-    actions.loadTags();
-    actions.loadTestData();
+    actions.initialize();
   }
 
   render() {
-    const {search} = this.props;
+    const {tags, search, actions} = this.props;
+    const styles = this.getStyles();
+    const testEntry = this.getDisplayedEntries()[0];
     return (
       <div>
-        Walrus!
-        The home page.
+        <TagSearchBar
+          selected={_.get(search, 'tags') || []}
+          onChange={actions.search}
+          tags={tags}
+          style={styles.search}
+        />
+        <EntryCreator
+          style={styles.entryCreator}
+        />
         <EntryList
           entries={this.getDisplayedEntries()}
         />
+        {false && <FullscreenView
+          entry={testEntry}
+        />}
       </div>
     );
   }
@@ -41,6 +55,11 @@ class Home extends Component {
   getDisplayedEntries() {
     const {search} = this.props;
     return _.get(search, 'results') || [];
+  }
+
+  getStyles() {
+    return {
+    };
   }
 }
 
