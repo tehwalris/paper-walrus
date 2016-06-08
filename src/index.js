@@ -1,8 +1,34 @@
 import '!file?name=[name].[ext]!./index.html';
 import './index.scss';
 
+import 'react-hot-loader/patch';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {browserHistory} from 'react-router'
+import {syncHistoryWithStore} from 'react-router-redux'
+import configureStore from './store/configureStore';
+import {AppContainer} from 'react-hot-loader';
 import App from './App';
 
-ReactDOM.render(<App/>, document.getElementById('main'));
+const store = configureStore();
+const history = syncHistoryWithStore(browserHistory, store);
+
+renderApp(App);
+
+if (module.hot) {
+  module.hot.accept('./App', () => {
+    renderApp(require('./App').default);
+  });
+}
+
+function renderApp (PrimaryComponent) {
+  ReactDOM.render(
+    <AppContainer>
+      <PrimaryComponent
+        store={store}
+        history={history}
+      />
+    </AppContainer>,
+    document.getElementById('main')
+  );
+}
