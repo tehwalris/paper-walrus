@@ -3,21 +3,17 @@ import Radium from 'radium';
 import Entry from './Entry';
 
 @Radium
-export default class FullscreenView extends Component {
+export default class Fullscreen extends Component {
   static propTypes = {
-    entry: React.PropTypes.object.isRequired,
     style: React.PropTypes.object,
   }
 
   render() {
-    const {entry, style} = this.props;
+    const {children, style} = this.props;
     const styles = this.getStyles();
     return (
       <div style={[styles.wrapper, style]}>
-        <Entry
-          entry={entry}
-          style={styles.entry}
-        />
+        {children}
       </div>
     );
   }

@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import * as actionCreators from '../actions/actionCreators';
 import TagSearchBar from '../components/TagSearchBar';
 import EntryList from '../components/EntryList';
-import FullscreenView from '../components/FullscreenView';
 import EntryCreator from '../components/EntryCreator';
 
 class Home extends Component {
@@ -37,17 +36,12 @@ class Home extends Component {
           selected={_.get(search, 'tags') || []}
           onChange={actions.search}
           tags={tags}
-          style={styles.search}
         />
         <EntryCreator
-          style={styles.entryCreator}
         />
         <EntryList
           entries={this.getDisplayedEntries()}
         />
-        {false && <FullscreenView
-          entry={testEntry}
-        />}
       </div>
     );
   }
