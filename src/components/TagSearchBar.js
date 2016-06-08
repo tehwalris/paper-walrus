@@ -46,7 +46,7 @@ export default class TagSearchBar extends Component {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '30px',
+        padding: '0 10px',
       },
       select: {
         width: '500px',

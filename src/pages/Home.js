@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import * as actionCreators from '../actions/actionCreators';
 import TagSearchBar from '../components/TagSearchBar';
 import EntryList from '../components/EntryList';
-import EntryCreator from '../components/EntryCreator';
 
 class Home extends Component {
   static propTypes = {
@@ -36,8 +35,7 @@ class Home extends Component {
           selected={_.get(search, 'tags') || []}
           onChange={actions.search}
           tags={tags}
-        />
-        <EntryCreator
+          style={styles.search}
         />
         <EntryList
           entries={this.getDisplayedEntries()}
@@ -53,6 +51,9 @@ class Home extends Component {
 
   getStyles() {
     return {
+      search: {
+        marginBottom: '20px',
+      },
     };
   }
 }

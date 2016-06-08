@@ -4,14 +4,14 @@ import './index.scss';
 import 'react-hot-loader/patch';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {browserHistory} from 'react-router'
+import {hashHistory} from 'react-router'
 import {syncHistoryWithStore} from 'react-router-redux'
 import configureStore from './store/configureStore';
 import {AppContainer} from 'react-hot-loader';
 import App from './App';
 
 const store = configureStore();
-const history = syncHistoryWithStore(browserHistory, store);
+const history = syncHistoryWithStore(hashHistory, store);
 
 renderApp(App);
 
