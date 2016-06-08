@@ -7,14 +7,15 @@ import Tag from './Tag';
 export default class Entry extends Component {
   static propTypes = {
     entry: React.PropTypes.object.isRequired,
+    onClick: React.PropTypes.func.isRequired,
     style: React.PropTypes.object,
   }
 
   render() {
-    const {entry, style} = this.props;
+    const {entry, style, onClick} = this.props;
     const styles = this.getStyles();
     return (
-      <div style={[styles.wrapper, style]}>
+      <div style={[styles.wrapper, style]} onClick={onClick}>
         <ContentPreview data={entry.data} style={styles.preview}/>
         <div style={styles.tagContainer}>
           {entry.tags.map((tagId, i) => (

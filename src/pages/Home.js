@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
 import * as actionCreators from '../actions/actionCreators';
 import TagSearchBar from '../components/TagSearchBar';
 import EntryList from '../components/EntryList';
@@ -9,6 +10,7 @@ class Home extends Component {
   static propTypes = {
     search: React.PropTypes.object,
     tags: React.PropTypes.object.isRequired,
+    router: React.PropTypes.object.isRequired,
   }
 
   static childContextTypes = {
@@ -26,7 +28,7 @@ class Home extends Component {
   }
 
   render() {
-    const {tags, search, actions} = this.props;
+    const {tags, search, actions, router} = this.props;
     const styles = this.getStyles();
     const testEntry = this.getDisplayedEntries()[0];
     return (
@@ -39,6 +41,7 @@ class Home extends Component {
         />
         <EntryList
           entries={this.getDisplayedEntries()}
+          onEntryClick={id => router.push('/detail/' + id)}
         />
       </div>
     );
@@ -69,4 +72,4 @@ function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actionCreators, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Home));

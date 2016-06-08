@@ -6,10 +6,11 @@ import Entry from './Entry';
 export default class EntryList extends Component {
   static propTypes = {
     entries: React.PropTypes.array.isRequired,
+    onEntryClick: React.PropTypes.array.isRequired,
   }
 
   render() {
-    const {entries} = this.props;
+    const {entries, onEntryClick} = this.props;
     const styles = this.getStyles();
     return (
       <div style={styles.wrapper}>
@@ -17,6 +18,7 @@ export default class EntryList extends Component {
         <Entry
           key={i}
           entry={entry}
+          onClick={() => onEntryClick(entry.id)}
           style={styles.entry}
         />
         ))}
