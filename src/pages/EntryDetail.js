@@ -1,14 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import EntryCreator from '../components/EntryCreator';
 
-class Upload extends Component {
+class EntryDetail extends Component {
   render() {
     const styles = this.getStyles();
     return (
       <div>
-        <EntryCreator
-        />
+        Entry details here
       </div>
     );
   }
@@ -27,4 +25,4 @@ function mapDispatchToProps(dispatch) {
   return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Upload)
+export default connect(mapStateToProps, mapDispatchToProps)(EntryDetail);

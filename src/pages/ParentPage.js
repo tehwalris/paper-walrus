@@ -13,7 +13,6 @@ export default class ParentPage extends Component {
           <div style={styles.title}>PaperWalrus</div>
           <ul style={styles.menu}>
             <li style={styles.menuItem}><Link to={'/'}>Home</Link></li>
-            <li style={styles.menuItem}><Link to={'/upload'}>Upload</Link></li>
           </ul>
         </div>
         <div style={styles.contentContainer}>

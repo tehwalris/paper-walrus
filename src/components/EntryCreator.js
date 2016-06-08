@@ -3,7 +3,7 @@ import Radium from 'radium';
 import Dropzone from 'react-dropzone';
 
 @Radium
-export default class TagSearchBar extends Component {
+export default class EntryCreator extends Component {
   static propTypes = {
     style: React.PropTypes.object,
   }

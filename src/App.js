@@ -3,7 +3,7 @@ import {Provider} from 'react-redux';
 import {Router, Route, IndexRoute} from 'react-router'
 import ParentPage from './pages/ParentPage';
 import Home from './pages/Home';
-import Upload from './pages/Upload';
+import EntryDetail from './pages/EntryDetail';
 
 export default class App extends Component {
   static propTypes = {
@@ -18,7 +18,7 @@ export default class App extends Component {
         <Router history={history}>
           <Route path='/' component={ParentPage}>
             <IndexRoute component={Home}/>
-            <Route path='upload' component={Upload}/>
+            <Route path='detail/:id' component={EntryDetail}/>
           </Route>
         </Router>
       </Provider>
