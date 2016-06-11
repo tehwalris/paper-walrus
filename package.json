@@ -4,7 +4,7 @@
   "description": "An experimental web app for managing handouts from school.",
   "main": "src/index.js",
   "scripts": {
-    "build": "webpack --progress --colors",
+    "build": "webpack -p --progress --color",
     "serve": "env DEBUG=true webpack-dev-server --hot --inline --content-base src/ --host 0.0.0.0 --port 8081"
   },
   "repository": {
@@ -41,8 +41,8 @@
     "null-loader": "^0.1.1",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
-    "webpack": "^1.13.0",
-    "webpack-dev-server": "^1.14.1"
+    "webpack": "^2.1.0-beta.13",
+    "webpack-dev-server": "^2.1.0-beta.0"
   },
   "dependencies": {
     "lodash": "^4.12.0",
