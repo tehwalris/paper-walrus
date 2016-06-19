@@ -7,7 +7,7 @@ export default function(state = {}, action) {
     case 'loadSearchResults':
       return loadSearchResults(state, action);
     case 'loadTags':
-      return {...state, tags: action.tags};
+      return {...state, tags: _.keyBy(action.tags, 'id')};
     case 'search':
       return {...state, search: {tags: action.tags}};
     default:

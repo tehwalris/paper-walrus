@@ -1,25 +1,23 @@
 import Api from '../Api';
 
-const api = new Api(':3000', {
+const api = new Api('/api', {
   transports: ['websocket']
 });
 
 export function initialize() {
   return function (dispatch) {
     dispatch(loadTags());
-    dispatch(search([]));
-    dispatch(uploadImage('totallyAnImage', ['id1']));
   }
 }
 
 export function loadTags() {
   return function (dispatch) {
-    api.getAllTags().then(tags => {
-      dispatch({type: 'loadTags', tags});
-    });
+    api.getTags().then(tags => dispatch({type: 'loadTags', tags}));
   };
 }
 
+//TODO
+/*
 export function search(tags) {
   return function (dispatch) {
     dispatch({type: 'search', tags});
@@ -52,3 +50,4 @@ function uploadImage(image, tagIds) {
     .catch(e => console.error(e));
   }
 }
+*/

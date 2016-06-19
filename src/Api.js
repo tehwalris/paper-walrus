@@ -1,16 +1,14 @@
-import io from 'socket.io-client';
-
 export default class Api {
-  constructor (host, options) {
-    this._socket = io.connect(host, options);
+  constructor (baseUrl) {
+    this._baseUrl = baseUrl;
   }
 
-  getAllTags() {
-    return new Promise(resolve => {
-      this._socket.emit('getAllTags', resolve);
-    });
+  getTags() {
+    return this._apiCall('GET', 'tags').then(res => res.tags);
   }
 
+  //TODO
+  /*
   findItems(options) {
     return new Promise(resolve => {
       this._socket.emit('findItems', options, resolve);
@@ -25,5 +23,14 @@ export default class Api {
         reject('Upload failed.');
       });
     });
+  }
+  */
+
+  _apiCall(method, endpoint, options) {
+    return fetch(this._baseUrl + endpoint, {
+      cache: 'no-store',
+      method,
+      ...options,
+    }).then(res => res.json());
   }
 }
