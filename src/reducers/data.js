@@ -1,28 +1,15 @@
 const defaultState = {
-  tags: [],
+  tags: {},
+  entries: {},
 };
 
-export default function(state = {}, action) {
+export default function(state = defaultState, action) {
   switch (action.type) {
-    case 'loadSearchResults':
-      return loadSearchResults(state, action);
     case 'loadTags':
       return {...state, tags: _.keyBy(action.tags, 'id')};
-    case 'search':
-      return {...state, search: {tags: action.tags}};
+    case 'loadEntries':
+      return {...state, entries: {...state.entries, ..._.keyBy(action.entries, 'id')}};
     default:
       return state;
   }
-}
-
-function loadSearchResults(state, action) {
-  if(action.search.tags !== _.get(state.search.tags))
-    return {...state, search: action.search};
-  return {
-    ...state,
-    search: {
-      ...search,
-      results: action.search.results,
-    },
-  };
 }

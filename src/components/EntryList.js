@@ -6,7 +6,7 @@ import Entry from './Entry';
 export default class EntryList extends Component {
   static propTypes = {
     entries: React.PropTypes.array.isRequired,
-    onEntryClick: React.PropTypes.array.isRequired,
+    onEntryClick: React.PropTypes.func.isRequired,
   }
 
   render() {

@@ -1,10 +1,16 @@
+const querystring = require('querystring');
+
 export default class Api {
   constructor (baseUrl) {
     this._baseUrl = baseUrl;
   }
 
   getTags() {
-    return this._apiCall('GET', 'tags').then(res => res.tags);
+    return this._apiCall('GET', '/tags').then(res => res.tags);
+  }
+
+  getEntries(options) {
+    return this._apiCall('GET', '/entries', {query: options}).then(res => res.entries);
   }
 
   //TODO
@@ -26,7 +32,10 @@ export default class Api {
   }
   */
 
-  _apiCall(method, endpoint, options) {
+  _apiCall(method, endpoint, options = {}) {
+    if(options.query)
+      endpoint += '?' + querystring.stringify(_.mapValues(options.query, JSON.stringify));
+    delete options.query;
     return fetch(this._baseUrl + endpoint, {
       cache: 'no-store',
       method,

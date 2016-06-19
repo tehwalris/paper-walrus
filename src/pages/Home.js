@@ -5,6 +5,7 @@ import {withRouter} from 'react-router';
 import * as actionCreators from '../actions/actionCreators';
 import TagSearchBar from '../components/TagSearchBar';
 import EntryList from '../components/EntryList';
+import {searchSelector} from '../selectors';
 
 class Home extends Component {
   static propTypes = {
@@ -34,7 +35,7 @@ class Home extends Component {
     return (
       <div>
         <TagSearchBar
-          selected={_.get(search, 'tags') || []}
+          selected={_.get(search, ['query', 'tags']) || []}
           onChange={actions.search}
           tags={tags}
           style={styles.search}
@@ -64,7 +65,7 @@ class Home extends Component {
 function mapStateToProps(state) {
   return {
     tags: state.data.tags || {},
-    search: state.data.search,
+    search: searchSelector(state),
   };
 }
 

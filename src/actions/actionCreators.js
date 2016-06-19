@@ -5,8 +5,9 @@ const api = new Api('/api', {
 });
 
 export function initialize() {
-  return function (dispatch) {
+  return function (dispatch, getState) {
     dispatch(loadTags());
+    dispatch(search([]));
   }
 }
 
@@ -16,33 +17,28 @@ export function loadTags() {
   };
 }
 
-//TODO
-/*
 export function search(tags) {
   return function (dispatch) {
-    dispatch({type: 'search', tags});
-    dispatch(loadSearchResults());
+    dispatch({type: 'setQuery', query: {tags}});
+    dispatch(loadSearchResults({tags}));
   };
 }
 
-function loadSearchResults() {
-  return function (dispatch, getState) {
-    const state = getState();
-    const tagIds = _.cloneDeep(_.get(state, ['data', 'search', 'tags']));
-    if(!tagIds)
-      return;
-    api.findItems({tagIds: tagIds}).then(items => {
+function loadSearchResults(options) {
+  return function (dispatch) {
+    api.getEntries(options).then(entries => {
       dispatch({
         type: 'loadSearchResults',
-        search: {
-          tags: tagIds,
-          results: items,
-        },
+        query: options,
+        results: entries.map(entry => entry.id),
       });
+      dispatch({type: 'loadEntries', entries});
     });
   };
 }
 
+//TODO
+/*
 function uploadImage(image, tagIds) {
   return function (dispatch) {
     api.uploadImage(image, tagIds)
