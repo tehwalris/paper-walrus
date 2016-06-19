@@ -2,8 +2,12 @@
 const path = require('path'),
   webpack = require('webpack');
 
-var devFlagPlugin = new webpack.DefinePlugin({
+const devFlagPlugin = new webpack.DefinePlugin({
   __DEV__: process.env.DEBUG,
+});
+
+const fetchPlugin = new webpack.ProvidePlugin({
+  fetch: 'imports?this=>global!exports?global.fetch!whatwg-fetch',
 });
 
 module.exports = {
@@ -41,5 +45,6 @@ module.exports = {
   plugins: [
     new webpack.ProvidePlugin({_: 'lodash'}),
     devFlagPlugin,
+    fetchPlugin,
   ],
 };

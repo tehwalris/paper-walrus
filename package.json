@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "build": "webpack -p --progress --color",
-    "serve": "env DEBUG=true webpack-dev-server --hot --inline --content-base src/ --host 0.0.0.0 --port 8081"
+    "serve": "env DEBUG=true node ./devServer.js"
   },
   "repository": {
     "type": "git",
@@ -35,8 +35,10 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-stage-0": "^6.5.0",
     "css-loader": "^0.23.1",
+    "exports-loader": "^0.6.3",
     "file-loader": "^0.8.5",
     "html-loader": "^0.4.3",
+    "imports-loader": "^0.6.5",
     "node-sass": "^3.7.0",
     "null-loader": "^0.1.1",
     "sass-loader": "^3.2.0",
@@ -59,6 +61,6 @@
     "redux": "^3.5.2",
     "redux-devtools": "^3.3.1",
     "redux-thunk": "^2.0.1",
-    "socket.io-client": "^1.4.6"
+    "whatwg-fetch": "^1.0.0"
   }
 }
