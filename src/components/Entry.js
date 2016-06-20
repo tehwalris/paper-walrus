@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Radium from 'radium';
 import ContentPreview from './ContentPreview';
-import Tag from './Tag';
+import TagBar from './TagBar';
 
 @Radium
 export default class Entry extends Component {
@@ -17,15 +17,7 @@ export default class Entry extends Component {
     return (
       <div style={[styles.wrapper, style]} onClick={onClick}>
         <ContentPreview data={entry.data} style={styles.preview}/>
-        <div style={styles.tagContainer}>
-          {entry.tags.map((tagId, i) => (
-          <Tag
-            key={i}
-            tagId={tagId}
-            style={styles.tag}
-          />
-          ))}
-        </div>
+        <TagBar tagIds={entry.tags}/>
       </div>
     );
   }
@@ -43,12 +35,6 @@ export default class Entry extends Component {
         height: '1px',
         flexGrow: 1,
         flexShrink: 1,
-      },
-      tagContainer: {
-        padding: '5px',
-      },
-      tag: {
-        margin: '5px',
       },
     };
   }

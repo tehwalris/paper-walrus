@@ -1,10 +1,20 @@
 import React, {Component} from 'react';
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import * as actionCreators from '../actions/actionCreators';
+import ContentDisplay from '../components/ContentDisplay';
+import TagBar from '../components/TagBar';
 
 class EntryDetail extends Component {
   static propTypes = {
     params: React.PropTypes.object.isRequired,
+    actions: React.PropTypes.object.isRequired,
     entries: React.PropTypes.object.isRequired,
+  }
+
+  componentWillMount() {
+    const {actions, params} = this.props;
+    actions.loadEntryIfRequired(params.id);
   }
 
   render() {
@@ -13,14 +23,34 @@ class EntryDetail extends Component {
     const styles = this.getStyles();
     if (!entry) return <div/>;
     return (
-      <div>
-        {JSON.stringify(entry)}
+      <div style={styles.wrapper}>
+        <ContentDisplay
+          data={entry.data}
+          style={styles.content}
+        />
+        <div style={styles.sidebar}>
+          <TagBar tagIds={entry.tags}/>
+        </div>
       </div>
     );
   }
 
   getStyles() {
     return {
+      wrapper: {
+        display: 'flex',
+        width: '100%',
+      },
+      content: {
+        flexGrow: 1,
+        minWidth: '300px',
+        maxHeight: '800px',
+      },
+      sidebar: {
+        width: '300px',
+        borderLeft: '5px solid pink',
+        marginLeft: '10px',
+      },
     };
   }
 }
@@ -32,7 +62,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+  return {actions: bindActionCreators(actionCreators, dispatch)};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntryDetail);

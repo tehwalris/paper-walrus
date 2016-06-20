@@ -3,28 +3,8 @@ import {apiBaseUrl} from '../util/apiConfig';
 
 const api = new Api(apiBaseUrl);
 
-export function initialize() {
-  return function (dispatch, getState) {
-    dispatch(loadTags());
-    dispatch(search([]));
-  }
-}
-
-export function loadTags() {
-  return function (dispatch) {
-    api.getTags().then(tags => dispatch({type: 'loadTags', tags}));
-  };
-}
-
-export function search(tags) {
-  return function (dispatch) {
-    dispatch({type: 'setQuery', query: {tags}});
-    dispatch(loadSearchResults({tags}));
-  };
-}
-
 function loadSearchResults(options) {
-  return function (dispatch) {
+  return (dispatch) => {
     api.getEntries(options).then(entries => {
       dispatch({
         type: 'loadSearchResults',
@@ -36,13 +16,28 @@ function loadSearchResults(options) {
   };
 }
 
-//TODO
-/*
-function uploadImage(image, tagIds) {
-  return function (dispatch) {
-    api.uploadImage(image, tagIds)
-    .then(id => console.log('upload complete', id))
-    .catch(e => console.error(e));
-  }
+export function search(tags) {
+  return (dispatch) => {
+    dispatch({type: 'setQuery', query: {tags}});
+    dispatch(loadSearchResults({tags}));
+  };
 }
-*/
+
+export function loadTags() {
+  return (dispatch) => {
+    api.getTags().then(tags => dispatch({type: 'loadTags', tags}));
+  };
+}
+
+export function loadEntryIfRequired(id) {
+  return (dispatch, getState) => {
+    if (!getState().data.entries[id])
+      api.getEntry({id}).then(entry => dispatch({type: 'loadEntries', entries: [entry]}));
+  };
+}
+
+export function initialize() {
+  return (dispatch) => {
+    dispatch(loadTags());
+  };
+}

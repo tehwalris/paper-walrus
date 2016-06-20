@@ -1,7 +1,7 @@
 const querystring = require('querystring');
 
 export default class Api {
-  constructor (baseUrl) {
+  constructor(baseUrl) {
     this._baseUrl = baseUrl;
   }
 
@@ -13,7 +13,11 @@ export default class Api {
     return this._apiCall('GET', '/entries', {query: options}).then(res => res.entries);
   }
 
-  //TODO
+  getEntry({id}) {
+    return this._apiCall('GET', `/entries/${id}`);
+  }
+
+  // TODO
   /*
   findItems(options) {
     return new Promise(resolve => {
@@ -33,13 +37,17 @@ export default class Api {
   */
 
   _apiCall(method, endpoint, options = {}) {
-    if(options.query)
-      endpoint += '?' + querystring.stringify(_.mapValues(options.query, JSON.stringify));
-    delete options.query;
-    return fetch(this._baseUrl + endpoint, {
+    let fullUrl = this._baseUrl + endpoint;
+    if (options.query)
+      fullUrl += '?' + querystring.stringify(_.mapValues(options.query, JSON.stringify));
+    return fetch(fullUrl, {
       cache: 'no-store',
       method,
-      ...options,
-    }).then(res => res.json());
+      ..._.omit(options, 'query'),
+    }).then(res => {
+      if (res.ok)
+        return res.json();
+      return res.text().then(e => Promise.reject(e));
+    });
   }
 }

@@ -1,8 +1,27 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
 import {Link} from 'react-router';
+import {initialize} from '../actions/actionCreators';
 
-export default class ParentPage extends Component {
-  static propTypes = {};
+class ParentPage extends Component {
+  static propTypes = {
+    dispatch: React.PropTypes.func.isRequired,
+    tags: React.PropTypes.object.isRequired,
+  };
+
+  static childContextTypes = {
+    tags: React.PropTypes.object,
+  }
+
+  getChildContext() {
+    const {tags} = this.props;
+    return {tags};
+  }
+
+  componentWillMount() {
+    const {dispatch} = this.props;
+    dispatch(initialize());
+  }
 
   render() {
     const {children} = this.props;
@@ -45,3 +64,11 @@ export default class ParentPage extends Component {
     };
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    tags: state.data.tags || {},
+  };
+}
+
+export default connect(mapStateToProps)(ParentPage);

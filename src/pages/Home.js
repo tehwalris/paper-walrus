@@ -9,23 +9,16 @@ import {searchSelector} from '../selectors';
 
 class Home extends Component {
   static propTypes = {
-    search: React.PropTypes.object,
+    actions: React.PropTypes.object.isRequired,
+    search: React.PropTypes.object.isRequired,
     tags: React.PropTypes.object.isRequired,
     router: React.PropTypes.object.isRequired,
   }
 
-  static childContextTypes = {
-    tags: React.PropTypes.object,
-  }
-
-  getChildContext() {
-    const {tags} = this.props;
-    return {tags};
-  }
-
   componentDidMount() {
-    const {actions} = this.props;
-    actions.initialize();
+    const {actions, search} = this.props;
+    if (!search.query)
+      actions.search([]);
   }
 
   render() {
