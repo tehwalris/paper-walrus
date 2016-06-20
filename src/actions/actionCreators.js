@@ -1,8 +1,7 @@
 import Api from '../Api';
+import {apiBaseUrl} from '../util/apiConfig';
 
-const api = new Api('/api', {
-  transports: ['websocket']
-});
+const api = new Api(apiBaseUrl);
 
 export function initialize() {
   return function (dispatch, getState) {

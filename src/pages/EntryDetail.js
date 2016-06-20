@@ -4,14 +4,17 @@ import {connect} from 'react-redux';
 class EntryDetail extends Component {
   static propTypes = {
     params: React.PropTypes.object.isRequired,
+    entries: React.PropTypes.object.isRequired,
   }
 
   render() {
-    const {id} = this.props.params;
+    const {entries, params} = this.props;
+    const entry = entries[params.id];
     const styles = this.getStyles();
+    if (!entry) return <div/>;
     return (
       <div>
-        Entry details here for id {id}.
+        {JSON.stringify(entry)}
       </div>
     );
   }
@@ -23,7 +26,9 @@ class EntryDetail extends Component {
 }
 
 function mapStateToProps(state) {
-  return {};
+  return {
+    entries: state.data.entries,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
