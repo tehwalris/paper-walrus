@@ -14,16 +14,15 @@ export default class TagSearchBar extends Component {
     const {selected, style} = this.props;
     const styles = this.getStyles();
     return (
-      <div style={[styles.wrapper, style]}>
-        <Select
-          value={selected}
-          placeholder='Search by tags'
-          options={this.getOptions()}
-          onChange={this.onTagsChange}
-          style={styles.select}
-          multi
-        />
-      </div>
+      <Select
+        value={selected}
+        placeholder='Search by tags'
+        options={this.getOptions()}
+        onChange={this.onTagsChange}
+        wrapperStyle={{...styles.wrapper, ...style}}
+        style={styles.select}
+        multi
+      />
     );
   }
 
@@ -46,10 +45,11 @@ export default class TagSearchBar extends Component {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: '0 10px',
+        width: '100%',
       },
       select: {
-        width: '500px',
+        maxWidth: '500px',
+        width: '100%',
       },
     };
   }

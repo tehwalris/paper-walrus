@@ -36,6 +36,7 @@ class Home extends Component {
         />
         <FileDrop
           onDrop={this.onFiles}
+          style={styles.fileDrop}
         >
           <EntryList
             entries={this.getDisplayedEntries()}
@@ -67,6 +68,9 @@ class Home extends Component {
     return {
       search: {
         marginBottom: '20px',
+      },
+      fileDrop: {
+        margin: '-10px',
       },
     };
   }

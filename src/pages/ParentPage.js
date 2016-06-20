@@ -1,8 +1,11 @@
 import React, {Component} from 'react';
+import Radium from 'radium';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
 import {initialize} from '../actions/actionCreators';
+import media from '../util/mediaQueries';
 
+@Radium
 class ParentPage extends Component {
   static propTypes = {
     dispatch: React.PropTypes.func.isRequired,
@@ -29,7 +32,9 @@ class ParentPage extends Component {
     return (
       <div>
         <div style={styles.header}>
-          <div style={styles.title}>PaperWalrus</div>
+          <div style={styles.title}>
+            PaperWalrus
+          </div>
           <ul style={styles.menu}>
             <li style={styles.menuItem}><Link to={'/'}>Home</Link></li>
           </ul>
@@ -44,15 +49,25 @@ class ParentPage extends Component {
   getStyles() {
     return {
       header: {
+        boxSizing: 'border-box',
+        width: '100%',
+        padding: '20px',
+        overflow: 'hidden',
         textAlign: 'center',
         borderBottom: '5px solid black',
-        padding: '20px',
+        [media.mobileL]: {padding: '5px'},
       },
       title: {
-        fontSize: '120px',
+        fontSize: '80px',
+        [media.laptop]: {fontSize: '70px'},
+        [media.mobileL]: {fontSize: '50px'},
+        [media.mobileS]: {fontSize: '30px'},
       },
       menu: {
         marginTop: '30px',
+        [media.mobileL]: {
+          marginTop: '10px',
+        },
       },
       menuItem: {
         display: 'inline-block',
@@ -60,6 +75,7 @@ class ParentPage extends Component {
       },
       contentContainer: {
         padding: '20px',
+        [media.mobileL]: {padding: '10px'},
       },
     };
   }
