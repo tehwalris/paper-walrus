@@ -198,6 +198,7 @@
         "defaultProps",
         "getDefaultProps",
         "getInitialState",
+        "state",
         "getChildContext",
         "componentWillMount",
         "componentDidMount",
@@ -206,10 +207,10 @@
         "componentWillUpdate",
         "componentDidUpdate",
         "componentWillUnmount",
-        "/^on.+$/",
-        "/^get.+$/",
         "render",
         "/^render.+$/",
+        "/^on.+$/",
+        "/^get.+$/",
         "getStyles"
       ]
     }]

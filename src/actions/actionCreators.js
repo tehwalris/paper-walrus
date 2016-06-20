@@ -36,6 +36,29 @@ export function loadEntryIfRequired(id) {
   };
 }
 
+function createDefaultEntry(entryData) {
+  const dateReceived = (new Date()).toISOString();
+  console.log(entryData);
+  return api.createEntry({
+    dataId: entryData.id,
+    tags: [],
+    dateReceived,
+  });
+}
+
+export function uploadAndCreateEntries(files, cb) {
+  // cb(err, entries)
+  return (dispatch) => {
+    api.createEntryData(files)
+      .then(allEntryData => Promise.all(allEntryData.map(createDefaultEntry)))
+      .then(entries => {
+        cb(null, entries);
+        dispatch({type: 'loadEntries', entries});
+      })
+      .catch(cb);
+  };
+}
+
 export function initialize() {
   return (dispatch) => {
     dispatch(loadTags());

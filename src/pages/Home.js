@@ -3,6 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import * as actionCreators from '../actions/actionCreators';
+import FileDrop from '../components/FileDrop';
 import TagSearchBar from '../components/TagSearchBar';
 import EntryList from '../components/EntryList';
 import {searchSelector} from '../selectors';
@@ -33,11 +34,27 @@ class Home extends Component {
           tags={tags}
           style={styles.search}
         />
-        <EntryList
-          entries={this.getDisplayedEntries()}
-          onEntryClick={id => router.push('/detail/' + id)}
-        />
+        <FileDrop
+          onDrop={this.onFiles}
+        >
+          <EntryList
+            entries={this.getDisplayedEntries()}
+            onEntryClick={id => router.push('/detail/' + id)}
+            onFilesSelect={this.onFiles}
+          />
+        </FileDrop>
       </div>
+    );
+  }
+
+  onFiles = (files) => {
+    const {actions} = this.props;
+    actions.uploadAndCreateEntries(
+      _.toArray(files),
+      (err, entries) => {
+        if(!err)
+          actions.search([]);
+      }
     );
   }
 

@@ -17,6 +17,16 @@ export default class Api {
     return this._apiCall('GET', `/entries/${id}`);
   }
 
+  createEntry(options) {
+    return this._apiCall('POST', '/entries', this._jsonBody(options));
+  }
+
+  createEntryData(files) {
+    const form = new FormData();
+    files.forEach(file => form.append('files', file, file.name));
+    return this._apiCall('POST', '/entryData', {body: form}).then(res => res.data);
+  }
+
   // TODO
   /*
   findItems(options) {
@@ -49,5 +59,14 @@ export default class Api {
         return res.json();
       return res.text().then(e => Promise.reject(e));
     });
+  }
+
+  _jsonBody(sourceObject) {
+    const headers = new Headers();
+    headers.set('Content-Type', 'application/json');
+    return {
+      body: JSON.stringify(sourceObject),
+      headers,
+    };
   }
 }

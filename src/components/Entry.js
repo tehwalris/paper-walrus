@@ -32,7 +32,7 @@ export default class Entry extends Component {
         display: 'flex',
         flexDirection: 'column',
         overflow: 'hidden',
-        backgroundColor: 'green',
+        backgroundColor: 'yellow',
       },
       preview: {
         width: '100%',
