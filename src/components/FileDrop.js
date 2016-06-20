@@ -3,7 +3,7 @@ import Radium from 'radium';
 import ReactFileDragAndDrop from 'react-file-drag-and-drop';
 
 @Radium
-export default class Entry extends Component {
+export default class FileDrop extends Component {
   static propTypes = {
     onDrop: React.PropTypes.func.isRequired,
     style: React.PropTypes.object,
