@@ -11,6 +11,10 @@ export default class Entry extends Component {
     style: React.PropTypes.object,
   }
 
+  static contextTypes = {
+    tags: React.PropTypes.object.isRequired,
+  }
+
   render() {
     const {entry, style, onClick} = this.props;
     const styles = this.getStyles();

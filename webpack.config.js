@@ -44,6 +44,7 @@ module.exports = {
   },
   plugins: [
     new webpack.ProvidePlugin({_: 'lodash'}),
+    new webpack.HotModuleReplacementPlugin(),
     devFlagPlugin,
     fetchPlugin,
   ],

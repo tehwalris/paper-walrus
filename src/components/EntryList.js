@@ -9,6 +9,10 @@ export default class EntryList extends Component {
     onEntryClick: React.PropTypes.func.isRequired,
   }
 
+  static contextTypes = {
+    tags: React.PropTypes.object.isRequired,
+  }
+
   render() {
     const {entries, onEntryClick} = this.props;
     const styles = this.getStyles();

@@ -9,7 +9,6 @@ const compiler = webpack(config);
 const server = new WebpackDevServer(compiler, {
   contentBase: 'src',
   hot: true,
-  inline: true,
   proxy: {
     '/api': {
       target: 'http://localhost:3000',

@@ -9,6 +9,10 @@ export default class TagBar extends Component {
     style: React.PropTypes.object,
   }
 
+  static contextTypes = {
+    tags: React.PropTypes.object.isRequired,
+  }
+
   render() {
     const {tagIds, style} = this.props;
     const styles = this.getStyles();

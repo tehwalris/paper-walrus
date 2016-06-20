@@ -9,13 +9,14 @@ export default class App extends Component {
   static propTypes = {
     store: React.PropTypes.object.isRequired,
     history: React.PropTypes.object.isRequired,
+    routerKey: React.PropTypes.string, // HACK prevent warnings with hot reload
   }
 
   render() {
-    const {store, history} = this.props;
+    const {store, history, routerKey} = this.props;
     return (
       <Provider store={store}>
-        <Router history={history}>
+        <Router key={routerKey} history={history}>
           <Route path='/' component={ParentPage}>
             <IndexRoute component={Home}/>
             <Route path='detail/:id' component={EntryDetail}/>

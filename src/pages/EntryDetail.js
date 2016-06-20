@@ -10,6 +10,7 @@ class EntryDetail extends Component {
     params: React.PropTypes.object.isRequired,
     actions: React.PropTypes.object.isRequired,
     entries: React.PropTypes.object.isRequired,
+    tags: React.PropTypes.object.isRequired,
   }
 
   componentWillMount() {
@@ -58,6 +59,7 @@ class EntryDetail extends Component {
 function mapStateToProps(state) {
   return {
     entries: state.data.entries,
+    tags: state.data.tags,
   };
 }
 
