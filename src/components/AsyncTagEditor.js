@@ -65,9 +65,9 @@ export default class AsyncTagEditor extends Component {
   }
 
   maybeNotifyChange(tempSelected) {
-    const {tempTags} = this.state;
+    const {tags} = this.props;
     const {selected, onChange} = this.props;
-    const selectedAndAvailable = _.without(tempSelected, ..._.map(tempTags, 'id'));
+    const selectedAndAvailable = _.filter(tempSelected, id => !!tags[id]);
     if (!_.isEqual(selectedAndAvailable, selected))
       onChange(selectedAndAvailable);
   }

@@ -25,6 +25,10 @@ export default class Api {
     return this._apiCall('POST', '/entries', this._jsonBody(options));
   }
 
+  updateEntry({id, ...options}) {
+    return this._apiCall('POST', `/entries/${id}`, this._jsonBody(options));
+  }
+
   createEntryData(files) {
     const form = new FormData();
     files.forEach(file => form.append('files', file, file.name));

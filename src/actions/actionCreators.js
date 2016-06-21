@@ -29,6 +29,16 @@ export function loadTags() {
   };
 }
 
+export function createTag(tagInfo, cb) {
+  // cb(err, tag)
+  return (dispatch) => {
+    api.createTag(tagInfo).then(tag => {
+      cb(null, tag);
+      dispatch({type: 'loadExtraTag', tag});
+    }).catch(cb);
+  };
+}
+
 export function loadEntryIfRequired(id) {
   return (dispatch, getState) => {
     if (!getState().data.entries[id])
@@ -58,13 +68,14 @@ export function uploadAndCreateEntries(files, cb) {
   };
 }
 
-export function createTag(tagInfo, cb) {
-  // cb(err, tag)
-  return (dispatch) => {
-    api.createTag(tagInfo).then(tag => {
-      cb(null, tag);
-      dispatch({type: 'loadExtraTag', tag});
-    }).catch(cb);
+const updatableEntryFields = ['tags', 'dateReceived'];
+export function updateEntry(newEntry) {
+  return (dispatch, getState) => {
+    const oldEntry = getState().data.entries[newEntry.id];
+    const changedFields = _.filter(updatableEntryFields, field => newEntry[field] !== oldEntry[field]);
+    const updateRequest = _.zipObject(changedFields, _.map(changedFields, field => newEntry[field]));
+    api.updateEntry({...updateRequest, id: newEntry.id})
+      .then(entry => dispatch({type: 'loadEntries', entries: [entry]}));
   };
 }
 
