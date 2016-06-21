@@ -1,26 +1,22 @@
 const WebpackDevServer = require('webpack-dev-server'),
   webpack = require('webpack'),
-  config = require('./webpack.config');
+  webpackConfig = require('./webpack.config'),
+  config = require('./devServer.config');
 
-const host = '0.0.0.0';
-const port = 8081;
-
-const compiler = webpack(config);
+const compiler = webpack(webpackConfig);
 const server = new WebpackDevServer(compiler, {
   contentBase: 'src',
   historyApiFallback: true,
   hot: true,
   proxy: {
     '/api': {
-      target: 'http://localhost:3000',
+      target: config.apiUrl,
       changeOrigin: true,
-      pathRewrite: {
-        '^/api' : '/'
-      }
+      pathRewrite: {'^/api' : '/'}
     },
   },
 });
 
-server.listen(port, host, () => {
-  console.log(`Listening on ${host} port ${port}.`);
+server.listen(config.port, config.host, () => {
+  console.log(`Listening on ${config.host} port ${config.port}.`);
 });
