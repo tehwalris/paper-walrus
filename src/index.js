@@ -6,14 +6,14 @@ import 'webpack/hot/only-dev-server';
 import 'webpack-dev-server/client';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {hashHistory} from 'react-router'
-import {syncHistoryWithStore} from 'react-router-redux'
+import {browserHistory} from 'react-router';
+import {syncHistoryWithStore} from 'react-router-redux';
 import configureStore from './store/configureStore';
 import {AppContainer} from 'react-hot-loader';
 import App from './App';
 
 const store = configureStore();
-const history = syncHistoryWithStore(hashHistory, store);
+const history = syncHistoryWithStore(browserHistory, store);
 
 renderApp(App);
 

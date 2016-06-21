@@ -8,6 +8,7 @@ const port = 8081;
 const compiler = webpack(config);
 const server = new WebpackDevServer(compiler, {
   contentBase: 'src',
+  historyApiFallback: true,
   hot: true,
   proxy: {
     '/api': {
