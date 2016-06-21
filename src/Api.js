@@ -9,6 +9,10 @@ export default class Api {
     return this._apiCall('GET', '/tags').then(res => res.tags);
   }
 
+  createTag(options) {
+    return this._apiCall('POST', '/tags', this._jsonBody(options));
+  }
+
   getEntries(options) {
     return this._apiCall('GET', '/entries', {query: options}).then(res => res.entries);
   }

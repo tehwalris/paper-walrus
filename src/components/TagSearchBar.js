@@ -7,6 +7,7 @@ export default class TagSearchBar extends Component {
   static propTypes = {
     tags: React.PropTypes.object.isRequired,
     selected: React.PropTypes.array.isRequired,
+    onChange: React.PropTypes.func.isRequired,
     style: React.PropTypes.object,
   }
 
@@ -14,15 +15,16 @@ export default class TagSearchBar extends Component {
     const {selected, style} = this.props;
     const styles = this.getStyles();
     return (
-      <Select
-        value={selected}
-        placeholder='Search by tags'
-        options={this.getOptions()}
-        onChange={this.onTagsChange}
-        wrapperStyle={{...styles.wrapper, ...style}}
-        style={styles.select}
-        multi
-      />
+      <div style={[styles.wrapper, style]}>
+        <Select
+          value={selected}
+          placeholder='Search by tags'
+          options={this.getOptions()}
+          onChange={this.onTagsChange}
+          wrapperStyle={styles.selectWrapper}
+          multi
+        />
+      </div>
     );
   }
 
@@ -47,7 +49,7 @@ export default class TagSearchBar extends Component {
         justifyContent: 'center',
         width: '100%',
       },
-      select: {
+      selectWrapper: {
         maxWidth: '500px',
         width: '100%',
       },

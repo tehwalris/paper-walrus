@@ -16,6 +16,15 @@ class Home extends Component {
     router: React.PropTypes.object.isRequired,
   }
 
+  static childContextTypes = {
+    tags: React.PropTypes.object,
+  }
+
+  getChildContext() {
+    const {tags} = this.props;
+    return {tags};
+  }
+
   componentDidMount() {
     const {actions, search} = this.props;
     if (!search.query)

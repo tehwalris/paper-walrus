@@ -9,17 +9,7 @@ import media from '../util/mediaQueries';
 class ParentPage extends Component {
   static propTypes = {
     dispatch: React.PropTypes.func.isRequired,
-    tags: React.PropTypes.object.isRequired,
   };
-
-  static childContextTypes = {
-    tags: React.PropTypes.object,
-  }
-
-  getChildContext() {
-    const {tags} = this.props;
-    return {tags};
-  }
 
   componentWillMount() {
     const {dispatch} = this.props;
@@ -81,10 +71,4 @@ class ParentPage extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    tags: state.data.tags || {},
-  };
-}
-
-export default connect(mapStateToProps)(ParentPage);
+export default connect()(ParentPage);

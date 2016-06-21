@@ -3,7 +3,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as actionCreators from '../actions/actionCreators';
 import ContentDisplay from '../components/ContentDisplay';
-import TagBar from '../components/TagBar';
+import EntryEditor from '../components/EntryEditor';
 
 class EntryDetail extends Component {
   static propTypes = {
@@ -19,7 +19,7 @@ class EntryDetail extends Component {
   }
 
   render() {
-    const {entries, params} = this.props;
+    const {tags, entries, params} = this.props;
     const entry = entries[params.id];
     const styles = this.getStyles();
     if (!entry) return <div/>;
@@ -30,10 +30,25 @@ class EntryDetail extends Component {
           style={styles.content}
         />
         <div style={styles.sidebar}>
-          <TagBar tagIds={entry.tags}/>
+          <EntryEditor
+            entry={entry}
+            tags={tags}
+            onCreateTag={this.onCreateTag}
+          />
         </div>
       </div>
     );
+  }
+
+  onCreateTag = (tagInfo) => {
+    const {actions} = this.props;
+    console.log('Tag info', tagInfo);
+    return new Promise((resolve, reject) => {
+      actions.createTag(tagInfo, (err, createdTag) => {
+        if (err) reject(err);
+        else resolve(createdTag);
+      });
+    });
   }
 
   getStyles() {
@@ -51,6 +66,7 @@ class EntryDetail extends Component {
         width: '300px',
         borderLeft: '5px solid pink',
         marginLeft: '10px',
+        paddingLeft: '10px',
       },
     };
   }

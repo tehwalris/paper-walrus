@@ -38,7 +38,6 @@ export function loadEntryIfRequired(id) {
 
 function createDefaultEntry(entryData) {
   const dateReceived = (new Date()).toISOString();
-  console.log(entryData);
   return api.createEntry({
     dataId: entryData.id,
     tags: [],
@@ -56,6 +55,16 @@ export function uploadAndCreateEntries(files, cb) {
         dispatch({type: 'loadEntries', entries});
       })
       .catch(cb);
+  };
+}
+
+export function createTag(tagInfo, cb) {
+  // cb(err, tag)
+  return (dispatch) => {
+    api.createTag(tagInfo).then(tag => {
+      cb(null, tag);
+      dispatch({type: 'loadExtraTag', tag});
+    }).catch(cb);
   };
 }
 
