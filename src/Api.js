@@ -29,6 +29,10 @@ export default class Api {
     return this._apiCall('POST', `/entries/${id}`, this._jsonBody(options));
   }
 
+  deleteEntry({id}) {
+    return this._apiCall('DELETE', `/entries/${id}`, {responseType: 'none'});
+  }
+
   createEntryData(files) {
     const form = new FormData();
     files.forEach(file => form.append('files', file, file.name));
@@ -61,10 +65,10 @@ export default class Api {
     return fetch(fullUrl, {
       cache: 'no-store',
       method,
-      ..._.omit(options, 'query'),
+      ..._.omit(options, ['query', 'responseType']),
     }).then(res => {
       if (res.ok)
-        return res.json();
+        return options.responseType === 'none' ? undefined : res.json();
       return res.text().then(e => Promise.reject(e));
     });
   }

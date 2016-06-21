@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
 import * as actionCreators from '../actions/actionCreators';
 import ContentDisplay from '../components/ContentDisplay';
 import AsyncEntryEditor from '../components/AsyncEntryEditor';
@@ -11,6 +12,7 @@ class EntryDetail extends Component {
     tags: React.PropTypes.object.isRequired,
     actions: React.PropTypes.object.isRequired,
     params: React.PropTypes.object.isRequired,
+    router: React.PropTypes.object.isRequired,
   }
 
   componentWillMount() {
@@ -36,6 +38,9 @@ class EntryDetail extends Component {
             onCreateTag={this.onCreateTag}
             onChange={actions.updateEntry}
           />
+          <button onClick={this.onDeleteEntry}>
+            Delete entry
+          </button>
         </div>
       </div>
     );
@@ -49,6 +54,12 @@ class EntryDetail extends Component {
         else resolve(createdTag);
       });
     });
+  }
+
+  onDeleteEntry = () => {
+    const {actions, params, router} = this.props;
+    actions.deleteEntry(params.id);
+    router.push('/');
   }
 
   getStyles() {
@@ -83,4 +94,4 @@ function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actionCreators, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EntryDetail);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EntryDetail));

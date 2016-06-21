@@ -81,6 +81,12 @@ export function updateEntry(newEntry) {
   };
 }
 
+export function deleteEntry(id) {
+  return (dispatch) => {
+    api.deleteEntry({id}).then(() => dispatch({type: 'unloadEntries', entryIds: [id]}));
+  };
+}
+
 export function initialize() {
   return (dispatch) => {
     dispatch(loadTags());
