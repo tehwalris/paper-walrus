@@ -21,7 +21,7 @@ export default class ContentPreview extends Component {
   getStyles() {
     return {
       image: {
-        objectFit: 'cover',
+        objectFit: 'none',
       },
     };
   }
