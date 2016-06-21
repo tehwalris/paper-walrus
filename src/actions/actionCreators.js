@@ -6,12 +6,14 @@ const api = new Api(apiBaseUrl);
 function loadSearchResults(options) {
   return (dispatch) => {
     api.getEntries(options).then(entries => {
-      dispatch({
-        type: 'loadSearchResults',
-        query: options,
-        results: entries.map(entry => entry.id),
-      });
       dispatch({type: 'loadEntries', entries});
+      requestAnimationFrame(() => {requestAnimationFrame(() => { // HACK ensure load indicators are painted
+        dispatch({
+          type: 'loadSearchResults',
+          query: options,
+          results: entries.map(entry => entry.id),
+        });});
+      });
     });
   };
 }

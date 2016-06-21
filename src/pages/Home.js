@@ -20,6 +20,10 @@ class Home extends Component {
     tags: React.PropTypes.object,
   }
 
+  state = {
+    wasLoading: false,
+  }
+
   getChildContext() {
     const {tags} = this.props;
     return {tags};
@@ -34,7 +38,6 @@ class Home extends Component {
   render() {
     const {tags, search, actions, router} = this.props;
     const styles = this.getStyles();
-    const testEntry = this.getDisplayedEntries()[0];
     return (
       <div>
         <TagSearchBar
@@ -51,6 +54,7 @@ class Home extends Component {
             entries={this.getDisplayedEntries()}
             onEntryClick={id => router.push('/detail/' + id)}
             onFilesSelect={this.onFiles}
+            style={styles.entryList}
           />
         </FileDrop>
       </div>
@@ -74,12 +78,16 @@ class Home extends Component {
   }
 
   getStyles() {
+    const {search} = this.props;
     return {
       search: {
         marginBottom: '20px',
       },
       fileDrop: {
         margin: '-10px',
+      },
+      entryList: {
+        opacity: search.loading ? 0.5 : 1,
       },
     };
   }

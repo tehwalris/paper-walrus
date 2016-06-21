@@ -1,13 +1,11 @@
-const defaultState = {
-  results: [],
-};
+const defaultState = {};
 
 export default function(state = defaultState, action) {
   switch (action.type) {
     case 'loadSearchResults':
       return loadSearchResults(state, action);
     case 'setQuery':
-      return {...state, query: action.query, results: []};
+      return {...state, query: action.query, results: null, oldResults: state.results};
     default:
       return state;
   }
@@ -16,5 +14,5 @@ export default function(state = defaultState, action) {
 function loadSearchResults(state, action) {
   if(action.query.tags !== _.get(state, ['query', 'tags']))
     return {...state, results: action.results};
-  return {...state, query: action.query, results: [...state.results, ...action.results]};
+  return {...state, query: action.query, results: [...(state.results || []), ...action.results]};
 }
