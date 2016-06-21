@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
+import Radium from 'radium';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import * as actionCreators from '../actions/actionCreators';
 import ContentDisplay from '../components/ContentDisplay';
 import AsyncEntryEditor from '../components/AsyncEntryEditor';
+import media from '../util/mediaQueries';
 
+@Radium
 class EntryDetail extends Component {
   static propTypes = {
     entries: React.PropTypes.object.isRequired,
@@ -38,7 +41,10 @@ class EntryDetail extends Component {
             onCreateTag={this.onCreateTag}
             onChange={actions.updateEntry}
           />
-          <button onClick={this.onDeleteEntry}>
+          <button
+            onClick={this.onDeleteEntry}
+            style={styles.deleteButton}
+          >
             Delete entry
           </button>
         </div>
@@ -67,17 +73,34 @@ class EntryDetail extends Component {
       wrapper: {
         display: 'flex',
         width: '100%',
+        [media.tablet]: {display: 'block'},
       },
       content: {
         flexGrow: 1,
         minWidth: '300px',
         maxHeight: '800px',
+        [media.tablet]: {
+          width: '100%',
+          minWidth: 'initial',
+          maxHeight: 'initial',
+          flexGrow: 'initial',
+        },
       },
       sidebar: {
         width: '300px',
         borderLeft: '5px solid pink',
         marginLeft: '10px',
         paddingLeft: '10px',
+        paddingTop: '5px',
+        [media.tablet]: {
+          width: '100%',
+          borderLeft: 'none',
+          marginLeft: 0,
+          paddingLeft: 0,
+        },
+      },
+      deleteButton: {
+        marginTop: '5px',
       },
     };
   }
