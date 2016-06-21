@@ -11,7 +11,7 @@ const fetchPlugin = new webpack.ProvidePlugin({
 });
 
 module.exports = {
-  entry: './src/index.js',
+  entry: process.env.DEBUG ? './src/index.debug.js' : './src/index.js',
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',

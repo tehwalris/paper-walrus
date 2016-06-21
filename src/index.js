@@ -1,9 +1,6 @@
 import '!file?name=[name].[ext]!./index.html';
 import './index.scss';
 
-import 'react-hot-loader/patch';
-import 'webpack/hot/only-dev-server';
-import 'webpack-dev-server/client';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {browserHistory} from 'react-router';
@@ -15,16 +12,7 @@ import App from './App';
 const store = configureStore();
 const history = syncHistoryWithStore(browserHistory, store);
 
-renderApp(App);
-
-if (module.hot) {
-  module.hot.accept('./App', () => {
-    const routerKey = Date.now().toString();
-    renderApp(require('./App').default, routerKey);
-  });
-}
-
-function renderApp (PrimaryComponent, routerKey) {
+function renderApp(PrimaryComponent, routerKey) {
   ReactDOM.render(
     <AppContainer>
       <PrimaryComponent
@@ -35,4 +23,13 @@ function renderApp (PrimaryComponent, routerKey) {
     </AppContainer>,
     document.getElementById('main')
   );
+}
+
+renderApp(App);
+
+if (module.hot) {
+  module.hot.accept('./App', () => {
+    const routerKey = Date.now().toString();
+    renderApp(require('./App').default, routerKey);
+  });
 }
