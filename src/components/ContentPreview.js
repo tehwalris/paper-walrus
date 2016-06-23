@@ -13,6 +13,7 @@ export default class ContentPreview extends Component {
     const {data, style} = this.props;
     const {preview} = resolveSources(data);
     const styles = this.getStyles();
+    if (!preview) return <div style={style}>No preview.</div>;
     return (
       <img src={preview} style={[styles.image, style]}/>
     );

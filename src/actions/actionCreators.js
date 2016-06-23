@@ -60,7 +60,7 @@ function createDefaultEntry(entryData) {
 export function uploadAndCreateEntries(files, cb) {
   // cb(err, entries)
   return (dispatch) => {
-    api.createEntryData(files)
+    api.createEntryData(files, event => console.log(event))
       .then(allEntryData => Promise.all(allEntryData.map(createDefaultEntry)))
       .then(entries => {
         cb(null, entries);

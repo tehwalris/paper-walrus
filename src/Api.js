@@ -33,10 +33,24 @@ export default class Api {
     return this._apiCall('DELETE', `/entries/${id}`, {responseType: 'none'});
   }
 
-  createEntryData(files) {
+  createEntryData(files, onProgress) {
     const form = new FormData();
     files.forEach(file => form.append('files', file, file.name));
-    return this._apiCall('POST', '/entryData', {body: form}).then(res => res.data);
+    return new Promise((resolve, reject) => {
+      const request = new XMLHttpRequest();
+      request.responseType = 'json';
+      request.onprogress = onProgress;
+      request.onreadystatechange = () => {
+        if (request.readyState !== XMLHttpRequest.DONE)
+          return;
+        if (request.status === 200)
+          resolve(request.response);
+        else
+          reject(new Error('Upload failed.'));
+      };
+      request.open('POST', this._baseUrl + '/entryData');
+      request.send(form);
+    }).then(res => res.data);
   }
 
   // TODO

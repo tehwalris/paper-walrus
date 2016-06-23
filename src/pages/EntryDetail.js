@@ -78,6 +78,7 @@ class EntryDetail extends Component {
       content: {
         flexGrow: 1,
         minWidth: '300px',
+        height: '70vh',
         maxHeight: '800px',
         [media.tablet]: {
           width: '100%',

@@ -15,7 +15,7 @@ export default class UploadEntry extends Component {
     return (
       <FileReaderInput
         onChange={this.onChange}
-        accept='image/*'
+        accept='image/*, application/pdf'
         multiple
       >
         <div style={[styles.inner, style]}>
