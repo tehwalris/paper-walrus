@@ -29,12 +29,6 @@ class Home extends Component {
     return {tags};
   }
 
-  componentDidMount() {
-    const {actions, search} = this.props;
-    if (!search.query)
-      actions.search([]);
-  }
-
   render() {
     const {tags, search, actions, router} = this.props;
     const styles = this.getStyles();

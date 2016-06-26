@@ -3,14 +3,9 @@ import './index.scss';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {browserHistory} from 'react-router';
-import {syncHistoryWithStore} from 'react-router-redux';
-import configureStore from './store/configureStore';
 import {AppContainer} from 'react-hot-loader';
 import App from './App';
-
-const store = configureStore();
-const history = syncHistoryWithStore(browserHistory, store);
+import {store, history} from './common';
 
 function renderApp(PrimaryComponent, routerKey) {
   ReactDOM.render(

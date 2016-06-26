@@ -27,7 +27,6 @@ export default class UploadEntry extends Component {
 
   onChange = (event, results) => {
     const files = results.map(result => result[1]);
-    console.log(files);
     this.props.onFilesSelect(files);
   }
 

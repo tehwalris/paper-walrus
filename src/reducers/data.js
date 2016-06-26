@@ -13,6 +13,8 @@ export default function(state = defaultState, action) {
       return {...state, entries: {...state.entries, ..._.keyBy(action.entries, 'id')}};
     case 'unloadEntries':
       return {...state, entries: _.omit(state.entries, action.entryIds)};
+    case 'reset':
+      return defaultState;
     default:
       return state;
   }

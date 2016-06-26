@@ -6,6 +6,8 @@ export default function(state = defaultState, action) {
       return loadSearchResults(state, action);
     case 'setQuery':
       return {...state, query: action.query, results: null, oldResults: state.results};
+    case 'reset':
+      return defaultState;
     default:
       return state;
   }

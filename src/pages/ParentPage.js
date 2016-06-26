@@ -1,33 +1,35 @@
 import React, {Component} from 'react';
 import Radium from 'radium';
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Link} from 'react-router';
-import {initialize} from '../actions/actionCreators';
+import * as actionCreators from '../actions/actionCreators';
 import media from '../util/mediaQueries';
 
 @Radium
 class ParentPage extends Component {
   static propTypes = {
-    dispatch: React.PropTypes.func.isRequired,
+    user: React.PropTypes.object.isRequired,
+    actions: React.PropTypes.object.isRequired,
   };
 
-  componentWillMount() {
-    const {dispatch} = this.props;
-    dispatch(initialize());
-  }
-
   render() {
-    const {children} = this.props;
+    const {user, children, actions} = this.props;
     const styles = this.getStyles();
+    const loggedIn = !!user.token;
     return (
       <div>
         <div style={styles.header}>
           <div style={styles.title}>
             PaperWalrus
           </div>
-          <ul style={styles.menu}>
-            <li style={styles.menuItem}><Link to={'/'}>Home</Link></li>
-          </ul>
+          {loggedIn && <ul style={styles.menu}>
+            <li key='home' style={[styles.menuItem, styles.linkMenuItem]}>
+              <Link to={'/'} style={styles.linkStyle}>Home</Link>
+            </li>
+            <li key='status' style={styles.menuItem}>{user.email}</li>
+            <li key='logout' style={[styles.menuItem, styles.linkMenuItem]} onClick={actions.logout}>Logout</li>
+          </ul>}
         </div>
         <div style={styles.contentContainer}>
           {children}
@@ -63,6 +65,16 @@ class ParentPage extends Component {
         display: 'inline-block',
         padding: '0 20px',
       },
+      linkMenuItem: {
+        cursor: 'pointer',
+        ':hover': {
+          textDecoration: 'underline',
+        },
+      },
+      linkStyle: {
+        color: 'inherit',
+        textDecoration: 'inherit',
+      },
       contentContainer: {
         padding: '20px',
         [media.mobileL]: {padding: '10px'},
@@ -71,4 +83,14 @@ class ParentPage extends Component {
   }
 }
 
-export default connect()(ParentPage);
+function mapStateToProps(state) {
+  return {
+    user: state.user,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {actions: bindActionCreators(actionCreators, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ParentPage);

@@ -5,6 +5,7 @@ import {StyleRoot} from 'radium';
 import ParentPage from './pages/ParentPage';
 import Home from './pages/Home';
 import EntryDetail from './pages/EntryDetail';
+import Login from './pages/Login';
 
 export default class App extends Component {
   static propTypes = {
@@ -20,12 +21,28 @@ export default class App extends Component {
         <StyleRoot>
           <Router key={routerKey} history={history}>
             <Route path='/' component={ParentPage}>
-              <IndexRoute component={Home}/>
-              <Route path='detail/:id' component={EntryDetail}/>
+              <IndexRoute component={Home} onEnter={this.forceAuth}/>
+              <Route path='detail/:id' component={EntryDetail} onEnter={this.forceAuth}/>
+              <Route path='login' component={Login}/>
             </Route>
           </Router>
         </StyleRoot>
       </Provider>
     );
+  }
+
+  forceAuth = (nextState, replace) => {
+    const {store} = this.props;
+    if (!store.getState().user.token) {
+      const destination = {
+        pathname: nextState.location.pathname,
+        query: nextState.location.query,
+        state: nextState.location.state,
+      };
+      replace({
+        pathname: '/login',
+        state: {destination},
+      });
+    }
   }
 }

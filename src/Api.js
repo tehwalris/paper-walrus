@@ -5,35 +5,39 @@ export default class Api {
     this._baseUrl = baseUrl;
   }
 
-  getTags() {
-    return this._apiCall('GET', '/tags').then(res => res.tags);
+  authenticate(options) {
+    return this._apiCall('POST', '/authenticate', this._jsonBody(options)).then(res => res.token);
   }
 
-  createTag(options) {
-    return this._apiCall('POST', '/tags', this._jsonBody(options));
+  getTags(token) {
+    return this._apiCall('GET', '/tags', undefined, token).then(res => res.tags);
   }
 
-  getEntries(options) {
-    return this._apiCall('GET', '/entries', {query: options}).then(res => res.entries);
+  createTag(options, token) {
+    return this._apiCall('POST', '/tags', this._jsonBody(options), token);
   }
 
-  getEntry({id}) {
-    return this._apiCall('GET', `/entries/${id}`);
+  getEntries(options, token) {
+    return this._apiCall('GET', '/entries', {query: options}, token).then(res => res.entries);
   }
 
-  createEntry(options) {
-    return this._apiCall('POST', '/entries', this._jsonBody(options));
+  getEntry({id}, token) {
+    return this._apiCall('GET', `/entries/${id}`, undefined, token);
   }
 
-  updateEntry({id, ...options}) {
-    return this._apiCall('POST', `/entries/${id}`, this._jsonBody(options));
+  createEntry(options, token) {
+    return this._apiCall('POST', '/entries', this._jsonBody(options), token);
   }
 
-  deleteEntry({id}) {
-    return this._apiCall('DELETE', `/entries/${id}`, {responseType: 'none'});
+  updateEntry({id, ...options}, token) {
+    return this._apiCall('POST', `/entries/${id}`, this._jsonBody(options), token);
   }
 
-  createEntryData(files, onProgress) {
+  deleteEntry({id}, token) {
+    return this._apiCall('DELETE', `/entries/${id}`, {responseType: 'none'}, token);
+  }
+
+  createEntryData(files, onProgress, token) {
     const form = new FormData();
     files.forEach(file => form.append('files', file, file.name));
     return new Promise((resolve, reject) => {
@@ -49,37 +53,23 @@ export default class Api {
           reject(new Error('Upload failed.'));
       };
       request.open('POST', this._baseUrl + '/entryData');
+      request.setRequestHeader('x-access-token', token);
       request.send(form);
     }).then(res => res.data);
   }
 
-  // TODO
-  /*
-  findItems(options) {
-    return new Promise(resolve => {
-      this._socket.emit('findItems', options, resolve);
-    });
-  }
-
-  uploadImage(image, tagIds) {
-    return new Promise((resolve, reject) => {
-      this._socket.emit('upload', image, {tagIds}, (id) => {
-        if(id)
-          resolve(id);
-        reject('Upload failed.');
-      });
-    });
-  }
-  */
-
-  _apiCall(method, endpoint, options = {}) {
+  _apiCall(method, endpoint, options = {}, token) {
     let fullUrl = this._baseUrl + endpoint;
     if (options.query)
       fullUrl += '?' + querystring.stringify(_.mapValues(options.query, JSON.stringify));
+    const headers = options.headers || new Headers();
+    if (token)
+      headers.set('x-access-token', token);
     return fetch(fullUrl, {
       cache: 'no-store',
       method,
-      ..._.omit(options, ['query', 'responseType']),
+      headers,
+      ..._.omit(options, ['query', 'responseType', 'headers']),
     }).then(res => {
       if (res.ok)
         return options.responseType === 'none' ? undefined : res.json();
