@@ -13,6 +13,14 @@ app.use('/graphql', function(req, res) {
   });
 });
 
+app.use('/api', function(req, res) {
+  apiProxy.web(req, res, {
+    target: config.apiUrl,
+    changeOrigin: true,
+    pathRewrite: {'^/api': '/'},
+  });
+});
+
 const webroot = __dirname + '/dist';
 app.use('/', express.static(webroot));
 app.use(fallback('index.html', {root: webroot}));

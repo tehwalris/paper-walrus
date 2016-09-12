@@ -12,13 +12,17 @@ const server = new WebpackDevServer(compiler, {
       {from: /\.hot-update\.(json|js)$/, to: context => '/' + path.basename(context.parsedUrl.pathname)},
       {from: /./, to: 'index.html'},
     ],
-    verbose: true,
   },
   hot: true,
   proxy: {
     '/graphql': {
       target: config.apiUrl,
       changeOrigin: true,
+    },
+    '/api': {
+      target: config.apiUrl,
+      changeOrigin: true,
+      pathRewrite: {'^/api': '/'},
     },
   },
 });
