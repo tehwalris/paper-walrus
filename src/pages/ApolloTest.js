@@ -26,12 +26,21 @@ class ApolloTest extends Component {
   }
 }
 
-const ApolloTestWithData = graphql(gql`{
-  sourceFile(id: "1") {
-    filename
-    mimeType
+const TestSourceFileQuery = gql`
+  query ($sourceFileId: String!) {
+    sourceFile(id: $sourceFileId) {
+      filename
+      mimeType
+    }
   }
-}`)(ApolloTest);
+`;
+
+const ApolloTestWithData = graphql(
+  TestSourceFileQuery,
+  {options: () => (
+    {variables: {sourceFileId: '2'}}
+  )},
+)(ApolloTest);
 
 export default ApolloTestWithData;
 
