@@ -9,10 +9,9 @@ const server = new WebpackDevServer(compiler, {
   historyApiFallback: true,
   hot: true,
   proxy: {
-    '/api': {
+    '/graphql': {
       target: config.apiUrl,
       changeOrigin: true,
-      pathRewrite: {'^/api' : '/'}
     },
   },
 });
