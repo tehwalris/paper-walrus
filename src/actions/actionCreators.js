@@ -98,14 +98,6 @@ export function deleteEntry(id) {
   };
 }
 
-function postLogin() {
-  return (dispatch) => {
-    history.push('/');
-    dispatch(loadTags());
-    dispatch(search([]));
-  };
-}
-
 export function login(options, cb) {
   return (dispatch) => {
     api.authenticate(options).then(token => {
@@ -115,7 +107,6 @@ export function login(options, cb) {
         email: options.email,
         token,
       });
-      dispatch(postLogin());
       cb();
     }).catch(err => cb(err));
   };

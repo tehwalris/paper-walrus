@@ -1,12 +1,10 @@
 import React, {Component} from 'react';
 import {Provider} from 'react-redux';
-import {Router, Route, IndexRoute} from 'react-router';
+import {Router, Route, IndexRedirect} from 'react-router';
 import {StyleRoot} from 'radium';
 import {ApolloProvider} from 'react-apollo';
-import apolloClient from './apolloClient';
+import {apolloClientFromStore} from './apolloClient';
 import ParentPage from './pages/ParentPage';
-import Home from './pages/Home';
-import EntryDetail from './pages/EntryDetail';
 import DocumentList from './pages/DocumentList';
 import DocumentView from './pages/DocumentView';
 import Login from './pages/Login';
@@ -20,17 +18,15 @@ export default class App extends Component {
 
   render() {
     const {store, history, routerKey} = this.props;
-    apolloClient.setStore(store); //HACK
     return (
       <Provider store={store}>
-        <ApolloProvider store={store} client={apolloClient}>
+        <ApolloProvider store={store} client={apolloClientFromStore(store)}>
           <StyleRoot>
             <Router key={routerKey} history={history}>
               <Route path='/' component={ParentPage}>
-                <IndexRoute component={Home} onEnter={this.forceAuth}/>
-                <Route path='detail/:id' component={EntryDetail} onEnter={this.forceAuth}/>
-                <Route path='documents' component={DocumentList}/>
-                <Route path='documents/:id' component={DocumentView}/>
+                <IndexRedirect to='documents'/>
+                <Route path='documents' component={DocumentList} onEnter={this.forceAuth}/>
+                <Route path='documents/:id' component={DocumentView} onEnter={this.forceAuth}/>
                 <Route path='login' component={Login}/>
               </Route>
             </Router>

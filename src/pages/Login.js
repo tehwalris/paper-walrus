@@ -43,7 +43,7 @@ class Login extends Component {
           />
           {failed && <div style={styles.failMessage}>Invalid username or password</div>}
           <button
-            onClick={this.onRequestLogin}
+            type='submit'
             style={styles.loginButton}
           >
             Log in
