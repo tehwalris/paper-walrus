@@ -1,5 +1,6 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
+import {Link} from 'react-router';
 import {graphql} from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -29,7 +30,11 @@ class DocumentList extends Component {
 
   renderDocumentListItem = (document, i) => {
     return (
-        <li key={i}>{document.name || '(unnamed)'}</li>
+      <li key={i}>
+        <Link to={`/documents/${document.id}`}>
+          {document.name || '(unnamed)'}
+        </Link>
+      </li>
     );
   }
 
@@ -42,6 +47,7 @@ const DocumentListWithData = graphql(
   gql`
   query {
     documents {
+      id
       name
     }
   }

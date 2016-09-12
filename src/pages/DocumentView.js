@@ -25,7 +25,7 @@ class DocumentView extends Component {
       return (<div>Document not loaded</div>);
     return (
       <div>
-        Document name is: {document.name || '(unnamed)'}
+        Document name: {document.name || '(unnamed)'}
         {this.renderParts(document.parts)}
       </div>
     );
@@ -46,8 +46,8 @@ class DocumentView extends Component {
 
 const DocumentViewWithData = graphql(
   gql`
-  query {
-    document(id: "1") {
+  query($id: String!) {
+    document(id: $id) {
       name
       parts {
         sourceFile {
@@ -57,6 +57,9 @@ const DocumentViewWithData = graphql(
     }
   }
   `,
+  {options: ({params: {id}}) => ({
+    variables: {id},
+  })}
 )(DocumentView);
 
 export default DocumentViewWithData;
