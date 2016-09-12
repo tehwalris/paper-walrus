@@ -7,7 +7,7 @@ import apolloClient from './apolloClient';
 import ParentPage from './pages/ParentPage';
 import Home from './pages/Home';
 import EntryDetail from './pages/EntryDetail';
-import ApolloTest from './pages/ApolloTest';
+import DocumentList from './pages/DocumentList';
 import Login from './pages/Login';
 
 export default class App extends Component {
@@ -28,7 +28,7 @@ export default class App extends Component {
               <Route path='/' component={ParentPage}>
                 <IndexRoute component={Home} onEnter={this.forceAuth}/>
                 <Route path='detail/:id' component={EntryDetail} onEnter={this.forceAuth}/>
-                <Route path='apolloTest' component={ApolloTest}/>
+                <Route path='documents' component={DocumentList}/>
                 <Route path='login' component={Login}/>
               </Route>
             </Router>
