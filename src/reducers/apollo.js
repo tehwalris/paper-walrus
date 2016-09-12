@@ -1,3 +1,3 @@
-import {createApolloReducer} from 'apollo-client';
+import apolloClient from '../apolloClient';
 
-export default createApolloReducer({});
+export default apolloClient.reducer();

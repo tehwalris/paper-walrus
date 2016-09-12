@@ -48,9 +48,13 @@ const DocumentViewWithData = graphql(
   gql`
   query($id: String!) {
     document(id: $id) {
+      id
+      __typename
       name
       parts {
         sourceFile {
+          id
+          __typename
           filename
         }
       }

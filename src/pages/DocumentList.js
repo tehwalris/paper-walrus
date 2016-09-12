@@ -48,6 +48,7 @@ const DocumentListWithData = graphql(
   query {
     documents {
       id
+      __typename
       name
     }
   }
