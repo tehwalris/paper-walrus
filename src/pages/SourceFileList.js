@@ -28,7 +28,7 @@ class SourceFileList extends Component {
         <UploadCard
           onFilesSelect={() => alert('TODO')}
         />
-        {sourceFiles.map(this.renderItem)}
+        {sourceFiles && sourceFiles.map(this.renderItem)}
       </CardGrid>
     );
   }
