@@ -5,24 +5,22 @@ import resolveSources from '../util/resolveSources';
 @Radium
 export default class ContentPreview extends Component {
   static propTypes = {
-    data: React.PropTypes.object.isRequired,
+    imageUrl: React.PropTypes.string.isRequired,
     style: React.PropTypes.object,
   }
 
   render() {
-    const {data, style} = this.props;
-    const {preview} = resolveSources(data);
+    const {imageUrl, style} = this.props;
     const styles = this.getStyles();
-    if (!preview) return <div style={style}>No preview.</div>;
     return (
-      <img src={preview} style={[styles.image, style]}/>
+      <img src={imageUrl} style={[styles.image, style]}/>
     );
   }
 
   getStyles() {
     return {
       image: {
-        objectFit: 'none',
+        objectFit: 'cover',
       },
     };
   }

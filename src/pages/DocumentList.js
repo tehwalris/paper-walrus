@@ -22,13 +22,13 @@ class DocumentList extends Component {
     return (
       <div>
         <ul>
-        {documents.map(this.renderDocumentListItem)}
+        {documents.map(this.renderItem)}
         </ul>
       </div>
     );
   }
 
-  renderDocumentListItem = (document, i) => {
+  renderItem = (document, i) => {
     return (
       <li key={i}>
         <Link to={`/documents/${document.id}`}>

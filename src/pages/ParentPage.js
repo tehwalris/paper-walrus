@@ -24,8 +24,11 @@ class ParentPage extends Component {
             PaperWalrus
           </div>
           {loggedIn && <ul style={styles.menu}>
-            <li key='home' style={[styles.menuItem, styles.linkMenuItem]}>
-              <Link to={'/'} style={styles.linkStyle}>Home</Link>
+            <li key='documents' style={[styles.menuItem, styles.linkMenuItem]}>
+              <Link to={'/documents'} style={styles.linkStyle}>Documents</Link>
+            </li>
+            <li key='sourceFiles' style={[styles.menuItem, styles.linkMenuItem]}>
+              <Link to={'/sourceFiles'} style={styles.linkStyle}>Source files</Link>
             </li>
             <li key='status' style={styles.menuItem}>{user.email}</li>
             <li key='logout' style={[styles.menuItem, styles.linkMenuItem]} onClick={actions.logout}>Logout</li>
