@@ -11,7 +11,7 @@ class DocumentView extends Component {
         name: PropTypes.string,
         parts: PropTypes.arrayOf(PropTypes.shape({
           sourceFile: PropTypes.shape({
-            filename: PropTypes.string.isRequired,
+            url: PropTypes.string.isRequired,
           }).isRequired,
         })).isRequired,
       }),
@@ -34,7 +34,7 @@ class DocumentView extends Component {
   renderParts = (parts) => {
     return (
       <div>
-        Part filenames: {parts.map(part => part.sourceFile.filename).join(', ')}
+        Part urls: {parts.map(part => part.sourceFile.url).join(', ')}
       </div>
     );
   }
@@ -55,7 +55,7 @@ const DocumentViewWithData = graphql(
         sourceFile {
           id
           __typename
-          filename
+          url
         }
       }
     }
