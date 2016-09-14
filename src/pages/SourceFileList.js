@@ -5,6 +5,7 @@ import {graphql} from 'react-apollo';
 import gql from 'graphql-tag';
 import CardGrid from '../components/CardGrid';
 import ImageCard from '../components/CardGrid/ImageCard';
+import UploadCard from '../components/CardGrid/UploadCard';
 
 @Radium
 class SourceFileList extends Component {
@@ -13,16 +14,20 @@ class SourceFileList extends Component {
       sourceFiles: PropTypes.arrayOf(PropTypes.shape({
         previewUrl: PropTypes.string,
       })),
+      loading: React.PropTypes.bool,
     }).isRequired,
   }
 
   render() {
-    const {data: {sourceFiles}} = this.props;
+    const {data: {sourceFiles, loading}} = this.props;
     const styles = this.getStyles();
-    if (_.isEmpty(sourceFiles))
-      return (<div>No source files available.</div>);
+    if (loading)
+      return null;
     return (
       <CardGrid>
+        <UploadCard
+          onFilesSelect={() => alert('TODO')}
+        />
         {sourceFiles.map(this.renderItem)}
       </CardGrid>
     );
@@ -45,7 +50,7 @@ class SourceFileList extends Component {
 const SourceFileListWithData = graphql(
   gql`
   query {
-    sourceFiles {
+    sourceFiles(onlyUnassigned: true) {
       id
       __typename
       previewUrl

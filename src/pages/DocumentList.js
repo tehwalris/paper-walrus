@@ -11,12 +11,15 @@ class DocumentList extends Component {
       documents: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string,
       })),
+      loading: React.PropTypes.bool,
     }).isRequired,
   }
 
   render() {
-    const {data: {documents}} = this.props;
+    const {data: {documents, loading}} = this.props;
     const styles = this.getStyles();
+    if (loading)
+      return null;
     if (_.isEmpty(documents))
       return (<div>No documents available.</div>);
     return (

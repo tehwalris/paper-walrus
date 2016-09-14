@@ -15,14 +15,17 @@ class DocumentView extends Component {
           }).isRequired,
         })).isRequired,
       }),
+      loading: React.PropTypes.bool,
     }).isRequired,
   }
 
   render() {
-    const {data: {document}} = this.props;
+    const {data: {document, loading}} = this.props;
     const styles = this.getStyles();
+    if (loading)
+      return null;
     if (!document)
-      return (<div>Document not loaded</div>);
+      return (<div>Document does not exist.</div>);
     return (
       <div>
         Document name: {document.name || '(unnamed)'}

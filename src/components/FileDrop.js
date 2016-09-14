@@ -9,10 +9,6 @@ export default class FileDrop extends Component {
     style: React.PropTypes.object,
   }
 
-  static contextTypes = {
-    tags: React.PropTypes.object.isRequired,
-  }
-
   state = {
     entryCount: 0,
   }
