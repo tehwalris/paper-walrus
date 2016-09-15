@@ -1,7 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import {Link} from 'react-router';
+import {bindActionCreators} from 'redux';
 import {graphql} from 'react-apollo';
+import {connect} from 'react-redux';
+import * as actionCreators from '../actions/actionCreators';
 import gql from 'graphql-tag';
 import CardGrid from '../components/CardGrid';
 import ImageCard from '../components/CardGrid/ImageCard';
@@ -16,6 +19,9 @@ class SourceFileList extends Component {
       })),
       loading: React.PropTypes.bool,
     }).isRequired,
+    actions: PropTypes.shape({
+      uploadSourceFiles: PropTypes.func.isRequired,
+    }).isRequired,
   }
 
   render() {
@@ -26,7 +32,7 @@ class SourceFileList extends Component {
     return (
       <CardGrid>
         <UploadCard
-          onFilesSelect={() => alert('TODO')}
+          onFilesSelect={this.onFilesSelect}
         />
         {sourceFiles && sourceFiles.map(this.renderItem)}
       </CardGrid>
@@ -40,6 +46,13 @@ class SourceFileList extends Component {
         imageUrl={sourceFile.previewUrl}
       />
     );
+  }
+
+  onFilesSelect = (files) => {
+    const {actions: {uploadSourceFiles}} = this.props;
+    uploadSourceFiles(files, (err) => {
+      err && console.warn('File upload failed.', err); //Better handling
+    });
   }
 
   getStyles() {
@@ -59,4 +72,12 @@ const SourceFileListWithData = graphql(
   `,
 )(SourceFileList);
 
-export default SourceFileListWithData;
+function mapStateToProps(state) {
+  return {};
+}
+
+function mapDispatchToProps(dispatch) {
+  return {actions: bindActionCreators(actionCreators, dispatch)};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SourceFileListWithData);
