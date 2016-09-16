@@ -59,7 +59,7 @@ export default multiWrapApollo(DocumentList, [
       }
     }
     `,
-    {
+    { //TODO no refetch
       props: ({ownProps: {data: {refetch}}, mutate}) => ({
         createDocument: () => {
           return mutate({variables: {input: {visibility: 'standalone'}}})
