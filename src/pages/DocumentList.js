@@ -11,12 +11,13 @@ class DocumentList extends Component {
       documents: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string,
       })),
-      loading: React.PropTypes.bool,
+      loading: PropTypes.bool,
     }).isRequired,
+    createDocument: PropTypes.func.isRequired,
   }
 
   render() {
-    const {data: {documents, loading}} = this.props;
+    const {data: {documents, loading}, createDocument} = this.props;
     const styles = this.getStyles();
     if (loading)
       return null;
@@ -26,6 +27,7 @@ class DocumentList extends Component {
       <div>
         <ul>
         {documents.map(this.renderItem)}
+        <li onClick={createDocument}>Create document</li>
         </ul>
       </div>
     );
@@ -46,7 +48,27 @@ class DocumentList extends Component {
   }
 }
 
-const DocumentListWithData = graphql(
+const DocumentListWithMutations = graphql(
+  gql`
+  mutation ($input: CreateDocumentInput!) {
+    createDocument(input: $input) {
+      id
+      __typename
+      name
+    }
+  },
+  `,
+  {
+    props: ({ownProps: {data: {refetch}}, mutate}) => ({
+      createDocument: () => {
+        mutate({variables: {input: {visibility: 'standalone'}}})
+          .then(() => refetch());
+      }
+    }),
+  },
+)(DocumentList);
+
+const DocumentListWithMutationsAndData = graphql(
   gql`
   query {
     documents {
@@ -56,7 +78,7 @@ const DocumentListWithData = graphql(
     }
   }
   `,
-)(DocumentList);
+)(DocumentListWithMutations);
 
-export default DocumentListWithData;
+export default DocumentListWithMutationsAndData;
 

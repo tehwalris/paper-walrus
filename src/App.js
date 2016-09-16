@@ -7,6 +7,7 @@ import {apolloClientFromStore} from './apolloClient';
 import ParentPage from './pages/ParentPage';
 import DocumentList from './pages/DocumentList';
 import DocumentView from './pages/DocumentView';
+import DocumentEdit from './pages/DocumentEdit';
 import SourceFileList from './pages/SourceFileList';
 import Login from './pages/Login';
 
@@ -28,6 +29,7 @@ export default class App extends Component {
                 <IndexRedirect to='documents'/>
                 <Route path='documents' component={DocumentList} onEnter={this.forceAuth}/>
                 <Route path='documents/:id' component={DocumentView} onEnter={this.forceAuth}/>
+                <Route path='documents/:id/edit' component={DocumentEdit} onEnter={this.forceAuth}/>
                 <Route path='sourceFiles' component={SourceFileList} onEnter={this.forceAuth}/>
                 <Route path='login' component={Login}/>
               </Route>

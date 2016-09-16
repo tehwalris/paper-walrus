@@ -1,11 +1,10 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
-import {Link} from 'react-router';
 import {graphql} from 'react-apollo';
 import gql from 'graphql-tag';
 
 @Radium
-class DocumentView extends Component {
+class DocumentEdit extends Component {
   static propTypes = {
     data: PropTypes.shape({
       document: PropTypes.shape({
@@ -29,9 +28,9 @@ class DocumentView extends Component {
       return (<div>Document does not exist.</div>);
     return (
       <div>
+        Such edit, much wow
         Document name: {document.name || '(unnamed)'}
         {this.renderParts(document.parts)}
-        <Link to={`/documents/${document.id}/edit`}>Edit</Link>
       </div>
     );
   }
@@ -49,7 +48,7 @@ class DocumentView extends Component {
   }
 }
 
-const DocumentViewWithData = graphql(
+const DocumentEditWithData = graphql(
   gql`
   query($id: String!) {
     document(id: $id) {
@@ -69,7 +68,8 @@ const DocumentViewWithData = graphql(
   {options: ({params: {id}}) => ({
     variables: {id},
   })}
-)(DocumentView);
+)(DocumentEdit);
 
-export default DocumentViewWithData;
+export default DocumentEditWithData;
+
 
