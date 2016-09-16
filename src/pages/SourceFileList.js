@@ -18,6 +18,7 @@ class SourceFileList extends Component {
         previewUrl: PropTypes.string,
       })),
       loading: React.PropTypes.bool,
+      refetch: PropTypes.func.isRequired,
     }).isRequired,
     actions: PropTypes.shape({
       uploadSourceFiles: PropTypes.func.isRequired,
@@ -49,9 +50,10 @@ class SourceFileList extends Component {
   }
 
   onFilesSelect = (files) => {
-    const {actions: {uploadSourceFiles}} = this.props;
+    const {actions: {uploadSourceFiles}, data: {refetch}} = this.props;
     uploadSourceFiles(files, (err) => {
       err && console.warn('File upload failed.', err); //Better handling
+      refetch();
     });
   }
 
