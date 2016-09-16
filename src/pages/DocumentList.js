@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import {Link} from 'react-router';
-import {graphql} from 'react-apollo';
+import {multiWrapApollo} from '../util/graphql';
 import gql from 'graphql-tag';
 
 @Radium
@@ -48,37 +48,35 @@ class DocumentList extends Component {
   }
 }
 
-const DocumentListWithMutations = graphql(
-  gql`
-  mutation ($input: CreateDocumentInput!) {
-    createDocument(input: $input) {
-      id
-      __typename
-      name
-    }
-  }
-  `,
-  {
-    props: ({ownProps: {data: {refetch}}, mutate}) => ({
-      createDocument: () => {
-        return mutate({variables: {input: {visibility: 'standalone'}}})
-          .then(() => refetch());
+export default multiWrapApollo(DocumentList, [
+  [
+    gql`
+    mutation ($input: CreateDocumentInput!) {
+      createDocument(input: $input) {
+        id
+        __typename
+        name
       }
-    }),
-  },
-)(DocumentList);
-
-const DocumentListWithMutationsAndData = graphql(
-  gql`
-  query {
-    documents {
-      id
-      __typename
-      name
     }
-  }
-  `,
-)(DocumentListWithMutations);
-
-export default DocumentListWithMutationsAndData;
-
+    `,
+    {
+      props: ({ownProps: {data: {refetch}}, mutate}) => ({
+        createDocument: () => {
+          return mutate({variables: {input: {visibility: 'standalone'}}})
+            .then(() => refetch());
+        }
+      }),
+    },
+  ],
+  [
+    gql`
+    query DocumentList {
+      documents {
+        id
+        __typename
+        name
+      }
+    }
+    `,
+  ],
+]);

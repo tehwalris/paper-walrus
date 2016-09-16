@@ -1,7 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
-import {graphql} from 'react-apollo';
 import gql from 'graphql-tag';
+import {withRouter} from 'react-router';
+import {multiWrapApollo} from '../util/graphql';
 import TerribleRenameControl from '../components/TerribleRenameControl';
 
 @Radium
@@ -20,6 +21,7 @@ class DocumentEdit extends Component {
       loading: React.PropTypes.bool,
     }).isRequired,
     renameDocument: PropTypes.func.isRequired,
+    deleteDocument: PropTypes.func.isRequired,
   }
 
   render() {
@@ -39,6 +41,7 @@ class DocumentEdit extends Component {
           onChange={renameDocument}
         />
         <a onClick={() => renameDocument('walrus')}>[rename to walrus]</a>
+        <a onClick={() => this.onClickDelete()}>[delete]</a>
         {this.renderParts(document.parts)}
       </div>
     );
@@ -52,50 +55,82 @@ class DocumentEdit extends Component {
     );
   }
 
+  onClickDelete = () => {
+    const {deleteDocument, router} = this.props;
+    deleteDocument().then(() => router.push('/documents'));
+  }
+
   getStyles() {
     return {};
   }
 }
 
-const DocumentEditWithMutations = graphql(
-  gql`
-  mutation ($input: RenameDocumentInput!) {
-    renameDocument(input: $input) {
-      id
-      __typename
-      name
-    }
-  }
-  `,
-  {
-    props: ({ownProps: {data: {document}}, mutate}) => ({
-      renameDocument: (name) => {
-        return mutate({variables: {input: {documentId: document.id, name}}});
+export default multiWrapApollo(withRouter(DocumentEdit), [
+  [
+    gql`
+    mutation ($input: RenameDocumentInput!) {
+      renameDocument(input: $input) {
+        id
+        __typename
+        name
       }
-    }),
-  },
-)(DocumentEdit);
-
-const DocumentEditWithMutationsAndData = graphql(
-  gql`
-  query($id: String!) {
-    document(id: $id) {
-      id
-      __typename
-      name
-      parts {
-        sourceFile {
-          id
-          __typename
-          url
+    }
+    `,
+    {
+      props: ({ownProps: {data: {document}}, mutate}) => ({
+        renameDocument: (name) => {
+          return mutate({variables: {input: {id: document.id, name}}});
+        },
+      }),
+    },
+  ],
+  [
+    gql`
+    mutation ($input: DeleteDocumentInput!) {
+      deleteDocument(input: $input)
+    }
+    `,
+    {
+      props: ({ownProps: {data: {document}}, mutate}) => ({
+        deleteDocument: () => {
+          return mutate({variables: {input: {id: document.id}}})
+            .then(({data: {deleteDocument: deletedId}}) => {
+              if (deletedId !== document.id)
+                return Promise.reject('Deletion failed.');
+            });
+        },
+      }),
+      options: () => ({
+        updateQueries: {
+          DocumentList: ({documents}, {mutationResult: {data: {deleteDocument: deletedId}}}) => {
+            return {
+              documents: documents.filter(document => document.id !== deletedId),
+            };
+          },
+        },
+      }),
+    },
+  ],
+  [
+    gql`
+    query ($id: String!) {
+      document(id: $id) {
+        id
+        __typename
+        name
+        parts {
+          sourceFile {
+            id
+            __typename
+            url
+          }
         }
       }
     }
-  }
-  `,
-  {options: ({params: {id}}) => ({
-    variables: {id},
-  })}
-)(DocumentEditWithMutations);
+    `,
+    {options: ({params: {id}}) => ({
+      variables: {id},
+    })}
+  ],
+]);
 
-export default DocumentEditWithMutationsAndData;
