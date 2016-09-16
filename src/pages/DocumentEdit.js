@@ -2,12 +2,14 @@ import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import {graphql} from 'react-apollo';
 import gql from 'graphql-tag';
+import TerribleRenameControl from '../components/TerribleRenameControl';
 
 @Radium
 class DocumentEdit extends Component {
   static propTypes = {
     data: PropTypes.shape({
       document: PropTypes.shape({
+        id: PropTypes.string.isRequired,
         name: PropTypes.string,
         parts: PropTypes.arrayOf(PropTypes.shape({
           sourceFile: PropTypes.shape({
@@ -17,10 +19,11 @@ class DocumentEdit extends Component {
       }),
       loading: React.PropTypes.bool,
     }).isRequired,
+    renameDocument: PropTypes.func.isRequired,
   }
 
   render() {
-    const {data: {document, loading}} = this.props;
+    const {data: {document, loading}, renameDocument} = this.props;
     const styles = this.getStyles();
     if (loading)
       return null;
@@ -29,7 +32,13 @@ class DocumentEdit extends Component {
     return (
       <div>
         Such edit, much wow
-        Document name: {document.name || '(unnamed)'}
+        <br/>
+        Document name: 
+        <TerribleRenameControl
+          name={document.name}
+          onChange={renameDocument}
+        />
+        <a onClick={() => renameDocument('walrus')}>[rename to walrus]</a>
         {this.renderParts(document.parts)}
       </div>
     );
@@ -48,7 +57,26 @@ class DocumentEdit extends Component {
   }
 }
 
-const DocumentEditWithData = graphql(
+const DocumentEditWithMutations = graphql(
+  gql`
+  mutation ($input: RenameDocumentInput!) {
+    renameDocument(input: $input) {
+      id
+      __typename
+      name
+    }
+  }
+  `,
+  {
+    props: ({ownProps: {data: {document}}, mutate}) => ({
+      renameDocument: (name) => {
+        return mutate({variables: {input: {documentId: document.id, name}}});
+      }
+    }),
+  },
+)(DocumentEdit);
+
+const DocumentEditWithMutationsAndData = graphql(
   gql`
   query($id: String!) {
     document(id: $id) {
@@ -68,8 +96,6 @@ const DocumentEditWithData = graphql(
   {options: ({params: {id}}) => ({
     variables: {id},
   })}
-)(DocumentEdit);
+)(DocumentEditWithMutations);
 
-export default DocumentEditWithData;
-
-
+export default DocumentEditWithMutationsAndData;

@@ -56,12 +56,12 @@ const DocumentListWithMutations = graphql(
       __typename
       name
     }
-  },
+  }
   `,
   {
     props: ({ownProps: {data: {refetch}}, mutate}) => ({
       createDocument: () => {
-        mutate({variables: {input: {visibility: 'standalone'}}})
+        return mutate({variables: {input: {visibility: 'standalone'}}})
           .then(() => refetch());
       }
     }),
