@@ -7,3 +7,10 @@ export function multiWrapApollo(InnerComponent, parts) {
     InnerComponent
   );
 }
+
+export function idBlockFromPropTypes(PropTypes) {
+  return {
+    id: PropTypes.string.isRequired,
+    __typename: PropTypes.string.isRequired,
+  };
+}

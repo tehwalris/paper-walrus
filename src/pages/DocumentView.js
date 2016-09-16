@@ -4,29 +4,32 @@ import {Link} from 'react-router';
 import {graphql} from 'react-apollo';
 import gql from 'graphql-tag';
 
+import ConvertablePropTypes from '../util/ConvertablePropTypes';
+import {idBlockFromPropTypes} from '../util/graphql';
+
+const DocumentType = new ConvertablePropTypes(PropTypes => ({
+  ...idBlockFromPropTypes(PropTypes),
+  name: PropTypes.string,
+  parts: PropTypes.arrayOf(PropTypes.shape({
+    sourceFile: PropTypes.shape({
+      ...idBlockFromPropTypes(PropTypes),
+      url: PropTypes.string.isRequired,
+    }).isRequired,
+  })).isRequired,
+}));
+
 @Radium
 class DocumentView extends Component {
   static propTypes = {
     data: PropTypes.shape({
-      document: PropTypes.shape({
-        name: PropTypes.string,
-        parts: PropTypes.arrayOf(PropTypes.shape({
-          sourceFile: PropTypes.shape({
-            url: PropTypes.string.isRequired,
-          }).isRequired,
-        })).isRequired,
-      }),
-      loading: React.PropTypes.bool,
+      document: DocumentType.toReact(),
     }).isRequired,
   }
 
   render() {
-    const {data: {document, loading}} = this.props;
+    const {data: {document}} = this.props;
     const styles = this.getStyles();
-    if (loading)
-      return null;
-    if (!document)
-      return (<div>Document does not exist.</div>);
+    if (!document) return null;
     return (
       <div>
         Document name: {document.name || '(unnamed)'}
@@ -53,16 +56,7 @@ const DocumentViewWithData = graphql(
   gql`
   query($id: String!) {
     document(id: $id) {
-      id
-      __typename
-      name
-      parts {
-        sourceFile {
-          id
-          __typename
-          url
-        }
-      }
+      ${DocumentType.toGraphql()}
     }
   }
   `,
