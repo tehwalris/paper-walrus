@@ -1,30 +1,17 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
-import {withRouter} from 'react-router';
-import ConvertablePropTypes from '../util/ConvertablePropTypes';
-import {idBlockFromPropTypes} from '../util/graphql';
-import TerribleRenameControl from '../components/TerribleRenameControl';
-
-const DocumentPartType = new ConvertablePropTypes(PropTypes => ({
-  ...idBlockFromPropTypes(PropTypes),
-  sourceFile: PropTypes.shape({
-    ...idBlockFromPropTypes(PropTypes),
-    url: PropTypes.string.isRequired,
-  }).isRequired,
-}));
+import Relay from 'react-relay';
 
 @Radium
-export default class DocumentPartEditor extends Component {
-  static DocumentPartType = DocumentPartType;
-
+class DocumentPartEditor extends Component {
   static propTypes = {
-    parts: PropTypes.arrayOf(DocumentPartType.toReact()).isRequired,
-    createDocumentPart: PropTypes.func.isRequired,
+    document: PropTypes.object.isRequired,
+    //createDocumentPart: PropTypes.func.isRequired, //TODO
     style: PropTypes.object,
   }
 
   render() {
-    const {parts, createDocumentPart, style} = this.props;
+    const {document: {parts}, createDocumentPart, style} = this.props;
     return (
       <div style={[this.styles.wrapper, style]}>
         Document parts: <br/>
@@ -48,3 +35,17 @@ export default class DocumentPartEditor extends Component {
     };
   }
 }
+
+export default Relay.createContainer(DocumentPartEditor, {
+  fragments: {
+    document: () => Relay.QL`
+      fragment on Document{
+        parts {
+          sourceFile {
+            url
+          }
+        }
+      }
+    `,
+  },
+});

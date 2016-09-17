@@ -1,33 +1,16 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
+import Relay from 'react-relay';
 import {Link} from 'react-router';
-import {graphql} from 'react-apollo';
-import ConvertablePropTypes from '../util/ConvertablePropTypes';
-import {idBlockFromPropTypes, simpleQuery} from '../util/graphql';
-
-const DocumentType = new ConvertablePropTypes(PropTypes => ({
-  ...idBlockFromPropTypes(PropTypes),
-  name: PropTypes.string,
-  parts: PropTypes.arrayOf(PropTypes.shape({
-    ...idBlockFromPropTypes(PropTypes),
-    sourceFile: PropTypes.shape({
-      ...idBlockFromPropTypes(PropTypes),
-      url: PropTypes.string.isRequired,
-    }).isRequired,
-  })).isRequired,
-}));
 
 @Radium
 class DocumentView extends Component {
   static propTypes = {
-    data: PropTypes.shape({
-      document: DocumentType.toReact(),
-    }).isRequired,
+    document: PropTypes.object.isRequired,
   }
 
   render() {
-    const {data: {document}} = this.props;
-    if (!document) return null;
+    const {document} = this.props;
     return (
       <div>
         Document name: {document.name || '(unnamed)'}
@@ -40,12 +23,18 @@ class DocumentView extends Component {
   }
 }
 
-const DocumentViewWithData = graphql(
-  simpleQuery({document: DocumentType}, {id: 'String!'}),
-  {
-    options: ({params: {id}}) => ({variables: {id}})
+export default Relay.createContainer(DocumentView, {
+  fragments: {
+    document: () => Relay.QL`
+      fragment on Document {
+        id
+        name
+        parts {
+          sourceFile {
+            url
+          }
+        }
+      }
+    `,
   },
-)(DocumentView);
-
-export default DocumentViewWithData;
-
+});

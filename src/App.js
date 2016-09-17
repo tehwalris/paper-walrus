@@ -1,15 +1,23 @@
 import React, {Component} from 'react';
 import {Provider} from 'react-redux';
-import {Router, Route, IndexRedirect} from 'react-router';
+import {Router, Route, IndexRedirect, applyRouterMiddleware} from 'react-router';
 import {StyleRoot} from 'radium';
-import {ApolloProvider} from 'react-apollo';
-import {apolloClientFromStore} from './apolloClient';
+import Relay from 'react-relay';
+import ReactRouterRelay from 'react-router-relay';
 import ParentPage from './pages/ParentPage';
 import DocumentList from './pages/DocumentList';
 import DocumentView from './pages/DocumentView';
 import DocumentEdit from './pages/DocumentEdit';
 import SourceFileList from './pages/SourceFileList';
 import Login from './pages/Login';
+
+const ViewerQueries = {
+  viewer: () => Relay.QL`query { viewer }`,
+};
+
+const DocumentQueries = {
+  document: () => Relay.QL`query { node (id: $id) }`,
+};
 
 export default class App extends Component {
   static propTypes = {
@@ -22,20 +30,43 @@ export default class App extends Component {
     const {store, history, routerKey} = this.props;
     return (
       <Provider store={store}>
-        <ApolloProvider store={store} client={apolloClientFromStore(store)}>
-          <StyleRoot>
-            <Router key={routerKey} history={history}>
-              <Route path='/' component={ParentPage}>
-                <IndexRedirect to='documents'/>
-                <Route path='documents' component={DocumentList} onEnter={this.forceAuth}/>
-                <Route path='documents/:id' component={DocumentView} onEnter={this.forceAuth}/>
-                <Route path='documents/:id/edit' component={DocumentEdit} onEnter={this.forceAuth}/>
-                <Route path='sourceFiles' component={SourceFileList} onEnter={this.forceAuth}/>
-                <Route path='login' component={Login}/>
-              </Route>
-            </Router>
-          </StyleRoot>
-        </ApolloProvider>
+        <StyleRoot>
+          <Router
+            key={routerKey}
+            history={history}
+            render={applyRouterMiddleware(ReactRouterRelay.default)}
+            environment={Relay.Store}
+          >
+            <Route path='/' component={ParentPage}>
+              <IndexRedirect to='documents'/>
+              <Route
+                path='documents'
+                component={DocumentList}
+                queries={ViewerQueries}
+                onEnter={this.forceAuth}
+              />
+              <Route
+                path='documents/:id'
+                component={DocumentView}
+                queries={DocumentQueries}
+                onEnter={this.forceAuth}
+              />
+              <Route
+                path='documents/:id/edit'
+                component={DocumentEdit}
+                queries={DocumentQueries}
+                onEnter={this.forceAuth}
+              />
+              <Route
+                path='sourceFiles'
+                component={SourceFileList}
+                queries={ViewerQueries}
+                onEnter={this.forceAuth}
+              />
+              <Route path='login' component={Login}/>
+            </Route>
+          </Router>
+        </StyleRoot>
       </Provider>
     );
   }
