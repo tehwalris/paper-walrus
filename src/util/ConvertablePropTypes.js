@@ -90,11 +90,12 @@ function toNameTree(entry) {
   return null;
 }
 
-function toGraphql(entry) {
-  const nameTree = toNameTree(entry);
-  mapDeep(entry, entry => {
+function toGraphql(topEntry) {
+  const nameTree = toNameTree(topEntry);
+  mapDeep(topEntry, entry => {
     if(entry.reactTypeName === 'arrayOf' && entry.childType.reactTypeName !== 'shape')
       throw new Error('PropTypes.arrayOf must contain PropTypes.shape when mapping to graphql.');
+    return entry;
   });
   return _.map(nameTree, nameTreeEntryToGraphql).join(', ');
 }

@@ -5,19 +5,22 @@ import {bindActionCreators} from 'redux';
 import {graphql} from 'react-apollo';
 import {connect} from 'react-redux';
 import * as actionCreators from '../actions/actionCreators';
-import gql from 'graphql-tag';
 import CardGrid from '../components/CardGrid';
+import ConvertablePropTypes from '../util/ConvertablePropTypes';
+import {idBlockFromPropTypes, simpleQuery} from '../util/graphql';
 import ImageCard from '../components/CardGrid/ImageCard';
 import UploadCard from '../components/CardGrid/UploadCard';
+
+const SourceFileType = new ConvertablePropTypes(PropTypes => ({
+  ...idBlockFromPropTypes(PropTypes),
+  previewUrl: PropTypes.string,
+}));
 
 @Radium
 class SourceFileList extends Component {
   static propTypes = {
     data: PropTypes.shape({
-      sourceFiles: PropTypes.arrayOf(PropTypes.shape({
-        previewUrl: PropTypes.string,
-      })),
-      loading: React.PropTypes.bool,
+      sourceFiles: PropTypes.arrayOf(SourceFileType.toReact()),
       refetch: PropTypes.func.isRequired,
     }).isRequired,
     actions: PropTypes.shape({
@@ -26,26 +29,20 @@ class SourceFileList extends Component {
   }
 
   render() {
-    const {data: {sourceFiles, loading}} = this.props;
-    const styles = this.getStyles();
-    if (loading)
-      return null;
+    const {data: {sourceFiles}} = this.props;
+    if (_.isNil(sourceFiles)) return null;
     return (
       <CardGrid>
         <UploadCard
           onFilesSelect={this.onFilesSelect}
         />
-        {sourceFiles && sourceFiles.map(this.renderItem)}
+        {sourceFiles.map((sourceFile, i) => (
+        <ImageCard
+          key={i}
+          imageUrl={sourceFile.previewUrl}
+        />
+        ))}
       </CardGrid>
-    );
-  }
-
-  renderItem = (sourceFile, i) => {
-    return (
-      <ImageCard
-        key={i}
-        imageUrl={sourceFile.previewUrl}
-      />
     );
   }
 
@@ -56,30 +53,17 @@ class SourceFileList extends Component {
       refetch();
     });
   }
-
-  getStyles() {
-    return {};
-  }
 }
 
 const SourceFileListWithData = graphql(
-  gql`
-  query {
-    sourceFiles(onlyUnassigned: true) {
-      id
-      __typename
-      previewUrl
-    }
-  }
-  `,
+  simpleQuery({sourceFiles: SourceFileType}, {onlyUnassigned: 'Boolean'}),
+  {
+    options: {variables: {onlyUnassigned: true}},
+  },
 )(SourceFileList);
-
-function mapStateToProps(state) {
-  return {};
-}
 
 function mapDispatchToProps(dispatch) {
   return {actions: bindActionCreators(actionCreators, dispatch)};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SourceFileListWithData);
+export default connect(() => ({}), mapDispatchToProps)(SourceFileListWithData);

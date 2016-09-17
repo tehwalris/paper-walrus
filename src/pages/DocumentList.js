@@ -1,28 +1,26 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import {Link} from 'react-router';
-import {multiWrapApollo} from '../util/graphql';
-import gql from 'graphql-tag';
+import ConvertablePropTypes from '../util/ConvertablePropTypes';
+import {idBlockFromPropTypes, simpleQuery, simpleMutation, multiWrapApollo} from '../util/graphql';
+
+const DocumentType = new ConvertablePropTypes(PropTypes => ({
+  ...idBlockFromPropTypes(PropTypes),
+  name: PropTypes.string,
+}));
 
 @Radium
 class DocumentList extends Component {
   static propTypes = {
     data: PropTypes.shape({
-      documents: PropTypes.arrayOf(PropTypes.shape({
-        name: PropTypes.string,
-      })),
-      loading: PropTypes.bool,
+      documents: PropTypes.arrayOf(DocumentType.toReact()),
     }).isRequired,
     createDocument: PropTypes.func.isRequired,
   }
 
   render() {
-    const {data: {documents, loading}, createDocument} = this.props;
-    const styles = this.getStyles();
-    if (loading)
-      return null;
-    if (_.isEmpty(documents))
-      return (<div>No documents available.</div>);
+    const {data: {documents}, createDocument} = this.props;
+    if (_.isNil(documents)) return null;
     return (
       <div>
         <ul>
@@ -42,23 +40,11 @@ class DocumentList extends Component {
       </li>
     );
   }
-
-  getStyles() {
-    return {};
-  }
 }
 
 export default multiWrapApollo(DocumentList, [
   [
-    gql`
-    mutation ($input: CreateDocumentInput!) {
-      createDocument(input: $input) {
-        id
-        __typename
-        name
-      }
-    }
-    `,
+    simpleMutation({createDocument: DocumentType}, {input: 'CreateDocumentInput!'}),
     { //TODO no refetch
       props: ({ownProps: {data: {refetch}}, mutate}) => ({
         createDocument: () => {
@@ -69,14 +55,6 @@ export default multiWrapApollo(DocumentList, [
     },
   ],
   [
-    gql`
-    query DocumentList {
-      documents {
-        id
-        __typename
-        name
-      }
-    }
-    `,
+    simpleQuery({documents: DocumentType}, {}, 'DocumentList'),
   ],
 ]);

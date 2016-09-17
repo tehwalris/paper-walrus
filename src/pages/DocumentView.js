@@ -28,23 +28,19 @@ class DocumentView extends Component {
     const {data: {document}} = this.props;
     if (!document) return null;
     return (
-      <div style={this.styles}>
+      <div>
         Document name: {document.name || '(unnamed)'}
         <div>
-          Part urls: {parts.map(part => part.sourceFile.url).join(', ')}
+          Part urls: {document.parts.map(part => part.sourceFile.url).join(', ')}
         </div>
         <Link to={`/documents/${document.id}/edit`}>Edit</Link>
       </div>
     );
   }
-
-  get styles() {
-    return {};
-  }
 }
 
 const DocumentViewWithData = graphql(
-  simpleQuery('document', {id: 'String!'}, DocumentType),
+  simpleQuery({document: DocumentType}, {id: 'String!'}),
   {
     options: ({params: {id}}) => ({variables: {id}})
   },

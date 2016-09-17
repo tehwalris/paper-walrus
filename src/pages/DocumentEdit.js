@@ -1,36 +1,34 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
-import gql from 'graphql-tag';
 import {withRouter} from 'react-router';
-import {multiWrapApollo} from '../util/graphql';
+import ConvertablePropTypes from '../util/ConvertablePropTypes';
+import {idBlockFromPropTypes, simpleQuery, simpleMutation, multiWrapApollo} from '../util/graphql';
 import TerribleRenameControl from '../components/TerribleRenameControl';
+
+const DocumentType = new ConvertablePropTypes(PropTypes => ({
+  ...idBlockFromPropTypes(PropTypes),
+  name: PropTypes.string,
+  parts: PropTypes.arrayOf(PropTypes.shape({
+    sourceFile: PropTypes.shape({
+      ...idBlockFromPropTypes(PropTypes),
+      url: PropTypes.string.isRequired,
+    }).isRequired,
+  })).isRequired,
+}));
 
 @Radium
 class DocumentEdit extends Component {
   static propTypes = {
     data: PropTypes.shape({
-      document: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string,
-        parts: PropTypes.arrayOf(PropTypes.shape({
-          sourceFile: PropTypes.shape({
-            url: PropTypes.string.isRequired,
-          }).isRequired,
-        })).isRequired,
-      }),
-      loading: React.PropTypes.bool,
+      document: DocumentType.toReact(),
     }).isRequired,
     renameDocument: PropTypes.func.isRequired,
     deleteDocument: PropTypes.func.isRequired,
   }
 
   render() {
-    const {data: {document, loading}, renameDocument} = this.props;
-    const styles = this.getStyles();
-    if (loading)
-      return null;
-    if (!document)
-      return (<div>Document does not exist.</div>);
+    const {data: {document}, renameDocument} = this.props;
+    if (!document) return null;
     return (
       <div>
         Such edit, much wow
@@ -42,15 +40,9 @@ class DocumentEdit extends Component {
         />
         <a onClick={() => renameDocument('walrus')}>[rename to walrus]</a>
         <a onClick={() => this.onClickDelete()}>[delete]</a>
-        {this.renderParts(document.parts)}
-      </div>
-    );
-  }
-
-  renderParts = (parts) => {
-    return (
-      <div>
-        Part urls: {parts.map(part => part.sourceFile.url).join(', ')}
+        <div>
+          Part urls: {document.parts.map(part => part.sourceFile.url).join(', ')}
+        </div>
       </div>
     );
   }
@@ -59,23 +51,11 @@ class DocumentEdit extends Component {
     const {deleteDocument, router} = this.props;
     deleteDocument().then(() => router.push('/documents'));
   }
-
-  getStyles() {
-    return {};
-  }
 }
 
 export default multiWrapApollo(withRouter(DocumentEdit), [
   [
-    gql`
-    mutation ($input: RenameDocumentInput!) {
-      renameDocument(input: $input) {
-        id
-        __typename
-        name
-      }
-    }
-    `,
+    simpleMutation({renameDocument: DocumentType}, {input: 'RenameDocumentInput!'}),
     {
       props: ({ownProps: {data: {document}}, mutate}) => ({
         renameDocument: (name) => {
@@ -85,11 +65,7 @@ export default multiWrapApollo(withRouter(DocumentEdit), [
     },
   ],
   [
-    gql`
-    mutation ($input: DeleteDocumentInput!) {
-      deleteDocument(input: $input)
-    }
-    `,
+    simpleMutation({deleteDocument: null}, {input: 'DeleteDocumentInput!'}),
     {
       props: ({ownProps: {data: {document}}, mutate}) => ({
         deleteDocument: () => {
@@ -112,25 +88,10 @@ export default multiWrapApollo(withRouter(DocumentEdit), [
     },
   ],
   [
-    gql`
-    query ($id: String!) {
-      document(id: $id) {
-        id
-        __typename
-        name
-        parts {
-          sourceFile {
-            id
-            __typename
-            url
-          }
-        }
-      }
-    }
-    `,
-    {options: ({params: {id}}) => ({
-      variables: {id},
-    })}
+    simpleQuery({document: DocumentType}, {id: 'String!'}),
+    {
+      options: ({params: {id}}) => ({variables: {id}})
+    },
   ],
 ]);
 
