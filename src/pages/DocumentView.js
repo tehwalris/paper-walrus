@@ -2,10 +2,8 @@ import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import {Link} from 'react-router';
 import {graphql} from 'react-apollo';
-import gql from 'graphql-tag';
-
 import ConvertablePropTypes from '../util/ConvertablePropTypes';
-import {idBlockFromPropTypes} from '../util/graphql';
+import {idBlockFromPropTypes, simpleQuery} from '../util/graphql';
 
 const DocumentType = new ConvertablePropTypes(PropTypes => ({
   ...idBlockFromPropTypes(PropTypes),
@@ -28,41 +26,28 @@ class DocumentView extends Component {
 
   render() {
     const {data: {document}} = this.props;
-    const styles = this.getStyles();
     if (!document) return null;
     return (
-      <div>
+      <div style={this.styles}>
         Document name: {document.name || '(unnamed)'}
-        {this.renderParts(document.parts)}
+        <div>
+          Part urls: {parts.map(part => part.sourceFile.url).join(', ')}
+        </div>
         <Link to={`/documents/${document.id}/edit`}>Edit</Link>
       </div>
     );
   }
 
-  renderParts = (parts) => {
-    return (
-      <div>
-        Part urls: {parts.map(part => part.sourceFile.url).join(', ')}
-      </div>
-    );
-  }
-
-  getStyles() {
+  get styles() {
     return {};
   }
 }
 
 const DocumentViewWithData = graphql(
-  gql`
-  query($id: String!) {
-    document(id: $id) {
-      ${DocumentType.toGraphql()}
-    }
-  }
-  `,
-  {options: ({params: {id}}) => ({
-    variables: {id},
-  })}
+  simpleQuery('document', {id: 'String!'}, DocumentType),
+  {
+    options: ({params: {id}}) => ({variables: {id}})
+  },
 )(DocumentView);
 
 export default DocumentViewWithData;
