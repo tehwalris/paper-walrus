@@ -4,16 +4,14 @@ import {withRouter} from 'react-router';
 import ConvertablePropTypes from '../util/ConvertablePropTypes';
 import {idBlockFromPropTypes, simpleQuery, simpleMutation, multiWrapApollo} from '../util/graphql';
 import TerribleRenameControl from '../components/TerribleRenameControl';
+import DocumentPartEditor from '../components/DocumentPartEditor';
+
+const {DocumentPartType} = DocumentPartEditor;
 
 const DocumentType = new ConvertablePropTypes(PropTypes => ({
   ...idBlockFromPropTypes(PropTypes),
   name: PropTypes.string,
-  parts: PropTypes.arrayOf(PropTypes.shape({
-    sourceFile: PropTypes.shape({
-      ...idBlockFromPropTypes(PropTypes),
-      url: PropTypes.string.isRequired,
-    }).isRequired,
-  })).isRequired,
+  parts: PropTypes.arrayOf(DocumentPartType.toStructure()).isRequired,
 }));
 
 @Radium
@@ -24,10 +22,11 @@ class DocumentEdit extends Component {
     }).isRequired,
     renameDocument: PropTypes.func.isRequired,
     deleteDocument: PropTypes.func.isRequired,
+    createDocumentPart: PropTypes.func.isRequired,
   }
 
   render() {
-    const {data: {document}, renameDocument} = this.props;
+    const {data: {document}, renameDocument, createDocumentPart} = this.props;
     if (!document) return null;
     return (
       <div>
@@ -40,9 +39,10 @@ class DocumentEdit extends Component {
         />
         <a onClick={() => renameDocument('walrus')}>[rename to walrus]</a>
         <a onClick={() => this.onClickDelete()}>[delete]</a>
-        <div>
-          Part urls: {document.parts.map(part => part.sourceFile.url).join(', ')}
-        </div>
+        <DocumentPartEditor
+          parts={document.parts}
+          createDocumentPart={createDocumentPart}
+        />
       </div>
     );
   }
@@ -83,6 +83,17 @@ export default multiWrapApollo(withRouter(DocumentEdit), [
               documents: documents.filter(document => document.id !== deletedId),
             };
           },
+        },
+      }),
+    },
+  ],
+  [
+    simpleMutation({createDocumentPart: DocumentPartType}, {input: 'CreateDocumentPartInput!'}),
+    {
+      props: ({ownProps: {data: {document, refetch}}, mutate}) => ({
+        createDocumentPart: (input) => {
+          return mutate({variables: {input: {...input, documentId: document.id}}})
+            .then(() => refetch()); //TODO
         },
       }),
     },

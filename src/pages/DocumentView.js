@@ -9,6 +9,7 @@ const DocumentType = new ConvertablePropTypes(PropTypes => ({
   ...idBlockFromPropTypes(PropTypes),
   name: PropTypes.string,
   parts: PropTypes.arrayOf(PropTypes.shape({
+    ...idBlockFromPropTypes(PropTypes),
     sourceFile: PropTypes.shape({
       ...idBlockFromPropTypes(PropTypes),
       url: PropTypes.string.isRequired,
