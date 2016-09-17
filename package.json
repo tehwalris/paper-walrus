@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack -p --progress --color",
     "serve": "env DEBUG=true node ./devServer.js",
-    "serveDist": "npm run build && node ./devServer.dist.js"
+    "serveDist": "npm run build && node ./devServer.dist.js",
+    "updateSchema": "node ./build/updateSchema.js"
   },
   "repository": {
     "type": "git",
@@ -48,6 +49,7 @@
     "imports-loader": "^0.6.5",
     "node-sass": "^3.7.0",
     "null-loader": "^0.1.1",
+    "paper-walrus-server": "github:tehwalris/paper-walrus-server#next",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "webpack": "^2.1.0-beta.22",
