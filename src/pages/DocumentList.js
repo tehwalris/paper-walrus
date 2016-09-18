@@ -2,12 +2,12 @@ import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Relay from 'react-relay';
 import {Link} from 'react-router';
+import CreateDocumentMutation from '../mutations/CreateDocumentMutation';
 
 @Radium
 class DocumentList extends Component {
   static propTypes = {
     viewer: PropTypes.object.isRequired,
-    //createDocument: PropTypes.func.isRequired, //TODO
   }
 
   render() {
@@ -17,10 +17,15 @@ class DocumentList extends Component {
       <div>
         <ul>
         {documents.map(this.renderItem)}
-        <li onClick={createDocument}>Create document</li>
+        <li onClick={this.createDocument}>Create document</li>
         </ul>
       </div>
     );
+  }
+
+  createDocument = () => {
+    const {relay} = this.props;
+    relay.commitUpdate(new CreateDocumentMutation());
   }
 
   renderItem = (document, i) => {
