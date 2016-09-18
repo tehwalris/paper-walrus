@@ -1,28 +1,35 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Relay from 'react-relay';
+import SourceFileUploadGrid from './SourceFileUploadGrid';
+import CreateDocumentPartMutation from '../mutations/CreateDocumentPartMutation';
 
 @Radium
 class DocumentPartEditor extends Component {
   static propTypes = {
     document: PropTypes.object.isRequired,
-    //createDocumentPart: PropTypes.func.isRequired, //TODO
+    sourceFiles: PropTypes.array.isRequired,
+    createDocumentPart: PropTypes.func.isRequired,
     style: PropTypes.object,
   }
 
   render() {
-    const {document: {parts}, createDocumentPart, style} = this.props;
+    const {document, sourceFiles, createDocumentPart, style} = this.props;
     return (
       <div style={[this.styles.wrapper, style]}>
         Document parts: <br/>
-        {JSON.stringify(parts)}
-        <div>
-          <a onClick={() => createDocumentPart({sourceFileId: '100'})}>
-            [create test part]
-          </a>
-        </div>
+        {JSON.stringify(document.parts)}
+        <SourceFileUploadGrid
+          sourceFiles={sourceFiles}
+          onSourceFileClick={this.createDocumentPart}
+        />
       </div>
     );
+  }
+
+  createDocumentPart = (sourceFile) => {
+    const {document, relay} = this.props;
+    relay.commitUpdate(new CreateDocumentPartMutation({document, sourceFile}));
   }
 
   get styles() {
@@ -39,12 +46,19 @@ class DocumentPartEditor extends Component {
 export default Relay.createContainer(DocumentPartEditor, {
   fragments: {
     document: () => Relay.QL`
-      fragment on Document{
+      fragment on Document {
         parts {
           sourceFile {
             url
           }
         }
+        ${CreateDocumentPartMutation.getFragment('document')}
+      }
+    `,
+    sourceFiles: () => Relay.QL`
+      fragment on SourceFile @relay(plural: true) {
+        ${SourceFileUploadGrid.getFragment('sourceFiles')}
+        ${CreateDocumentPartMutation.getFragment('sourceFile')}
       }
     `,
   },

@@ -6,16 +6,19 @@ import TerribleRenameControl from '../components/TerribleRenameControl';
 import DocumentPartEditor from '../components/DocumentPartEditor';
 import RenameDocumentMutation from '../mutations/RenameDocumentMutation';
 import DeleteDocumentMutation from '../mutations/DeleteDocumentMutation';
-import CreateDocumentPartMutation from '../mutations/CreateDocumentPartMutation';
 
 @Radium
 class DocumentEdit extends Component {
   static propTypes = {
     document: PropTypes.object,
+    viewer: PropTypes.shape({
+      sourceFiles: PropTypes.array.isRequired,
+    }).isRequired,
+    sourceFiles: PropTypes.object,
   }
 
   render() {
-    const {document} = this.props;
+    const {document, viewer: {sourceFiles}} = this.props;
     if(!document) return null;
     return (
       <div>
@@ -30,7 +33,7 @@ class DocumentEdit extends Component {
         <a onClick={this.deleteDocument}>[delete]</a>
         <DocumentPartEditor
           document={document}
-          createDocumentPart={this.createDocumentPart}
+          sourceFiles={sourceFiles}
         />
       </div>
     );
@@ -48,12 +51,6 @@ class DocumentEdit extends Component {
       {onSuccess: () => router.push('/documents')},
     );
   }
-
-  createDocumentPart = () => {
-    const {document, relay} = this.props;
-    const sourceFile = {id: 'U291cmNlRmlsZToxMDE='};
-    relay.commitUpdate(new CreateDocumentPartMutation({document, sourceFile}));
-  }
 }
 
 export default Relay.createContainer(withRouter(DocumentEdit), {
@@ -64,7 +61,13 @@ export default Relay.createContainer(withRouter(DocumentEdit), {
         ${DocumentPartEditor.getFragment('document')}
         ${RenameDocumentMutation.getFragment('document')}
         ${DeleteDocumentMutation.getFragment('document')}
-        ${CreateDocumentPartMutation.getFragment('document')}
+      }
+    `,
+    viewer: () => Relay.QL`
+      fragment on Viewer {
+        sourceFiles (onlyUnassigned: true) {
+          ${DocumentPartEditor.getFragment('sourceFiles')}
+        }
       }
     `,
   },

@@ -54,7 +54,7 @@ export default class App extends Component {
               <Route
                 path='documents/:id/edit'
                 component={DocumentEdit}
-                queries={DocumentQueries}
+                queries={{...ViewerQueries, ...DocumentQueries}}
                 onEnter={this.forceAuth}
               />
               <Route

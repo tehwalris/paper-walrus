@@ -6,6 +6,9 @@ export default class CreateDocumentPartMutation extends Relay.Mutation {
     document: () => Relay.QL`
       fragment on Document { id }
     `,
+    sourceFile: () => Relay.QL`
+      fragment on SourceFile { id }
+    `,
   }
   getMutation = () => Relay.QL`
     mutation { createDocumentPart }
