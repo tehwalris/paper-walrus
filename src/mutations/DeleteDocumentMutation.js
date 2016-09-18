@@ -14,9 +14,10 @@ export default class DeleteDocumentMutation extends Relay.Mutation {
     fragment on DeleteDocumentPayload {
       viewer {
         documents
+        sourceFiles
       }
     }
-  `//TODO
+  `
   getVariables() {
     return {id: this.props.document.id};
   }

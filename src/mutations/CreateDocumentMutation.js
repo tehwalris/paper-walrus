@@ -11,7 +11,7 @@ export default class CreateDocumentMutation extends Relay.Mutation {
         documents
       }
     }
-  `//TODO
+  `
   getVariables() {
     return {document: {visibility: 'standalone'}};
   }

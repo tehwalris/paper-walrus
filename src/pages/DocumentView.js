@@ -6,11 +6,12 @@ import {Link} from 'react-router';
 @Radium
 class DocumentView extends Component {
   static propTypes = {
-    document: PropTypes.object.isRequired,
+    document: PropTypes.object,
   }
 
   render() {
     const {document} = this.props;
+    if(!document) return null;
     return (
       <div>
         Document name: {document.name || '(unnamed)'}

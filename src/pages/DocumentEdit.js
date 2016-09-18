@@ -6,16 +6,17 @@ import TerribleRenameControl from '../components/TerribleRenameControl';
 import DocumentPartEditor from '../components/DocumentPartEditor';
 import RenameDocumentMutation from '../mutations/RenameDocumentMutation';
 import DeleteDocumentMutation from '../mutations/DeleteDocumentMutation';
+import CreateDocumentPartMutation from '../mutations/CreateDocumentPartMutation';
 
 @Radium
 class DocumentEdit extends Component {
   static propTypes = {
-    document: PropTypes.object.isRequired,
-    //createDocumentPart: PropTypes.func.isRequired, //TODO
+    document: PropTypes.object,
   }
 
   render() {
-    const {document, createDocumentPart} = this.props;
+    const {document} = this.props;
+    if(!document) return null;
     return (
       <div>
         Such edit, much wow
@@ -29,7 +30,7 @@ class DocumentEdit extends Component {
         <a onClick={this.deleteDocument}>[delete]</a>
         <DocumentPartEditor
           document={document}
-          createDocumentPart={createDocumentPart}
+          createDocumentPart={this.createDocumentPart}
         />
       </div>
     );
@@ -47,6 +48,12 @@ class DocumentEdit extends Component {
       {onSuccess: () => router.push('/documents')},
     );
   }
+
+  createDocumentPart = () => {
+    const {document, relay} = this.props;
+    const sourceFile = {id: 'U291cmNlRmlsZToxMDE='};
+    relay.commitUpdate(new CreateDocumentPartMutation({document, sourceFile}));
+  }
 }
 
 export default Relay.createContainer(withRouter(DocumentEdit), {
@@ -57,6 +64,7 @@ export default Relay.createContainer(withRouter(DocumentEdit), {
         ${DocumentPartEditor.getFragment('document')}
         ${RenameDocumentMutation.getFragment('document')}
         ${DeleteDocumentMutation.getFragment('document')}
+        ${CreateDocumentPartMutation.getFragment('document')}
       }
     `,
   },
