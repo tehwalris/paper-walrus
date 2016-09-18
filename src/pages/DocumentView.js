@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Relay from 'react-relay';
+import DocumentContentView from '../components/DocumentContentView';
 import {Link} from 'react-router';
 
 @Radium
@@ -14,11 +15,11 @@ class DocumentView extends Component {
     if(!document) return null;
     return (
       <div>
-        Document name: {document.name || '(unnamed)'}
-        <div>
-          Part urls: {document.parts.map(part => part.sourceFile.url).join(', ')}
-        </div>
-        <Link to={`/documents/${document.id}/edit`}>Edit</Link>
+        Document name: {document.name || '(unnamed)'} <br/>
+        <Link to={`/documents/${document.id}/edit`}>Edit document</Link>
+        <DocumentContentView
+          document={document}
+        />
       </div>
     );
   }
@@ -30,11 +31,7 @@ export default Relay.createContainer(DocumentView, {
       fragment on Document {
         id
         name
-        parts {
-          sourceFile {
-            url
-          }
-        }
+        ${DocumentContentView.getFragment('document')}
       }
     `,
   },
