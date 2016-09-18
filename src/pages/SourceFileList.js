@@ -41,11 +41,10 @@ class SourceFileList extends Component {
   }
 
   onFilesSelect = (files) => {
-    return;
-    const {actions: {uploadSourceFiles}, data: {refetch}} = this.props;
+    const {actions: {uploadSourceFiles}, relay} = this.props;
     uploadSourceFiles(files, (err) => {
       err && console.warn('File upload failed.', err); //Better handling
-      refetch();
+      relay.forceFetch();
     });
   }
 }
