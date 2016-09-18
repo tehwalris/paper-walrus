@@ -23,6 +23,7 @@ export default class CardGrid extends Component {
       wrapper: {
         display: 'flex',
         flexWrap: 'wrap',
+        alignContent: 'flex-start',
         [media.mobileL]: {
           justifyContent: 'space-around',
         },

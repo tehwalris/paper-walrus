@@ -11,6 +11,7 @@ class SourceFileUploadGrid extends Component {
   static propTypes = {
     sourceFiles: PropTypes.array.isRequired,
     onSourceFileClick: PropTypes.func.isRequired,
+    style: PropTypes.object,
   }
 
   static defaultProps = {
@@ -18,9 +19,9 @@ class SourceFileUploadGrid extends Component {
   }
 
   render() {
-    const {sourceFiles, onSourceFileClick} = this.props;
+    const {sourceFiles, onSourceFileClick, style} = this.props;
     return (
-      <CardGrid>
+      <CardGrid style={style}>
         <UploadCard
           onFilesSelect={this.uploadFiles}
         />
