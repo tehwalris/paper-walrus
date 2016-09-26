@@ -5,6 +5,7 @@ import SourceFileUploadGrid from './SourceFileUploadGrid';
 import DocumentPartInfo from './DocumentPartInfo';
 import CreateDocumentPartMutation from '../mutations/CreateDocumentPartMutation';
 import DeleteDocumentPartMutation from '../mutations/DeleteDocumentPartMutation';
+import MoveDocumentPartMutation from '../mutations/MoveDocumentPartMutation';
 
 @Radium
 class DocumentPartEditor extends Component {
@@ -24,6 +25,7 @@ class DocumentPartEditor extends Component {
             key={i}
             part={part}
             onDelete={() => this.deleteDocumentPart(part)}
+            onMove={direction => this.moveDocumentPart(part, i, direction)}
             style={this.styles.part}
           />
           ))}
@@ -39,7 +41,6 @@ class DocumentPartEditor extends Component {
 
   createDocumentPart = (sourceFileFromUploadGrid) => {
     const {document, relay} = this.props;
-    console.log(sourceFileFromUploadGrid, this.props.sourceFiles);
     //HACK since the source file from the upload grid component does not have the right fragment
     const sourceFile = _.find(this.props.sourceFiles, ['__dataID__', sourceFileFromUploadGrid.__dataID__]);
     relay.commitUpdate(new CreateDocumentPartMutation({document, sourceFile}));
@@ -48,6 +49,14 @@ class DocumentPartEditor extends Component {
   deleteDocumentPart = (part) => {
     const {relay} = this.props;
     relay.commitUpdate(new DeleteDocumentPartMutation({part}));
+  }
+
+  moveDocumentPart = (part, oldPosition, direction) => {
+    const {relay} = this.props;
+    relay.commitUpdate(new MoveDocumentPartMutation({
+      part,
+      targetPosition: oldPosition + (direction === 'up' ? -1 : 2),
+    }));
   }
 
   get styles() {
@@ -79,6 +88,7 @@ export default Relay.createContainer(DocumentPartEditor, {
         parts {
           ${DocumentPartInfo.getFragment('part')}
           ${DeleteDocumentPartMutation.getFragment('part')}
+          ${MoveDocumentPartMutation.getFragment('part')}
         }
         ${CreateDocumentPartMutation.getFragment('document')}
       }
