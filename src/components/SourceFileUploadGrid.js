@@ -5,6 +5,7 @@ import CardGrid from '../components/CardGrid';
 import ImageCard from '../components/CardGrid/ImageCard';
 import UploadCard from '../components/CardGrid/UploadCard';
 import UploadSourceFilesMutation from '../mutations/UploadSourceFilesMutation';
+import TestCode from '../mutations/UploadSourceFilesMutation.js';
 
 @Radium
 class SourceFileUploadGrid extends Component {
