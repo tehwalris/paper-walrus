@@ -49,7 +49,7 @@
     "imports-loader": "^0.6.5",
     "node-sass": "^3.7.0",
     "null-loader": "^0.1.1",
-    "paper-walrus-server": "github:tehwalris/paper-walrus-server#next",
+    "paper-walrus-server": "github:tehwalris/paper-walrus-server",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
     "webpack": "^2.1.0-beta.22",
