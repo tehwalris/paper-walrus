@@ -5,7 +5,7 @@ import CardGrid from '../components/CardGrid';
 import ImageCard from '../components/CardGrid/ImageCard';
 import UploadCard from '../components/CardGrid/UploadCard';
 import UploadSourceFilesMutation from '../mutations/UploadSourceFilesMutation';
-import TestCode from '../mutations/UploadSourceFilesMutation.js';
+import DeleteSourceFileMutation from '../mutations/DeleteSourceFileMutation';
 
 @Radium
 class SourceFileUploadGrid extends Component {
@@ -31,7 +31,11 @@ class SourceFileUploadGrid extends Component {
           key={i}
           imageUrl={sourceFile.previewUrl}
           onClick={() => onSourceFileClick(sourceFile)}
-        />
+        >
+          <a onClick={() => this.deleteSourceFile(sourceFile)}>
+            [delete]
+          </a>
+        </ImageCard>
         ))}
       </CardGrid>
     );
@@ -41,12 +45,18 @@ class SourceFileUploadGrid extends Component {
     const {relay} = this.props;
     relay.commitUpdate(new UploadSourceFilesMutation({files}));
   }
+
+  deleteSourceFile = (sourceFile) => {
+    const {relay} = this.props;
+    relay.commitUpdate(new DeleteSourceFileMutation({sourceFile}));
+  }
 }
 
 export default Relay.createContainer(SourceFileUploadGrid, {
   fragments: {
     sourceFiles: () => Relay.QL`
       fragment on SourceFile @relay(plural: true) {
+        ${DeleteSourceFileMutation.getFragment('sourceFile')}
         previewUrl
       }
     `,

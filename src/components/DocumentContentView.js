@@ -15,11 +15,12 @@ class DocumentContentView extends Component {
     return (
       <div style={[this.styles.wrapper, style]}>
         {document.parts.map((part, i) => (
-        <DocumentPartContent
-          key={i}
-          part={part}
-          style={this.styles.part}
-        />
+        <a key={i} href={part.sourceFile.url}>
+          <DocumentPartContent
+            part={part}
+            style={this.styles.part}
+          />
+        </a>
         ))}
       </div>
     );
@@ -49,6 +50,9 @@ export default Relay.createContainer(DocumentContentView, {
     document: () => Relay.QL`
       fragment on Document {
         parts {
+          sourceFile {
+            url
+          }
           ${DocumentPartContent.getFragment('part')}
         }
       }

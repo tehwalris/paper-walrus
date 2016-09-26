@@ -27,6 +27,3 @@ export default class UploadSourceFilesMutation extends Relay.Mutation {
     }];
   }
 }
-
-
-
