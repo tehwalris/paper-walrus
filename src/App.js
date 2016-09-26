@@ -1,11 +1,23 @@
 import React, {Component} from 'react';
 import {Provider} from 'react-redux';
-import {Router, Route, IndexRoute} from 'react-router';
+import {Router, Route, IndexRedirect, applyRouterMiddleware} from 'react-router';
 import {StyleRoot} from 'radium';
+import Relay from 'react-relay';
+import ReactRouterRelay from 'react-router-relay';
 import ParentPage from './pages/ParentPage';
-import Home from './pages/Home';
-import EntryDetail from './pages/EntryDetail';
+import DocumentList from './pages/DocumentList';
+import DocumentView from './pages/DocumentView';
+import DocumentEdit from './pages/DocumentEdit';
+import SourceFileList from './pages/SourceFileList';
 import Login from './pages/Login';
+
+const ViewerQueries = {
+  viewer: () => Relay.QL`query { viewer }`,
+};
+
+const DocumentQueries = {
+  document: () => Relay.QL`query { node (id: $id) }`,
+};
 
 export default class App extends Component {
   static propTypes = {
@@ -19,10 +31,38 @@ export default class App extends Component {
     return (
       <Provider store={store}>
         <StyleRoot>
-          <Router key={routerKey} history={history}>
+          <Router
+            key={routerKey}
+            history={history}
+            render={applyRouterMiddleware(ReactRouterRelay.default)}
+            environment={Relay.Store}
+          >
             <Route path='/' component={ParentPage}>
-              <IndexRoute component={Home} onEnter={this.forceAuth}/>
-              <Route path='detail/:id' component={EntryDetail} onEnter={this.forceAuth}/>
+              <IndexRedirect to='documents'/>
+              <Route
+                path='documents'
+                component={DocumentList}
+                queries={ViewerQueries}
+                onEnter={this.forceAuth}
+              />
+              <Route
+                path='documents/:id'
+                component={DocumentView}
+                queries={DocumentQueries}
+                onEnter={this.forceAuth}
+              />
+              <Route
+                path='documents/:id/edit'
+                component={DocumentEdit}
+                queries={{...ViewerQueries, ...DocumentQueries}}
+                onEnter={this.forceAuth}
+              />
+              <Route
+                path='sourceFiles'
+                component={SourceFileList}
+                queries={ViewerQueries}
+                onEnter={this.forceAuth}
+              />
               <Route path='login' component={Login}/>
             </Route>
           </Router>

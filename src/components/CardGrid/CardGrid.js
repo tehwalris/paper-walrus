@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import Radium from 'radium';
-import Entry from './Entry';
+import media from '../../util/mediaQueries';
 
 @Radium
-export default class Fullscreen extends Component {
+export default class CardGrid extends Component {
   static propTypes = {
     style: React.PropTypes.object,
   }
@@ -21,20 +21,14 @@ export default class Fullscreen extends Component {
   getStyles() {
     return {
       wrapper: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        width: '100vw',
-        height: '100vh',
-      },
-      entry: {
-        width: '100%',
-        height: '100%',
-        flexGrow: 1,
-        flexShrink: 1,
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignContent: 'flex-start',
+        [media.mobileL]: {
+          justifyContent: 'space-around',
+        },
       },
     };
   }
 }
-
 

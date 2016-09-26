@@ -6,6 +6,13 @@ const express = require('express'),
 const app = express();
 const apiProxy = httpProxy.createProxyServer();
 
+app.use('/graphql', function(req, res) {
+  apiProxy.web(req, res, {
+    target: config.apiUrl,
+    changeOrigin: true,
+  });
+});
+
 app.use('/api', function(req, res) {
   apiProxy.web(req, res, {
     target: config.apiUrl,

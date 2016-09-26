@@ -14,7 +14,5 @@ export default function(state = defaultState, action) {
 }
 
 function loadSearchResults(state, action) {
-  if(action.query.tags !== _.get(state, ['query', 'tags']))
-    return {...state, results: action.results};
-  return {...state, query: action.query, results: [...(state.results || []), ...action.results]};
+  return {...state, query: action.query, results: action.results};
 }

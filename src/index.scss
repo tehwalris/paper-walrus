@@ -1,2 +1,7 @@
 @import './reset.scss';
 @import '~react-select/dist/react-select.css';
+
+._react-file-reader-input {
+  height: 100%;
+  width: 100%;
+}
