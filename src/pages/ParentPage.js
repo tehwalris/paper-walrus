@@ -30,6 +30,9 @@ class ParentPage extends Component {
             <li key='sourceFiles' style={[styles.menuItem, styles.linkMenuItem]}>
               <Link to={'/sourceFiles'} style={styles.linkStyle}>Source files</Link>
             </li>
+            <li key='tags' style={[styles.menuItem, styles.linkMenuItem]}>
+              <Link to={'/tags'} style={styles.linkStyle}>Tags</Link>
+            </li>
             <li key='status' style={styles.menuItem}>{user.email}</li>
             <li key='logout' style={[styles.menuItem, styles.linkMenuItem]} onClick={actions.logout}>Logout</li>
           </ul>}

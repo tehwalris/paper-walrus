@@ -9,6 +9,7 @@ import DocumentList from './pages/DocumentList';
 import DocumentView from './pages/DocumentView';
 import DocumentEdit from './pages/DocumentEdit';
 import SourceFileList from './pages/SourceFileList';
+import TagBrowser from './pages/TagBrowser';
 import Login from './pages/Login';
 
 const ViewerQueries = {
@@ -60,6 +61,12 @@ export default class App extends Component {
               <Route
                 path='sourceFiles'
                 component={SourceFileList}
+                queries={ViewerQueries}
+                onEnter={this.forceAuth}
+              />
+              <Route
+                path='tags'
+                component={TagBrowser}
                 queries={ViewerQueries}
                 onEnter={this.forceAuth}
               />
