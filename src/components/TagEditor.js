@@ -4,6 +4,8 @@ import Relay from 'react-relay';
 import Select from 'react-select';
 import SelectCreationFilter from '../util/SelectCreationFilter';
 
+const tagInputRegex = /^(?:(\w+):)?([\w- ]+)$/;
+
 @Radium
 class TagEditor extends Component {
   static propTypes = {
@@ -61,6 +63,10 @@ class TagEditor extends Component {
     return tags.map(tag => tag.id);
   }
 
+  getTagLabel(tag) {
+    return `[${tag.type}] ${tag.text}`;
+  }
+
   getSelected() {
     const {selectedTags} = this.props;
     return this.mapTagsToSelection(selectedTags);
@@ -70,17 +76,21 @@ class TagEditor extends Component {
     const {tags} = this.props;
     return tags.map(tag => ({
       value: tag.id,
-      label: `[${tag.type}] ${tag.text}`,
+      label: this.getTagLabel(tag),
     }));
   }
 
   getNewOption = (inputText) => {
+    const regexResult = tagInputRegex.exec(inputText);
+    if(!regexResult)
+      return;
+    const tagInfo = {
+      type: regexResult[1] || 'custom',
+      text: regexResult[2],
+    };
     return {
-      label: inputText + ' (new tag)',
-      tagInfo: {
-        type: 'custom',
-        text: inputText,
-      },
+      label: this.getTagLabel(tagInfo) + ' (new)',
+      tagInfo,
       create: true,
     };
   }

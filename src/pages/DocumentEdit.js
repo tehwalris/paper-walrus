@@ -52,7 +52,6 @@ class DocumentEdit extends Component {
 
   createTag = (tagInfo) => {
     const {relay} = this.props;
-    console.log('creating', tagInfo);
     return new Promise((resolve, reject) => {
       relay.commitUpdate(new CreateTagMutation(tagInfo), {
         onSuccess: ({createTag: {tag}}) => resolve(tag),
