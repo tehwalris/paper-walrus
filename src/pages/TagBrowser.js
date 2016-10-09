@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Relay from 'react-relay';
-import CreateTagMutation from '../mutations/CreateTagMutation';
+import CleanupTagsMutation from '../mutations/CleanupTagsMutation';
 
 @Radium
 class TagBrowser extends Component {
@@ -19,8 +19,17 @@ class TagBrowser extends Component {
           <li key={i}>[{tag.type}] {tag.text}</li>
           ))}
         </ul>
+        <br/>
+        <a onClick={() => this.cleanupTags()}>
+          [clean up unused]
+        </a>
       </div>
     );
+  }
+
+  cleanupTags = () => {
+    const {relay} = this.props;
+    relay.commitUpdate(new CleanupTagsMutation());
   }
 }
 
