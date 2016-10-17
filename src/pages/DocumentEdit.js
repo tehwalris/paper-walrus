@@ -23,7 +23,7 @@ class DocumentEdit extends Component {
 
   render() {
     const {document, viewer: {sourceFiles, tags}} = this.props;
-    if(!document) return null;
+    if (!document) return null;
     return (
       <div>
         Such edit, much wow
