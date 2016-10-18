@@ -16,6 +16,7 @@ class DocumentView extends Component {
     return (
       <div>
         Document name: {document.name || '(unnamed)'} <br/>
+        Date: {document.dateRange.start} to {document.dateRange.end} <br/>
         <Link to={`/documents/${document.id}/edit`}>Edit document</Link>
         <DocumentContentView
           document={document}
@@ -31,6 +32,10 @@ export default Relay.createContainer(DocumentView, {
       fragment on Document {
         id
         name
+        dateRange {
+          start
+          end
+        }
         ${DocumentContentView.getFragment('document')}
       }
     `,

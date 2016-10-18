@@ -7,7 +7,7 @@
     "build": "webpack -p --progress --color",
     "serve": "env DEBUG=true node ./devServer.js",
     "serveDist": "npm run build && node ./devServer.dist.js",
-    "updateSchema": "node ./build/updateSchema.js"
+    "updateSchema": "babel-node ./build/updateSchema.js"
   },
   "repository": {
     "type": "git",
@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/tehwalris/paper-walrus#readme",
   "devDependencies": {
+    "babel-cli": "^6.16.0",
     "babel-core": "^6.8.0",
     "babel-eslint": "^6.0.4",
     "babel-loader": "^6.2.4",
