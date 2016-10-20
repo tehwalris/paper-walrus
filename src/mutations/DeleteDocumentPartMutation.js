@@ -18,6 +18,7 @@ export default class DeleteDocumentPartMutation extends Relay.Mutation {
       documentPart
       document {
         parts
+        dateRange
       }
       viewer {
         sourceFiles
