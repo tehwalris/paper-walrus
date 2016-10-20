@@ -55,5 +55,3 @@ export default class UploadCard extends Component {
     };
   }
 }
-
-
