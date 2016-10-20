@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Relay from 'react-relay';
-import ContentPreview from './ContentPreview';
+import {isGeneralType} from '../util/mimeTypes';
 
 @Radium
 class DocumentPartContent extends Component {
@@ -12,10 +12,14 @@ class DocumentPartContent extends Component {
 
   render() {
     const {part, style} = this.props;
-    //TODO non-image
+    const {mimeType} = part.sourceFile;
+    if(isGeneralType(mimeType, 'image'))
+      return <img src={part.sourceFile.url} style={style}/>
     return (
-      <img src={part.sourceFile.url} style={style}/>
-    );
+      <div style={style}>
+        (unsupported content - {mimeType})
+      </div>
+    )
   }
 }
 

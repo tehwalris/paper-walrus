@@ -16,10 +16,7 @@ class DocumentPartInfo extends Component {
     const {part, onDelete, onMove, style} = this.props;
     return (
       <div style={[this.styles.wrapper, style]}>
-        <ContentPreview
-          imageUrl={part.sourceFile.previewUrl}
-          style={this.styles.preview}
-        />
+        {this.renderPreview()}
         <div style={this.styles.description}>
           MIME Type: {part.sourceFile.mimeType}
           <div><a onClick={onDelete}>[delete]</a></div>
@@ -28,6 +25,18 @@ class DocumentPartInfo extends Component {
         </div>
       </div>
     );
+  }
+
+  renderPreview() {
+    const {previewUrl} = this.props.part.sourceFile;
+    if(!previewUrl)
+      return <div style={this.styles.preview}>(no preview)</div>
+    return (
+      <ContentPreview
+        imageUrl={previewUrl}
+        style={this.styles.preview}
+      />
+    )
   }
 
   get styles() {

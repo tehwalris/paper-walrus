@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Relay from 'react-relay';
 import CardGrid from '../components/CardGrid';
-import ImageCard from '../components/CardGrid/ImageCard';
+import SourceFileCard from '../components/SourceFileCard';
 import UploadCard from '../components/CardGrid/UploadCard';
 import UploadSourceFilesMutation from '../mutations/UploadSourceFilesMutation';
 import DeleteSourceFileMutation from '../mutations/DeleteSourceFileMutation';
@@ -27,15 +27,18 @@ class SourceFileUploadGrid extends Component {
           onFilesSelect={this.uploadFiles}
         />
         {sourceFiles.map((sourceFile, i) => (
-        <ImageCard
+        <SourceFileCard
           key={i}
-          imageUrl={sourceFile.previewUrl}
+          sourceFile={sourceFile}
           onClick={() => onSourceFileClick(sourceFile)}
         >
           <a onClick={() => this.deleteSourceFile(sourceFile)}>
             [delete]
           </a>
-        </ImageCard>
+          <a href={sourceFile.url}>
+            [view]
+          </a>
+        </SourceFileCard>
         ))}
       </CardGrid>
     );
@@ -56,8 +59,10 @@ export default Relay.createContainer(SourceFileUploadGrid, {
   fragments: {
     sourceFiles: () => Relay.QL`
       fragment on SourceFile @relay(plural: true) {
-        ${DeleteSourceFileMutation.getFragment('sourceFile')}
+        url
         previewUrl
+        ${DeleteSourceFileMutation.getFragment('sourceFile')}
+        ${SourceFileCard.getFragment('sourceFile')}
       }
     `,
   },
