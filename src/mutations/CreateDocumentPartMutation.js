@@ -22,6 +22,7 @@ export default class CreateDocumentPartMutation extends Relay.Mutation {
       }
       viewer {
         sourceFiles
+        documents
       }
     }
   `

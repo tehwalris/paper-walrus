@@ -22,6 +22,7 @@ export default class DeleteDocumentPartMutation extends Relay.Mutation {
       }
       viewer {
         sourceFiles
+        documents
       }
     }
   `
