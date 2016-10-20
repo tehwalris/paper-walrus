@@ -22,7 +22,7 @@ export default class UploadCard extends Component {
         >
           <FileReaderInput
             onChange={this.onFileReaderChange}
-            accept='image/*, application/pdf'
+            accept='image/*, application/pdf, text/plain'
             multiple
           >
             <div style={styles.inner}>
