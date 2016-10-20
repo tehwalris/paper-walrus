@@ -6,7 +6,7 @@ import TerribleRenameControl from '../components/TerribleRenameControl';
 import DocumentPartEditor from '../components/DocumentPartEditor';
 import RenameDocumentMutation from '../mutations/RenameDocumentMutation';
 import DeleteDocumentMutation from '../mutations/DeleteDocumentMutation';
-import TagEditor from '../components/TagEditor';
+import TagSelect from '../components/TagSelect';
 import CreateTagMutation from '../mutations/CreateTagMutation';
 import AddTagToDocumentMutation from '../mutations/AddTagToDocumentMutation';
 import RemoveTagFromDocumentMutation from '../mutations/RemoveTagFromDocumentMutation';
@@ -17,6 +17,7 @@ class DocumentEdit extends Component {
     document: PropTypes.object,
     viewer: PropTypes.shape({
       sourceFiles: PropTypes.array.isRequired,
+      tags: PropTypes.array.isRequired,
     }).isRequired,
     sourceFiles: PropTypes.object,
   }
@@ -35,12 +36,13 @@ class DocumentEdit extends Component {
         />
         <a onClick={() => this.renameDocument('walrus')}>[rename to walrus]</a>
         <a onClick={this.deleteDocument}>[delete]</a>
-        <TagEditor
+        <TagSelect
           tags={tags}
           selectedTags={document.tags}
           onAddTag={this.addTag}
           onRemoveTag={this.removeTag}
           createTag={this.createTag}
+          placeholder='Assign tags'
         />
         <DocumentPartEditor
           document={document}
@@ -97,7 +99,7 @@ export default Relay.createContainer(withRouter(DocumentEdit), {
         ${AddTagToDocumentMutation.getFragment('document')}
         ${RemoveTagFromDocumentMutation.getFragment('document')}
         tags {
-          ${TagEditor.getFragment('selectedTags')}
+          ${TagSelect.getFragment('selectedTags')}
         }
       }
     `,
@@ -108,7 +110,7 @@ export default Relay.createContainer(withRouter(DocumentEdit), {
         }
         tags {
           id
-          ${TagEditor.getFragment('tags')}
+          ${TagSelect.getFragment('tags')}
           ${AddTagToDocumentMutation.getFragment('tag')}
           ${RemoveTagFromDocumentMutation.getFragment('tag')}
         }
