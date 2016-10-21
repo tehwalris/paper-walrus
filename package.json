@@ -75,6 +75,7 @@
     "react-router-redux": "^4.0.5",
     "react-router-relay": "^0.13.5",
     "react-select": "^1.0.0-beta13",
+    "rebass": "^0.3.3",
     "redux": "^3.5.2",
     "redux-devtools": "^3.3.1",
     "redux-thunk": "^2.0.1",

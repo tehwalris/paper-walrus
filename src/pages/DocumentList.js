@@ -2,7 +2,9 @@ import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Relay from 'react-relay';
 import {Link} from 'react-router';
-import TagSelect from '../components/TagSelect';
+import DocumentFilter from '../components/DocumentFilter';
+import DocumentListEntry from '../components/DocumentListEntry'
+import SidePanelLayout from '../components/SidePanelLayout'
 import CreateDocumentMutation from '../mutations/CreateDocumentMutation';
 
 @Radium
@@ -15,51 +17,34 @@ class DocumentList extends Component {
   }
 
   render() {
-    const {viewer: {documents, tags}, createDocument} = this.props;
+    const {viewer: {documents, tags}, relay, createDocument} = this.props;
     if (_.isNil(documents)) return null;
     return (
-      <div>
-        <TagSelect
+      <SidePanelLayout>
+        <DocumentFilter
           tags={tags}
-          selectedTags={this.getSelectedTags()}
-          onChange={this.onTagsChange}
-          placeholder='Search by tags'
+          filters={relay.variables}
+          onChange={this.onFiltersChange}
         />
-        <ul>
-        {documents.map(this.renderItem)}
-        <li onClick={this.createDocument}>Create document</li>
-        </ul>
-      </div>
+        <div><a onClick={this.createDocument}>[create document]</a></div>
+        <div>
+          {documents.map((document, i) => (
+          <DocumentListEntry
+            key={i}
+            document={document}
+          />
+          ))}
+        </div>
+      </SidePanelLayout>
     );
   }
 
-  getSelectedTags() {
-    const {viewer: {tags}, relay} = this.props;
-    return relay.variables.requiredTagIds.map(requiredTagId => {
-      return tags.find(tag => tag.id === requiredTagId);
-    });
-  }
-
-  onTagsChange = (tagsFromCallback) => {
-    const {viewer: {tags}, relay} = this.props;
-    relay.setVariables({
-      requiredTagIds: tagsFromCallback.map(tag => tag.id),
-    });
+  onFiltersChange = (filters) => {
+    this.props.relay.setVariables(filters);
   }
 
   createDocument = () => {
-    const {relay} = this.props;
-    relay.commitUpdate(new CreateDocumentMutation());
-  }
-
-  renderItem = (document, i) => {
-    return (
-      <li key={i}>
-        <Link to={`/documents/${document.id}`}>
-          {document.name || '(unnamed)'}
-        </Link>
-      </li>
-    );
+    this.props.relay.commitUpdate(new CreateDocumentMutation());
   }
 }
 
@@ -71,13 +56,11 @@ export default Relay.createContainer(DocumentList, {
     viewer: () => Relay.QL`
       fragment on Viewer {
         documents(requiredTagIds: $requiredTagIds) {
-          id
-          name
+          ${DocumentListEntry.getFragment('document')}
         }
         tags {
           id
-          ${TagSelect.getFragment('tags')}
-          ${TagSelect.getFragment('selectedTags')}
+          ${DocumentFilter.getFragment('tags')}
         }
       }
     `,

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Radium from 'radium';
-import resolveSources from '../util/resolveSources';
 
 @Radium
 export default class ContentPreview extends Component {
