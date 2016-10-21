@@ -6,6 +6,7 @@ import DocumentFilter from '../components/DocumentFilter';
 import DocumentListEntry from '../components/DocumentListEntry'
 import SidePanelLayout from '../components/SidePanelLayout'
 import CreateDocumentMutation from '../mutations/CreateDocumentMutation';
+import CardBlock from '../components/CardBlock';
 
 @Radium
 class DocumentList extends Component {
@@ -26,15 +27,17 @@ class DocumentList extends Component {
           filters={relay.variables}
           onChange={this.onFiltersChange}
         />
-        <div><a onClick={this.createDocument}>[create document]</a></div>
         <div>
           {documents.map((document, i) => (
-          <DocumentListEntry
-            key={i}
-            document={document}
-          />
+          <CardBlock key={i} mt={0}>
+            <DocumentListEntry
+              key={i}
+              document={document}
+            />
+          </CardBlock>
           ))}
         </div>
+        <div><a onClick={this.createDocument}>[create document]</a></div>
       </SidePanelLayout>
     );
   }

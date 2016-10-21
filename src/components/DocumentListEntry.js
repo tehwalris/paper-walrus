@@ -11,7 +11,7 @@ class DocumentListEntry extends Component {
     const {document} = this.props;
     return (
       <LinkBlock to={`/documents/${document.id}`}>
-        <Heading>
+        <Heading level={3}>
           {document.name || '(unnamed)'}
         </Heading>
         <Text>

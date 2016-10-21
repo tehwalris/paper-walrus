@@ -1,7 +1,11 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Relay from 'react-relay';
-import TagSelect from '../components/TagSelect';
+import {Heading} from 'rebass';
+import TagSelect from './TagSelect';
+import DocumentFilterStatus from './DocumentFilterStatus';
+import CardBlock from './CardBlock';
+import DocumentQuickFilter from './DocumentQuickFilter';
 
 @Radium
 class DocumentFilter extends Component {
@@ -14,29 +18,43 @@ class DocumentFilter extends Component {
   }
 
   render() {
-    const {tags} = this.props;
+    const {tags, filters} = this.props;
     return (
       <div>
-        <TagSelect
+        <DocumentQuickFilter
           tags={tags}
-          selectedTags={this.getSelectedTags()}
-          onChange={this.onTagsChange}
-          placeholder='Search by tags'
         />
+        <CardBlock>
+          <TagSelect
+            tags={tags}
+            selectedTags={[]}
+            onChange={this.onTagsAdd}
+            placeholder='Search by tags'
+          />
+          <a onClick={this.onClearFilters}>[clear filters]</a>
+        </CardBlock>
+        <CardBlock mb={0}>
+          <Heading>Current filters</Heading>
+          <DocumentFilterStatus
+            tags={tags}
+            filters={filters}
+          />
+        </CardBlock>
       </div>
     );
   }
 
-  getSelectedTags() {
-    const {filters, tags} = this.props;
-    return filters.requiredTagIds.map(requiredTagId => {
-      return tags.find(tag => tag.id === requiredTagId);
+  onTagsAdd = (tagsToAdd) => {
+    const {onChange, filters} = this.props;
+    const newTagIds = tagsToAdd.map(tag => tag.id);
+    onChange({
+      ...filters,
+      requiredTagIds: _.uniq(filters.requiredTagIds.concat(newTagIds)),
     });
   }
 
-  onTagsChange = (tagsFromCallback) => {
-    const {onChange, filters} = this.props;
-    onChange({...filters, requiredTagIds: tagsFromCallback.map(tag => tag.id)});
+  onClearFilters = () => {
+    this.props.onChange({requiredTagIds: []});
   }
 }
 
@@ -47,6 +65,8 @@ export default Relay.createContainer(DocumentFilter, {
         id
         ${TagSelect.getFragment('tags')}
         ${TagSelect.getFragment('selectedTags')}
+        ${DocumentFilterStatus.getFragment('tags')}
+        ${DocumentQuickFilter.getFragment('tags')}
       }
     `,
   },

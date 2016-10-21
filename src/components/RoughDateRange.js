@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
 import Relay from 'react-relay';
+import moment from 'moment';
 
 class RoughDateRange extends Component {
   render() {
-    const {dateRange: {start, end}} = this.props;
-    return <span>{start + ' - ' + end}</span>;
+    const startDate = moment(this.props.dateRange.start).calendar()
+    const endDate = moment(this.props.dateRange.end).calendar()
+    if(startDate === endDate)
+      return <span>{startDate}</span>;
+    return <span>{startDate} - {endDate}</span>;
   }
 }
 

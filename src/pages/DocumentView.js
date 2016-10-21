@@ -1,8 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Relay from 'react-relay';
-import DocumentContentView from '../components/DocumentContentView';
 import {Link} from 'react-router';
+import DocumentContentView from '../components/DocumentContentView';
+import RoughDateRange from '../components/RoughDateRange';
 
 @Radium
 class DocumentView extends Component {
@@ -16,7 +17,7 @@ class DocumentView extends Component {
     return (
       <div>
         Document name: {document.name || '(unnamed)'} <br/>
-        Date: {document.dateRange.start} to {document.dateRange.end} <br/>
+        Date: <RoughDateRange dateRange={document.dateRange}/><br/>
         <Link to={`/documents/${document.id}/edit`}>Edit document</Link>
         <DocumentContentView
           document={document}
@@ -33,8 +34,7 @@ export default Relay.createContainer(DocumentView, {
         id
         name
         dateRange {
-          start
-          end
+          ${RoughDateRange.getFragment('dateRange')}
         }
         ${DocumentContentView.getFragment('document')}
       }
