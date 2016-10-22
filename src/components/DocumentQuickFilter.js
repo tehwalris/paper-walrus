@@ -43,6 +43,7 @@ class DocumentQuickFilter extends Component {
               value={input}
               onChange={this.onInputChange}
               onKeyDown={this.onInputKeyDown}
+              autoFocus
               hideLabel
               autoOff
             />
