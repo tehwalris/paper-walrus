@@ -2,7 +2,6 @@ import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Relay from 'react-relay';
 import {Heading} from 'rebass';
-import TagSelect from './TagSelect';
 import DocumentFilterStatus from './DocumentFilterStatus';
 import CardBlock from './CardBlock';
 import DocumentQuickFilter from './DocumentQuickFilter';
@@ -17,24 +16,22 @@ class DocumentFilter extends Component {
     onChange: PropTypes.func.isRequired,
   }
 
+  constructor() {
+    super();
+    this.filterActions = _.pick(this, ['addRequiredTag', 'clearFilters']);
+  }
+
   render() {
     const {tags, filters} = this.props;
     return (
       <div>
         <DocumentQuickFilter
           tags={tags}
+          actions={this.filterActions}
         />
-        <CardBlock>
-          <TagSelect
-            tags={tags}
-            selectedTags={[]}
-            onChange={this.onTagsAdd}
-            placeholder='Search by tags'
-          />
-          <a onClick={this.onClearFilters}>[clear filters]</a>
-        </CardBlock>
         <CardBlock mb={0}>
           <Heading>Current filters</Heading>
+          <a onClick={this.filterActions.clearFilters}>[clear filters]</a>
           <DocumentFilterStatus
             tags={tags}
             filters={filters}
@@ -44,16 +41,20 @@ class DocumentFilter extends Component {
     );
   }
 
-  onTagsAdd = (tagsToAdd) => {
+  onSelectChange = (tagsToAdd) => {
     const {onChange, filters} = this.props;
-    const newTagIds = tagsToAdd.map(tag => tag.id);
+    tagsToAdd.forEach(tag => this.filterActions.addRequiredTag(tag.id));
+  }
+
+  addRequiredTag = (tagId) => {
+    const {onChange, filters} = this.props;
     onChange({
       ...filters,
-      requiredTagIds: _.uniq(filters.requiredTagIds.concat(newTagIds)),
+      requiredTagIds: _.uniq([...filters.requiredTagIds, tagId]),
     });
   }
 
-  onClearFilters = () => {
+  clearFilters = () => {
     this.props.onChange({requiredTagIds: []});
   }
 }
@@ -63,8 +64,6 @@ export default Relay.createContainer(DocumentFilter, {
     tags: () => Relay.QL`
       fragment on Tag @relay(plural: true) {
         id
-        ${TagSelect.getFragment('tags')}
-        ${TagSelect.getFragment('selectedTags')}
         ${DocumentFilterStatus.getFragment('tags')}
         ${DocumentQuickFilter.getFragment('tags')}
       }
