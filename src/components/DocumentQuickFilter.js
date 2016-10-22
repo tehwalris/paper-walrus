@@ -14,6 +14,7 @@ class DocumentQuickFilter extends Component {
     tags: PropTypes.array.isRequired,
     actions: PropTypes.shape({
       addRequiredTag: PropTypes.func.isRequired,
+      removeLastRequiredTag: PropTypes.func.isRequired,
     }).isRequired,
   }
 
@@ -41,7 +42,7 @@ class DocumentQuickFilter extends Component {
               placeholder="Quick filter..."
               value={input}
               onChange={this.onInputChange}
-              onKeyPress={this.onInputKeyPress}
+              onKeyDown={this.onInputKeyDown}
               hideLabel
               autoOff
             />
@@ -73,11 +74,14 @@ class DocumentQuickFilter extends Component {
     this.updateOptions(e.target.value);
   }
 
-  onInputKeyPress = (e) => {
-    const {options} = this.state;
+  onInputKeyDown = (e) => {
+    const {actions} = this.props;
+    const {input, options} = this.state;
     if(e.key === 'Enter' && options.length) {
       options[0].action();
       this.updateOptions('');
+    } else if(e.keyCode === 8 /*backspace*/ && !e.target.value.length) {
+      actions.removeLastRequiredTag();
     }
   }
 

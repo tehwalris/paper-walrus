@@ -18,7 +18,11 @@ class DocumentFilter extends Component {
 
   constructor() {
     super();
-    this.filterActions = _.pick(this, ['addRequiredTag', 'clearFilters']);
+    this.filterActions = _.pick(this, [
+      'addRequiredTag',
+      'clearFilters',
+      'removeLastRequiredTag',
+    ]);
   }
 
   render() {
@@ -51,6 +55,14 @@ class DocumentFilter extends Component {
     onChange({
       ...filters,
       requiredTagIds: _.uniq([...filters.requiredTagIds, tagId]),
+    });
+  }
+
+  removeLastRequiredTag = () => {
+    const {onChange, filters} = this.props;
+    onChange({
+      ...filters,
+      requiredTagIds: _.dropRight(filters.requiredTagIds),
     });
   }
 
