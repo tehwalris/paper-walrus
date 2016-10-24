@@ -3,8 +3,7 @@ import Radium from 'radium';
 import Relay from 'react-relay';
 import {Input, Heading, Text, Block} from 'rebass';
 import CardBlock from './CardBlock';
-import MenuList from './MenuList';
-import MenuListItem from './MenuListItem';
+import {List, ListItem} from './ui';
 import {rankObjectMatch} from '../util/search';
 import HighlightedSearchMatch from './HighlightedSearchMatch';
 
@@ -33,8 +32,8 @@ class DocumentQuickFilter extends Component {
     const {input, renderedOptions} = this.state;
     return (
       <CardBlock mt={0} p={0}>
-        <MenuList m={0}>
-          <MenuListItem py={2}>
+        <List>
+          <ListItem>
             <Input
               m={0}
               name="quickFilterInput"
@@ -47,18 +46,18 @@ class DocumentQuickFilter extends Component {
               hideLabel
               autoOff
             />
-          </MenuListItem>
+          </ListItem>
           <div style={{height: '228px', overflowY: 'auto', overflowX: 'hidden'}}>
             {renderedOptions}
           </div>
-        </MenuList>
+        </List>
       </CardBlock>
     );
   }
 
   renderOption = ({tag, rank, matches, action}, i) => {
     return (
-      <MenuListItem key={i} onClick={action}>
+      <ListItem key={i} onClick={action}>
         <Text>
           has <b style={{fontWeight: 'bold'}}>
             <HighlightedSearchMatch content={tag.type} matches={matches.type}/>
@@ -67,7 +66,7 @@ class DocumentQuickFilter extends Component {
         <Heading level={3}>
           <HighlightedSearchMatch content={tag.text} matches={matches.text}/>
         </Heading>
-      </MenuListItem>
+      </ListItem>
     );
   }
 

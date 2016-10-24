@@ -7,6 +7,7 @@ import DocumentListEntry from '../components/DocumentListEntry'
 import SidePanelLayout from '../components/SidePanelLayout'
 import CreateDocumentMutation from '../mutations/CreateDocumentMutation';
 import CardBlock from '../components/CardBlock';
+import {List} from '../components/ui';
 
 @Radium
 class DocumentList extends Component {
@@ -28,6 +29,9 @@ class DocumentList extends Component {
           onChange={this.onFiltersChange}
         />
         <div>
+          <List>
+            test
+          </List>
           {documents.map((document, i) => (
           <CardBlock key={i} mt={0}>
             <DocumentListEntry
