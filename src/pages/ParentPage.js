@@ -37,9 +37,7 @@ class ParentPage extends Component {
             <li key='logout' style={[styles.menuItem, styles.linkMenuItem]} onClick={actions.logout}>Logout</li>
           </ul>}
         </div>
-        <div style={styles.contentContainer}>
-          {children}
-        </div>
+        <div>{children}</div>
       </div>
     );
   }
@@ -80,10 +78,6 @@ class ParentPage extends Component {
       linkStyle: {
         color: 'inherit',
         textDecoration: 'inherit',
-      },
-      contentContainer: {
-        padding: '20px',
-        [media.mobileL]: {padding: '10px'},
       },
     };
   }

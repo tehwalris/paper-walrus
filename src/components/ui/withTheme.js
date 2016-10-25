@@ -6,7 +6,7 @@ const themePropType = PropTypes.object;
 
 export default function withTheme(ComponentToTheme) {
   return class ThemedComponent extends ComponentToTheme {
-    static displayName = `withTheme(${ComponentToTheme})`;
+    static displayName = `withTheme(${ComponentToTheme.displayName || ComponentToTheme.name})`;
     static propTypes = {
       ...(ComponentToTheme.propTypes || {}),
       theme: themePropType,

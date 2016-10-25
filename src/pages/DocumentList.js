@@ -4,10 +4,8 @@ import Relay from 'react-relay';
 import {Link} from 'react-router';
 import DocumentFilter from '../components/DocumentFilter';
 import DocumentListEntry from '../components/DocumentListEntry'
-import SidePanelLayout from '../components/SidePanelLayout'
 import CreateDocumentMutation from '../mutations/CreateDocumentMutation';
-import CardBlock from '../components/CardBlock';
-import {List} from '../components/ui';
+import {List, ListItem, SidebarLayout} from '../components/ui';
 
 @Radium
 class DocumentList extends Component {
@@ -22,27 +20,23 @@ class DocumentList extends Component {
     const {viewer: {documents, tags}, relay, createDocument} = this.props;
     if (_.isNil(documents)) return null;
     return (
-      <SidePanelLayout>
+      <SidebarLayout>
         <DocumentFilter
           tags={tags}
           filters={relay.variables}
           onChange={this.onFiltersChange}
         />
-        <div>
-          <List>
-            test
-          </List>
+        <List>
           {documents.map((document, i) => (
-          <CardBlock key={i} mt={0}>
+          <ListItem key={i} onClick={() => {}}>
             <DocumentListEntry
-              key={i}
               document={document}
             />
-          </CardBlock>
+          </ListItem>
           ))}
-        </div>
+        </List>
         <div><a onClick={this.createDocument}>[create document]</a></div>
-      </SidePanelLayout>
+      </SidebarLayout>
     );
   }
 

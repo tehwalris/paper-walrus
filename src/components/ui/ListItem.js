@@ -3,7 +3,7 @@ import {Block} from 'rebass';
 import Radium from 'radium';
 
 @Radium
-export default class List extends Component {
+export default class ListItem extends Component {
   static propTypes = {
     children: PropTypes.node,
     onClick: PropTypes.func,
