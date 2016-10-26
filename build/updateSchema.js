@@ -1,3 +1,6 @@
+require('babel-register')({ignore: /node_modules(?!\/paper-walrus-server\/src\/)/});
+require('babel-polyfill');
+
 const fs = require('fs'),
   path = require('path'),
   {graphqlSchema, graphqlLib: {graphql}} = require('paper-walrus-server'),
