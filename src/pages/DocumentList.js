@@ -5,7 +5,7 @@ import {Link} from 'react-router';
 import DocumentFilter from '../components/DocumentFilter';
 import DocumentListEntry from '../components/DocumentListEntry'
 import CreateDocumentMutation from '../mutations/CreateDocumentMutation';
-import {List, ListItem, SidebarLayout} from '../components/ui';
+import {List, ListItem, SidebarLayout, NavReservedArea} from '../components/ui';
 
 @Radium
 class DocumentList extends Component {
@@ -20,12 +20,15 @@ class DocumentList extends Component {
     const {viewer: {documents, tags}, relay, createDocument} = this.props;
     if (_.isNil(documents)) return null;
     return (
-      <SidebarLayout>
-        <DocumentFilter
-          tags={tags}
-          filters={relay.variables}
-          onChange={this.onFiltersChange}
-        />
+      <SidebarLayout sidebarColorSet="contrast" contentColorSet="base">
+        <div>
+          <NavReservedArea/>
+          <DocumentFilter
+            tags={tags}
+            filters={relay.variables}
+            onChange={this.onFiltersChange}
+          />
+        </div>
         <List>
           {documents.map((document, i) => (
           <ListItem key={i} onClick={() => {}}>

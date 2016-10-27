@@ -4,6 +4,7 @@ import Relay from 'react-relay';
 import {Link} from 'react-router';
 import DocumentContentView from '../components/DocumentContentView';
 import RoughDateRange from '../components/RoughDateRange';
+import {NavReservedArea} from '../components/ui';
 
 @Radium
 class DocumentView extends Component {
@@ -15,7 +16,8 @@ class DocumentView extends Component {
     const {document} = this.props;
     if(!document) return null;
     return (
-      <div>
+      <div style={{width: '100%' /* //HACK */}}>
+        <NavReservedArea/>
         Document name: {document.name || '(unnamed)'} <br/>
         Date: <RoughDateRange dateRange={document.dateRange}/><br/>
         <Link to={`/documents/${document.id}/edit`}>Edit document</Link>

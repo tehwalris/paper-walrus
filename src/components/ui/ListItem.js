@@ -24,7 +24,7 @@ export default class ListItem extends Component {
       wrapper: {
         padding: layout.distances[2],
         ':hover': {
-          backgroundColor: onClick ? colors.highlightBackground : undefined,
+          backgroundColor: onClick ? colors.default.highlightBackground : undefined,
         },
       },
     };

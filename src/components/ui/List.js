@@ -14,8 +14,8 @@ export default class List extends Component {
     const {theme: {colors, layout}} = this.props;
     return {
       wrapper: {
-        backgroundColor: colors.background,
-        colors: colors.primary,
+        backgroundColor: colors.default.background,
+        color: colors.default.content,
       },
     };
   }

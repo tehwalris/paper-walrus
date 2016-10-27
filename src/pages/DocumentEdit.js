@@ -10,6 +10,7 @@ import TagSelect from '../components/TagSelect';
 import CreateTagMutation from '../mutations/CreateTagMutation';
 import AddTagToDocumentMutation from '../mutations/AddTagToDocumentMutation';
 import RemoveTagFromDocumentMutation from '../mutations/RemoveTagFromDocumentMutation';
+import {NavReservedArea} from '../components/ui';
 
 @Radium
 class DocumentEdit extends Component {
@@ -26,7 +27,8 @@ class DocumentEdit extends Component {
     const {document, viewer: {sourceFiles, tags}} = this.props;
     if (!document) return null;
     return (
-      <div>
+      <div style={{width: '100%' /* //HACK */}}>
+        <NavReservedArea/>
         Such edit, much wow
         <br/>
         Document name:

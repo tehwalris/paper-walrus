@@ -2,6 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Relay from 'react-relay';
 import CleanupTagsMutation from '../mutations/CleanupTagsMutation';
+import {NavReservedArea} from '../components/ui';
 
 @Radium
 class TagBrowser extends Component {
@@ -14,6 +15,7 @@ class TagBrowser extends Component {
     if (_.isNil(tags)) return null;
     return (
       <div>
+        <NavReservedArea/>
         <ul>
           {tags.map((tag, i) => (
           <li key={i}>[{tag.type}] {tag.text}</li>

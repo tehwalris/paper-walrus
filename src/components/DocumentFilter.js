@@ -1,9 +1,8 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Relay from 'react-relay';
-import {Heading} from 'rebass';
+import {Block, Heading} from 'rebass';
 import DocumentFilterStatus from './DocumentFilterStatus';
-import CardBlock from './CardBlock';
 import DocumentQuickFilter from './DocumentQuickFilter';
 
 @Radium
@@ -33,14 +32,14 @@ class DocumentFilter extends Component {
           tags={tags}
           actions={this.filterActions}
         />
-        <CardBlock mb={0}>
+        <Block mb={0}>
           <Heading>Current filters</Heading>
           <a onClick={this.filterActions.clearFilters}>[clear filters]</a>
           <DocumentFilterStatus
             tags={tags}
             filters={filters}
           />
-        </CardBlock>
+        </Block>
       </div>
     );
   }

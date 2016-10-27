@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import * as actionCreators from '../actions/actionCreators';
+import {NavReservedArea} from '../components/ui';
 
 @Radium
 class Login extends Component {
@@ -24,6 +25,7 @@ class Login extends Component {
     const styles = this.getStyles();
     return (
       <div style={styles.wrapper}>
+        <NavReservedArea/>
         <form onSubmit={this.onFormSubmit} style={styles.form}>
           <div style={styles.header}>Login</div>
           <input
@@ -85,7 +87,9 @@ class Login extends Component {
     return {
       wrapper: {
         display: 'flex',
-        justifyContent: 'center',
+        width: '100%', //HACK
+        flexDirection: 'column',
+        alignItems: 'center',
         textAlign: 'center',
       },
       form: {

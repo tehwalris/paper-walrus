@@ -1,20 +1,23 @@
 import React, {Component, PropTypes} from 'react';
 import {omit} from 'lodash';
 import defaultTheme from './defaultTheme';
-
-const themePropType = PropTypes.object;
+import * as themePropInfo from './themeProps';
 
 export default function withTheme(ComponentToTheme) {
-  return class ThemedComponent extends ComponentToTheme {
+  return class ThemedComponent extends Component {
     static displayName = `withTheme(${ComponentToTheme.displayName || ComponentToTheme.name})`;
     static propTypes = {
       ...(ComponentToTheme.propTypes || {}),
-      theme: themePropType,
+      theme: themePropInfo.propType,
+    };
+    static contextTypes = {
+      [themePropInfo.contextKey]: themePropInfo.propType,
     };
 
     render() {
       const restProps = omit(this.props, 'theme');
-      return <ComponentToTheme {...restProps} theme={defaultTheme}/>;
+      const theme = this.context[themePropInfo.contextKey] || this.props.theme || defaultTheme;
+      return <ComponentToTheme {...restProps} theme={theme}/>;
     }
   };
 }

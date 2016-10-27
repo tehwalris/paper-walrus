@@ -1,17 +1,24 @@
 import React, {Component, PropTypes} from 'react';
-import {Block} from 'rebass';
+import {ThemedArea} from './index';
 
 export default class SidebarLayout extends Component {
   static propTypes = {
     children: PropTypes.node,
+    sidebarColorSet: PropTypes.string.isRequired,
+    contentColorSet: PropTypes.string.isRequired,
   };
 
   render() {
+    const {sidebarColorSet, contentColorSet} = this.props;
     const [sidebarChild, ...otherChildren] = React.Children.toArray(this.props.children);
     return (
     <div style={this.styles.outerWrapper}>
-      <div style={this.styles.sidebarWrapper}>{sidebarChild}</div>
-      <div style={this.styles.restWrapper}>{otherChildren}</div>
+      <ThemedArea defaultColorSet={sidebarColorSet} style={this.styles.sidebarWrapper}>
+        {sidebarChild}
+      </ThemedArea>
+      <ThemedArea defaultColorSet={contentColorSet} style={this.styles.contentWrapper}>
+        {otherChildren}
+      </ThemedArea>
     </div>
     );
   }
@@ -22,11 +29,12 @@ export default class SidebarLayout extends Component {
       outerWrapper: {
         display: 'flex',
         flexDirection: 'row',
+        width: '100%', //HACK
       },
       sidebarWrapper: {
-        width: '350px',
+        width: layout.sidebarWidth,
       },
-      restWrapper: {
+      contentWrapper: {
         flexGrow: '1',
       },
     };
