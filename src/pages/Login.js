@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import * as actionCreators from '../actions/actionCreators';
-import {NavReservedArea} from '../components/ui';
+import {Input, Button, NavReservedArea} from '../components/ui';
 
 @Radium
 class Login extends Component {
@@ -28,7 +28,7 @@ class Login extends Component {
         <NavReservedArea/>
         <form onSubmit={this.onFormSubmit} style={styles.form}>
           <div style={styles.header}>Login</div>
-          <input
+          <Input
             type='text'
             placeholder='Email'
             value={email}
@@ -36,7 +36,7 @@ class Login extends Component {
             style={styles.input}
             autoFocus
           />
-          <input
+          <Input
             type='password'
             placeholder='Password'
             value={password}
@@ -44,12 +44,12 @@ class Login extends Component {
             style={styles.input}
           />
           {failed && <div style={styles.failMessage}>Invalid username or password</div>}
-          <button
+          <Button
             type='submit'
             style={styles.loginButton}
           >
             Log in
-          </button>
+          </Button>
         </form>
       </div>
     );
@@ -101,20 +101,10 @@ class Login extends Component {
         color: 'blue',
         marginBottom: '10px',
       },
-      input: {
-        display: 'block',
-        marginBottom: '4px',
-        border: '1px solid green',
-        width: '100%',
-      },
       failMessage: {
         marginBottom: '5px',
         backgroundColor: 'red',
         color: 'white',
-      },
-      loginButton: {
-        display: 'block',
-        margin: '10px auto 0 auto',
       },
     };
   }

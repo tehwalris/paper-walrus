@@ -4,6 +4,7 @@ import Relay from 'react-relay';
 import {Block, Heading} from 'rebass';
 import DocumentFilterStatus from './DocumentFilterStatus';
 import DocumentQuickFilter from './DocumentQuickFilter';
+import {Button} from './ui';
 
 @Radium
 class DocumentFilter extends Component {
@@ -34,7 +35,7 @@ class DocumentFilter extends Component {
         />
         <Block mb={0}>
           <Heading>Current filters</Heading>
-          <a onClick={this.filterActions.clearFilters}>[clear filters]</a>
+          <Button onClick={this.filterActions.clearFilters}>Clear filters</Button>
           <DocumentFilterStatus
             tags={tags}
             filters={filters}

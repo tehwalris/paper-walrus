@@ -7,17 +7,7 @@ export default class List extends Component {
   };
 
   render() {
-    return <div style={this.styles.wrapper}>{this.props.children}</div>;
-  }
-
-  get styles() {
-    const {theme: {colors, layout}} = this.props;
-    return {
-      wrapper: {
-        backgroundColor: colors.default.background,
-        color: colors.default.content,
-      },
-    };
+    return <div>{this.props.children}</div>;
   }
 }
 

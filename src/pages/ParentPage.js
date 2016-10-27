@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as actionCreators from '../actions/actionCreators';
 import media from '../util/mediaQueries';
-import {NavOverlay} from '../components/ui';
+import {NavOverlay, ThemedArea} from '../components/ui';
 
 @Radium
 class ParentPage extends Component {
@@ -18,10 +18,10 @@ class ParentPage extends Component {
     const styles = this.getStyles();
     const loggedIn = !!user.token;
     return (
-      <div style={styles.wrapper}>
+      <ThemedArea defaultColorSet="default" style={styles.wrapper}>
         <NavOverlay logoText="paper.walr.is"/>
         <div style={styles.contentWrapper}>{children}</div>
-      </div>
+      </ThemedArea>
     );
   }
 

@@ -3,6 +3,7 @@ import Radium from 'radium';
 import Relay from 'react-relay';
 import CardWrapper from './CardGrid/CardWrapper';
 import ContentPreview from './ContentPreview';
+import omit from 'lodash';
 
 @Radium
 class SourceFileCard extends Component {
@@ -14,7 +15,7 @@ class SourceFileCard extends Component {
   render() {
     const {children, style, ...otherProps} = this.props;
     return (
-      <CardWrapper style={style} {...otherProps}>
+      <CardWrapper style={style} {...omit(otherProps, 'sourceFile')}>
         {this.renderPreview()}
         <div>{children}</div>
       </CardWrapper>
