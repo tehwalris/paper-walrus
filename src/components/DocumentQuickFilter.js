@@ -1,9 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Relay from 'react-relay';
-import {Input, Heading, Text, Block} from 'rebass';
+import {Heading, Text, Block} from 'rebass';
 import CardBlock from './CardBlock';
-import {List, ListItem} from './ui';
+import {List, ListItem, Input} from './ui';
 import {rankObjectMatch} from '../util/search';
 import HighlightedSearchMatch from './HighlightedSearchMatch';
 
@@ -34,16 +34,12 @@ class DocumentQuickFilter extends Component {
       <List>
         <ListItem>
           <Input
-            m={0}
             name="quickFilterInput"
-            label="Quick filter"
             placeholder="Quick filter..."
             value={input}
             onChange={this.onInputChange}
             onKeyDown={this.onInputKeyDown}
             autoFocus
-            hideLabel
-            autoOff
           />
         </ListItem>
         <div style={{height: '228px', overflowY: 'auto', overflowX: 'hidden'}}>

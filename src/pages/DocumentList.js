@@ -5,7 +5,7 @@ import {Link} from 'react-router';
 import DocumentFilter from '../components/DocumentFilter';
 import DocumentListEntry from '../components/DocumentListEntry'
 import CreateDocumentMutation from '../mutations/CreateDocumentMutation';
-import {List, ListItem, SidebarLayout, NavReservedArea} from '../components/ui';
+import {List, ListItem, Button, SidebarLayout, NavReservedArea} from '../components/ui';
 
 @Radium
 class DocumentList extends Component {
@@ -23,6 +23,9 @@ class DocumentList extends Component {
       <SidebarLayout sidebarColorSet="contrast" contentColorSet="base">
         <div>
           <NavReservedArea/>
+          <ListItem>
+            <Button onClick={this.createDocument}>Create document</Button>
+          </ListItem>
           <DocumentFilter
             tags={tags}
             filters={relay.variables}
@@ -38,7 +41,6 @@ class DocumentList extends Component {
           </ListItem>
           ))}
         </List>
-        <div><a onClick={this.createDocument}>[create document]</a></div>
       </SidebarLayout>
     );
   }
