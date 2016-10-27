@@ -31,27 +31,25 @@ class DocumentQuickFilter extends Component {
     const {tags} = this.props;
     const {input, renderedOptions} = this.state;
     return (
-      <CardBlock mt={0} p={0}>
-        <List>
-          <ListItem>
-            <Input
-              m={0}
-              name="quickFilterInput"
-              label="Quick filter"
-              placeholder="Quick filter..."
-              value={input}
-              onChange={this.onInputChange}
-              onKeyDown={this.onInputKeyDown}
-              autoFocus
-              hideLabel
-              autoOff
-            />
-          </ListItem>
-          <div style={{height: '228px', overflowY: 'auto', overflowX: 'hidden'}}>
-            {renderedOptions}
-          </div>
-        </List>
-      </CardBlock>
+      <List>
+        <ListItem>
+          <Input
+            m={0}
+            name="quickFilterInput"
+            label="Quick filter"
+            placeholder="Quick filter..."
+            value={input}
+            onChange={this.onInputChange}
+            onKeyDown={this.onInputKeyDown}
+            autoFocus
+            hideLabel
+            autoOff
+          />
+        </ListItem>
+        <div style={{height: '228px', overflowY: 'auto', overflowX: 'hidden'}}>
+          {renderedOptions}
+        </div>
+      </List>
     );
   }
 
