@@ -1,21 +1,21 @@
 const colors = {
   base: {
-    background: 'wheat',
-    raisedBackground: 'brown',
-    highlightBackground: 'yellow',
-    content: 'black',
+    background: 'rgb(255, 255, 255)',
+    raisedBackground: 'rgb(233, 242, 246)',
+    highlightBackground: 'rgb(220, 230, 234)',
+    content: 'rgb(63, 52, 44)',
   },
   contrast: {
-    background: 'black',
-    raisedBackground: '#2d2828',
-    highlightBackground: 'grey',
-    content: 'white',
+    background: 'rgb(17, 32, 39)',
+    raisedBackground: 'rgb(31, 52, 61)',
+    highlightBackground: 'rgb(45, 73, 82)',
+    content: 'rgb(255, 255, 255)',
   },
   primary: {
-    background: 'green',
-    raisedBackground: 'blue',
-    highlightBackground: 'yellow',
-    content: 'white',
+    background: 'rgb(21, 209, 124)',
+    raisedBackground: 'rgb(21, 209, 124)',
+    highlightBackground: 'rgb(20, 255, 149)',
+    content: 'rgb(17, 32, 39)',
   },
 };
 

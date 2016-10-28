@@ -15,7 +15,7 @@ class SourceFileCard extends Component {
   render() {
     const {children, style, ...otherProps} = this.props;
     return (
-      <CardWrapper style={style} {...omit(otherProps, 'sourceFile')}>
+      <CardWrapper style={style} {...otherProps}>
         {this.renderPreview()}
         <div>{children}</div>
       </CardWrapper>
