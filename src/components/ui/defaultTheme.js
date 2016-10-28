@@ -4,6 +4,7 @@ const colors = {
     raisedBackground: 'rgb(233, 242, 246)',
     highlightBackground: 'rgb(220, 230, 234)',
     content: 'rgb(63, 52, 44)',
+    secondaryContent: 'rgba(63, 52, 44, 0.5)',
     border: 'rgb(63, 52, 44)',
   },
   contrast: {
@@ -11,6 +12,7 @@ const colors = {
     raisedBackground: 'rgb(31, 52, 61)',
     highlightBackground: 'rgb(45, 73, 82)',
     content: 'rgb(255, 255, 255)',
+    secondaryContent: 'rgba(255, 255, 255, 0.5)',
     border: 'rgb(188, 194, 197)',
   },
   primary: {
@@ -18,6 +20,7 @@ const colors = {
     raisedBackground: 'rgb(93, 239, 161)',
     highlightBackground: 'rgb(20, 255, 149)',
     content: 'rgb(17, 32, 39)',
+    secondaryContent: 'rgba(17, 32, 39, 0.5)',
     border: 'rgb(17, 32, 39)',
   },
 };
@@ -29,6 +32,7 @@ export default {
     borderWidths: ['0', '1px', '2px', '4px'],
     sidebarWidth: '350px',
     formWidth: '300px',
+    listItemMaxWidths: {default: '700px', full: '100%'},
     navReservedArea: {width: '350px', height: '80px'},
     logoFontSize: '30px',
   },

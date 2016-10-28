@@ -24,9 +24,7 @@ class DocumentList extends Component {
       <SidebarLayout sidebarColorSet="contrast" contentColorSet="base">
         <div>
           <NavReservedArea/>
-          <ListItem>
-            <Button onClick={this.createDocument}>Create document</Button>
-          </ListItem>
+          <Button onClick={this.createDocument}>Create document</Button>
           <DocumentFilter
             tags={tags}
             filters={relay.variables}
@@ -70,7 +68,6 @@ class DocumentList extends Component {
       {label: 'Last 30 days', documents: groupedDocuments.last30},
       {label: 'Earlier', documents: groupedDocuments.earlier},
     ];
-    console.log(labeledGroups);
     return labeledGroups.filter(group => !!group.documents);
   }
 
