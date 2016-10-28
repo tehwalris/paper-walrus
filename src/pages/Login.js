@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import * as actionCreators from '../actions/actionCreators';
-import {Input, Button, NavReservedArea} from '../components/ui';
+import {Input, Button, NavReservedArea, ThemedArea, Form} from '../components/ui';
 
 @Radium
 class Login extends Component {
@@ -24,10 +24,8 @@ class Login extends Component {
     const {email, password, failed} = this.state;
     const styles = this.getStyles();
     return (
-      <div style={styles.wrapper}>
-        <NavReservedArea/>
-        <form onSubmit={this.onFormSubmit} style={styles.form}>
-          <div style={styles.header}>Login</div>
+      <ThemedArea defaultColorSet="contrast" style={styles.wrapper}>
+        <Form onSubmit={this.onFormSubmit}>
           <Input
             type='text'
             placeholder='Email'
@@ -50,8 +48,8 @@ class Login extends Component {
           >
             Log in
           </Button>
-        </form>
-      </div>
+        </Form>
+      </ThemedArea>
     );
   }
 
@@ -91,15 +89,7 @@ class Login extends Component {
         flexDirection: 'column',
         alignItems: 'center',
         textAlign: 'center',
-      },
-      form: {
-        width: '250px',
-        maxWidth: '100%',
-      },
-      header: {
-        fontSize: '20px',
-        color: 'blue',
-        marginBottom: '10px',
+        justifyContent: 'center',
       },
       failMessage: {
         marginBottom: '5px',

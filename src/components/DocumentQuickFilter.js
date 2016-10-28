@@ -20,11 +20,11 @@ class DocumentQuickFilter extends Component {
   state = {input: ''}
 
   componentWillMount() {
-    this.updateOptions(this.state.input)
+    this.updateOptions(this.state.input);
   }
 
   componentWillReceiveProps(newProps) {
-    this.updateOptions(this.state.input, newProps)
+    this.updateOptions(this.state.input, newProps);
   }
 
   render() {

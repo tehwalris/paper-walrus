@@ -22,7 +22,7 @@ export default class Button extends Component {
         backgroundColor: colors.default.raisedBackground,
         ':hover': {backgroundColor: colors.default.highlightBackground},
         ':focus': {
-          outlineColor: colors.default.content,
+          outlineColor: colors.default.border,
           outlineWidth: layout.borderWidths[1],
           outlineStyle: 'solid',
         },

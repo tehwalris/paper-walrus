@@ -7,6 +7,8 @@ import BaseSidebarLayout from './SidebarLayout';
 import BaseNavOverlay from './NavOverlay';
 import BaseNavReservedArea from './NavReservedArea';
 import BaseThemedArea from './ThemedArea';
+import BaseForm from './Form';
+import BaseFormElement from './FormElement';
 
 export const Button = withTheme(BaseButton);
 export const Input = withTheme(BaseInput);
@@ -16,3 +18,5 @@ export const SidebarLayout = withTheme(BaseSidebarLayout);
 export const NavOverlay = withTheme(BaseNavOverlay);
 export const NavReservedArea = withTheme(BaseNavReservedArea);
 export const ThemedArea = withTheme(BaseThemedArea);
+export const Form = withTheme(BaseForm);
+export const FormElement = withTheme(BaseFormElement);

@@ -1,30 +1,27 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
+import {propType as themePropType} from './themeProps';
 
 @Radium
 export default class ListItem extends Component {
   static propTypes = {
     children: PropTypes.node,
-    onClick: PropTypes.func,
+    theme: themePropType,
   };
 
   render() {
-    const {onClick} = this.props;
     return (
-      <div style={this.styles.wrapper} onClick={onClick}>
+      <div style={this.styles.wrapper}>
         {this.props.children}
       </div>
     );
   }
 
   get styles() {
-    const {theme: {colors, layout}, onClick} = this.props;
+    const {theme: {layout}} = this.props;
     return {
       wrapper: {
-        padding: layout.distances[2],
-        ':hover': {
-          backgroundColor: onClick ? colors.default.highlightBackground : undefined,
-        },
+        padding: layout.distances[1],
       },
     };
   }

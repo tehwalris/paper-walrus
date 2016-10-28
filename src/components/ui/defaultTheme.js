@@ -4,18 +4,21 @@ const colors = {
     raisedBackground: 'rgb(233, 242, 246)',
     highlightBackground: 'rgb(220, 230, 234)',
     content: 'rgb(63, 52, 44)',
+    border: 'rgb(63, 52, 44)',
   },
   contrast: {
     background: 'rgb(17, 32, 39)',
     raisedBackground: 'rgb(31, 52, 61)',
     highlightBackground: 'rgb(45, 73, 82)',
     content: 'rgb(255, 255, 255)',
+    border: 'rgb(188, 194, 197)',
   },
   primary: {
-    background: 'rgb(21, 209, 124)',
-    raisedBackground: 'rgb(21, 209, 124)',
+    background: 'rgb(93, 239, 161)',
+    raisedBackground: 'rgb(93, 239, 161)',
     highlightBackground: 'rgb(20, 255, 149)',
     content: 'rgb(17, 32, 39)',
+    border: 'rgb(17, 32, 39)',
   },
 };
 
@@ -25,6 +28,7 @@ export default {
     distances: ['0', '4px', '8px', '16px', '32px'],
     borderWidths: ['0', '1px', '2px', '4px'],
     sidebarWidth: '350px',
+    formWidth: '300px',
     navReservedArea: {width: '350px', height: '80px'},
     logoFontSize: '30px',
   },

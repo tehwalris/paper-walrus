@@ -19,7 +19,7 @@ export default class Input extends Component {
         margin: 0,
         padding: layout.distances[2],
         borderStyle: 'solid',
-        borderColor: colors.default.content,
+        borderColor: colors.default.border,
         borderWidth: layout.borderWidths[1],
         outline: 'none',
         font: 'inherit',
