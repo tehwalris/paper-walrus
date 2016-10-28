@@ -13,6 +13,7 @@ import BaseForm from './Form';
 import BaseFormElement from './FormElement';
 import BaseHeader from './Header';
 import BasePaddedPage from './PaddedPage';
+import BaseText from './Text';
 
 export const Button = withTheme(BaseButton);
 export const LinkButton = withTheme(BaseLinkButton);
@@ -28,3 +29,4 @@ export const Form = withTheme(BaseForm);
 export const FormElement = withTheme(BaseFormElement);
 export const Header = withTheme(BaseHeader);
 export const PaddedPage = withTheme(BasePaddedPage);
+export const Text = withTheme(BaseText);

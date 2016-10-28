@@ -30,7 +30,7 @@ export default {
   layout: {
     distances: ['0', '4px', '8px', '16px', '32px'],
     borderWidths: ['0', '1px', '2px', '4px'],
-    headerFontSizes: {1: '30px', 2: '25px', 3: '20px', 4: '15px'},
+    headerFontSizes: {1: '32px', 2: '24px', 3: '20px', 4: '16px'},
     logoFontSize: '30px',
     sidebarWidth: '350px',
     formWidth: '300px',

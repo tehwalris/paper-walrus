@@ -21,7 +21,7 @@ export default class PaddedPage extends Component {
     return {
       wrapper: {
         width: '100%', //HACK
-        paddingTop: layout.distances[2],
+        paddingTop: layout.distances[3],
         paddingBottom: layout.distances[3],
         paddingLeft: layout.distances[3],
         paddingRight: layout.distances[3],

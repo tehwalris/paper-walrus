@@ -19,6 +19,7 @@ export default class Heading extends Component {
       header: {
         fontSize: layout.headerFontSizes[level],
         fontWeight: 'bold',
+        marginBottom: '0.45em',
       },
     };
   }

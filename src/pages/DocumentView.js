@@ -3,7 +3,7 @@ import Radium from 'radium';
 import Relay from 'react-relay';
 import DocumentContentView from '../components/DocumentContentView';
 import RoughDateRange from '../components/RoughDateRange';
-import {NavReservedArea, Header, PaddedPage, LinkButton} from '../components/ui';
+import {NavReservedArea, Header, Text, PaddedPage, LinkButton} from '../components/ui';
 
 @Radium
 class DocumentView extends Component {
@@ -20,7 +20,7 @@ class DocumentView extends Component {
           <NavReservedArea/>
           <div style={this.styles.headerZone}>
             <Header level={2}>{document.name || '(unnamed)'}</Header>
-            <Header level={3}><RoughDateRange dateRange={document.dateRange}/></Header>
+            <Text><RoughDateRange dateRange={document.dateRange}/></Text>
             <LinkButton to={`/documents/${document.id}/edit`}>Edit document</LinkButton>
           </div>
         </div>
