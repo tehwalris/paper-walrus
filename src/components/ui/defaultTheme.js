@@ -30,10 +30,11 @@ export default {
   layout: {
     distances: ['0', '4px', '8px', '16px', '32px'],
     borderWidths: ['0', '1px', '2px', '4px'],
+    headerFontSizes: {1: '30px', 2: '25px', 3: '20px', 4: '15px'},
+    logoFontSize: '30px',
     sidebarWidth: '350px',
     formWidth: '300px',
     listItemMaxWidths: {default: '700px', full: '100%'},
     navReservedArea: {width: '350px', height: '80px'},
-    logoFontSize: '30px',
   },
 };

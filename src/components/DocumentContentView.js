@@ -31,8 +31,6 @@ class DocumentContentView extends Component {
       wrapper: {
         display: 'flex',
         flexDirection: 'column',
-        backgroundColor: 'pink',
-        padding: '0 20px',
       },
       part: {
         width: '100%',

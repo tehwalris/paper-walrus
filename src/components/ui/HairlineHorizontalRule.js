@@ -1,8 +1,7 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
 import getRes from '../../util/getRes';
 
 export default class HairlineHorizontalRule extends Component {
-  static propTypes
   render() {
     return <div style={this.styles.hairline}>&nbsp;</div>;
   }

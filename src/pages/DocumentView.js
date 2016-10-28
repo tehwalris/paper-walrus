@@ -1,10 +1,9 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Relay from 'react-relay';
-import {Link} from 'react-router';
 import DocumentContentView from '../components/DocumentContentView';
 import RoughDateRange from '../components/RoughDateRange';
-import {NavReservedArea} from '../components/ui';
+import {NavReservedArea, Header, PaddedPage, LinkButton} from '../components/ui';
 
 @Radium
 class DocumentView extends Component {
@@ -14,18 +13,35 @@ class DocumentView extends Component {
 
   render() {
     const {document} = this.props;
-    if(!document) return null;
+    if (!document) return null;
     return (
-      <div style={{width: '100%' /* //HACK */}}>
-        <NavReservedArea/>
-        Document name: {document.name || '(unnamed)'} <br/>
-        Date: <RoughDateRange dateRange={document.dateRange}/><br/>
-        <Link to={`/documents/${document.id}/edit`}>Edit document</Link>
+      <PaddedPage defaultColorSet="contrast" style={{width: '100%' /* //HACK */}}>
+        <div style={this.styles.headerZoneWrapper}>
+          <NavReservedArea/>
+          <div style={this.styles.headerZone}>
+            <Header level={2}>{document.name || '(unnamed)'}</Header>
+            <Header level={3}><RoughDateRange dateRange={document.dateRange}/></Header>
+            <LinkButton to={`/documents/${document.id}/edit`}>Edit document</LinkButton>
+          </div>
+        </div>
         <DocumentContentView
           document={document}
         />
-      </div>
+      </PaddedPage>
     );
+  }
+
+  get styles() {
+    return {
+      headerZoneWrapper: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        textAlign: 'right',
+      },
+      headerZone: {
+        flexGrow: 1,
+      },
+    };
   }
 }
 
