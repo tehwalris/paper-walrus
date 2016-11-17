@@ -1,12 +1,15 @@
 import React, {Component, PropTypes} from 'react';
 import Radium from 'radium';
 import Relay from 'react-relay';
+import {DragDropContext} from 'react-dnd';
+import Html5Backend from 'react-dnd-html5-backend';
 import SourceFileUploadGrid from './SourceFileUploadGrid';
 import DocumentPartInfo from './DocumentPartInfo';
 import CreateDocumentPartMutation from '../mutations/CreateDocumentPartMutation';
 import DeleteDocumentPartMutation from '../mutations/DeleteDocumentPartMutation';
 import MoveDocumentPartMutation from '../mutations/MoveDocumentPartMutation';
 
+@DragDropContext(Html5Backend)
 @Radium
 class DocumentPartEditor extends Component {
   static propTypes = {
@@ -25,7 +28,7 @@ class DocumentPartEditor extends Component {
             key={i}
             part={part}
             onDelete={() => this.deleteDocumentPart(part)}
-            onMove={direction => this.moveDocumentPart(part, i, direction)}
+            onMove={this.moveDocumentPart}
             style={this.styles.part}
           />
           ))}
@@ -41,7 +44,7 @@ class DocumentPartEditor extends Component {
 
   createDocumentPart = (sourceFileFromUploadGrid) => {
     const {document, relay} = this.props;
-    //HACK since the source file from the upload grid component does not have the right fragment
+    // HACK since the source file from the upload grid component does not have the right fragment
     const sourceFile = _.find(this.props.sourceFiles, ['__dataID__', sourceFileFromUploadGrid.__dataID__]);
     relay.commitUpdate(new CreateDocumentPartMutation({document, sourceFile}));
   }
@@ -51,11 +54,13 @@ class DocumentPartEditor extends Component {
     relay.commitUpdate(new DeleteDocumentPartMutation({part}));
   }
 
-  moveDocumentPart = (part, oldPosition, direction) => {
+  moveDocumentPart = (partId, targetPartId, relativePlacement) => {
     const {relay} = this.props;
+    const oldPosition = _.findIndex(this.props.document.parts, ['id', partId]);
+    const targetPartPosition = _.findIndex(this.props.document.parts, ['id', targetPartId]);
     relay.commitUpdate(new MoveDocumentPartMutation({
-      part,
-      targetPosition: oldPosition + (direction === 'up' ? -1 : 2),
+      part: this.props.document.parts[oldPosition],
+      targetPosition: targetPartPosition + (relativePlacement === 'before' ? 0 : 1),
     }));
   }
 
@@ -86,6 +91,7 @@ export default Relay.createContainer(DocumentPartEditor, {
     document: () => Relay.QL`
       fragment on Document {
         parts {
+          id
           ${DocumentPartInfo.getFragment('part')}
           ${DeleteDocumentPartMutation.getFragment('part')}
           ${MoveDocumentPartMutation.getFragment('part')}
