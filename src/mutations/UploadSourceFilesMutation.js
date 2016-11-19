@@ -1,5 +1,4 @@
 import Relay from 'react-relay';
-import {VIEWER_ID} from 'paper-walrus-server/src/constants';
 
 export default class UploadSourceFilesMutation extends Relay.Mutation {
   getMutation = () => Relay.QL`
@@ -7,23 +6,21 @@ export default class UploadSourceFilesMutation extends Relay.Mutation {
   `
   getFatQuery = () => Relay.QL`
     fragment on UploadSourceFilesPayload {
-      viewer {
-        sourceFiles
+      uploadTargets {
+        postUrl
+        formData {
+          key
+          value
+        }
       }
     }
   `
   getVariables() {
-    return {};
-  }
-  getFiles() {
-    const files = {};
-    this.props.files.forEach((file, i) => files[i] = file);
-    return files;
+    return {
+      plannedUploadInfo: this.props.files.map(({name, type}) => ({name, type})),
+    };
   }
   getConfigs() {
-    return [{
-      type: 'FIELDS_CHANGE',
-      fieldIDs: {viewer: VIEWER_ID},
-    }];
+    return [];
   }
 }
