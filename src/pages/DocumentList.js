@@ -52,6 +52,7 @@ class DocumentList extends Component {
     const {viewer: {documents}} = this.props;
     const cutoffs = {
       today: {label: 'Today', time: moment(), unit: 'day'},
+      yesterday: {label: 'Yesterday', time: moment().subtract(1, 'd'), unit: 'day'},
       last7: {label: 'Last 7 days', time: moment().subtract(7, 'd'), unit: 'day'},
       last30: {label: 'Last 30 days', time: moment().subtract(30, 'd'), unit: 'day'},
     };
@@ -64,6 +65,7 @@ class DocumentList extends Component {
       ).value();
     const labeledGroups = [
       {label: 'Today', documents: groupedDocuments.today},
+      {label: 'Yesterday', documents: groupedDocuments.yesterday},
       {label: 'Last 7 days', documents: groupedDocuments.last7},
       {label: 'Last 30 days', documents: groupedDocuments.last30},
       {label: 'Earlier', documents: groupedDocuments.earlier},
