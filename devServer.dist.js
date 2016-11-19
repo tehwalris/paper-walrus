@@ -21,6 +21,14 @@ app.use('/api', function(req, res) {
   });
 });
 
+app.use('/minio', function(req, res) {
+  apiProxy.web(req, res, {
+    target: config.minioUrl,
+    changeOrigin: true,
+    pathRewrite: {'^/minio': '/'},
+  });
+});
+
 const webroot = __dirname + '/dist';
 app.use('/', express.static(webroot));
 app.use(fallback('index.html', {root: webroot}));

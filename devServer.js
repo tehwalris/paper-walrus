@@ -24,6 +24,11 @@ const server = new WebpackDevServer(compiler, {
       changeOrigin: true,
       pathRewrite: {'^/api': '/'},
     },
+    '/minio': {
+      target: config.minioUrl,
+      changeOrigin: true,
+      pathRewrite: {'^/minio': '/'},
+    },
   },
 });
 
