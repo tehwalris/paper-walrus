@@ -22,6 +22,3 @@ export default class CreateDocumentMutation extends Relay.Mutation {
     }];
   }
 }
-
-
-

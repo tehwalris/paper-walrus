@@ -7,6 +7,7 @@ export default class UploadSourceFilesMutation extends Relay.Mutation {
   getFatQuery = () => Relay.QL`
     fragment on UploadSourceFilesPayload {
       uploadTargets {
+        key
         postUrl
         formData {
           key
@@ -21,6 +22,20 @@ export default class UploadSourceFilesMutation extends Relay.Mutation {
     };
   }
   getConfigs() {
-    return [];
+    return [{
+      type: 'REQUIRED_CHILDREN',
+      children: [Relay.QL`
+        fragment on UploadSourceFilesPayload {
+          uploadTargets {
+            key
+            postUrl
+            formData {
+              key
+              value
+            }
+          }
+        }
+      `],
+    }];
   }
 }
