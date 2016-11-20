@@ -4,8 +4,8 @@ import Relay from 'react-relay';
 import CardGrid from '../components/CardGrid';
 import SourceFileCard from '../components/SourceFileCard';
 import UploadCard from '../components/CardGrid/UploadCard';
-import UploadSourceFilesMutation from '../mutations/UploadSourceFilesMutation';
 import DeleteSourceFileMutation from '../mutations/DeleteSourceFileMutation';
+import uploadSourceFiles from '../util/uploadSourceFiles';
 
 @Radium
 class SourceFileUploadGrid extends Component {
@@ -46,7 +46,7 @@ class SourceFileUploadGrid extends Component {
 
   uploadFiles = (files) => {
     const {relay} = this.props;
-    relay.commitUpdate(new UploadSourceFilesMutation({files}));
+    uploadSourceFiles({relay, files});
   }
 
   deleteSourceFile = (sourceFile) => {
