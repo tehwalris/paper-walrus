@@ -6,7 +6,7 @@ import moment from 'moment';
 import DocumentFilter from '../components/DocumentFilter';
 import DocumentListEntry from '../components/DocumentListEntry'
 import CreateDocumentMutation from '../mutations/CreateDocumentMutation';
-import {List, ListItem, Button, SidebarLayout, NavReservedArea, ListGroup} from '../components/ui';
+import {List, Button, SidebarLayout, NavReservedArea, ListGroup} from '../components/ui';
 
 @Radium
 class DocumentList extends Component {
@@ -35,11 +35,10 @@ class DocumentList extends Component {
           {this.getGroupedDocuments().map(({label, documents}, i) => (
           <ListGroup key={i} label={label}>
             {documents.map((document, i) => (
-            <ListItem key={i} onClick={() => {}}>
               <DocumentListEntry
+                key={i}
                 document={document}
               />
-            </ListItem>
             ))}
           </ListGroup>
           ))}
