@@ -7,7 +7,7 @@ const devFlagPlugin = new webpack.DefinePlugin({
 });
 
 const fetchPlugin = new webpack.ProvidePlugin({
-  fetch: 'imports?this=>global!exports?global.fetch!whatwg-fetch',
+  fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch',
 });
 
 module.exports = {
@@ -22,19 +22,19 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel',
+        loader: 'babel-loader',
       },
       {
         test: /\.scss$/,
-        loaders: ['style', 'css', 'sass'],
+        loaders: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.(png|svg|eot|ttf|woff|woff2)$/,
-        loader: 'file',
+        loader: 'file-loader',
       },
       {
         test: /\.html$/,
-        loader: 'html',
+        loader: 'html-loader',
       },
     ],
   },

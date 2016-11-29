@@ -1,4 +1,4 @@
-import '!file?name=[name].[ext]!./index.html';
+import '!file-loader?name=[name].[ext]!./index.html';
 import './index.scss';
 
 import React from 'react';
