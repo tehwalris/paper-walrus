@@ -1,6 +1,7 @@
 import withTheme from './withTheme';
 import BaseButton from './Button';
 import BaseLinkButton from './LinkButton';
+import BaseButtonBar from './ButtonBar';
 import BaseInput from './Input';
 import BaseList from './List';
 import BaseListItem from './ListItem';
@@ -17,6 +18,7 @@ import BaseText from './Text';
 
 export const Button = withTheme(BaseButton);
 export const LinkButton = withTheme(BaseLinkButton);
+export const ButtonBar = withTheme(BaseButtonBar);
 export const Input = withTheme(BaseInput);
 export const List = withTheme(BaseList);
 export const ListItem = withTheme(BaseListItem);

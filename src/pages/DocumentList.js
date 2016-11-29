@@ -6,7 +6,7 @@ import moment from 'moment';
 import DocumentFilter from '../components/DocumentFilter';
 import DocumentListEntry from '../components/DocumentListEntry'
 import CreateDocumentMutation from '../mutations/CreateDocumentMutation';
-import {List, Button, SidebarLayout, NavReservedArea, ListGroup} from '../components/ui';
+import {List, Button, ButtonBar, SidebarLayout, NavReservedArea, ListGroup} from '../components/ui';
 
 @Radium
 class DocumentList extends Component {
@@ -24,7 +24,9 @@ class DocumentList extends Component {
       <SidebarLayout sidebarColorSet="contrast" contentColorSet="base">
         <div>
           <NavReservedArea/>
-          <Button onClick={this.createDocument}>Create document</Button>
+          <ButtonBar>
+            <Button onClick={this.createDocument}>Create document</Button>
+          </ButtonBar>
           <DocumentFilter
             tags={tags}
             filters={relay.variables}
