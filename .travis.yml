@@ -6,7 +6,6 @@ node_js:
   - node
   - iojs
 script:
-  - npm run updateSchema
   - npm run build
 after_success:
   - export DOCKER_REGISTRY=registry.walr.is:5000
