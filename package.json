@@ -4,6 +4,7 @@
   "description": "An experimental web app for managing handouts from school.",
   "main": "src/index.js",
   "scripts": {
+    "test": "echo \"Warning: No tests specified\"",
     "build": "webpack -p --progress --color",
     "serve": "env DEBUG=true node ./devServer.js",
     "serveDist": "npm run build && node ./devServer.dist.js",
