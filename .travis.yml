@@ -5,6 +5,8 @@ node_js:
   - '6.1'
   - node
   - iojs
+script:
+  - npm run build
 after_success:
   - export DOCKER_REGISTRY=registry.walr.is:5000
   - export DOCKER_IMAGE_PATH=$DOCKER_REGISTRY/philippe/paper-walris
