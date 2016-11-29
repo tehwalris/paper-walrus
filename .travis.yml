@@ -1,8 +1,19 @@
 dist: trusty
-
 language: node_js
-node_js: 
-  - "6"
-  - "6.1"
-  - "node"
-  - "iojs"
+node_js:
+  - '6'
+  - '6.1'
+  - node
+  - iojs
+after_success:
+  - export DOCKER_REGISTRY=registry.walr.is:5000
+  - export DOCKER_IMAGE_PATH=$DOCKER_REGISTRY/philippe/paper-walris
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS $DOCKER_REGISTRY
+  - docker build -t $DOCKER_IMAGE_PATH .
+  - docker push $DOCKER_IMAGE_PATH
+env:
+  global:
+    - secure: >-
+        BH2y7IUq22aA+A+D2NATBwRqWa67dPMEENvdyplMoyp8HsJryDwjK52bW+wr2KJ9SYGVnSXMSlqSsZ5zSKLrjh3M8mKxG0NA88uK6peR3T4+29i818rkK4akvgSkhBcCIRQJ6M81geFWhZiJ8m43QqKCWnj1rUeEaPBzrImye0oSdOoLpV7Uez0xqMWecHql9KmdN9P8r5BJQuWBeNfwx5WhxDIuFZCSqTTrEPEwpn1PAjPhV2+2c/nm3T83qndAJKPVBsy9RpzysAwdK/hVUwWja3BFRn7QzcmmRhnddgaYbkidNUw5tGEFJ4gkqhbOiMyvtTQCwyJlX42iRImpJsgpdtM8Tyj/YTtGeC4SZ8kqtCuL2bmpGPWcbAJqb0yv3D2riPEKICY1WkfwPOYMkU0+JL38UOQWO4Gwzt6rJY1mRXx3wAD02a/rsdxROokJDNbX4lga1w2sV32XeG6DDGR8U2SzjCyaQiGH3NIqytuOd0peenejzS8jjZDaPEXHqOkVaQWEEth51YTOIwwAAJrLZotx/mHYGb9Y628ucgwsosoXuHJttb5pORmOITjY/KQ859iAqf6szM14LtyCWnbFL6TfUKPso0kTT6u0eytTBdB8qeHyvAxqPIQV7C5UKX0XCYiglpKtdbdrx5MxHk+ZcTIwF4qUxAL1lzIS8Cc=
+    - secure: >-
+        kmQNlD9pssYtHh3DHD43asggzjnBJjdPTJrZ4Pewvn0kRMiTIo/6wBuIABFIrOgoehT/XAFPITzTBmtv/+VRntTkOBcDI21B9gmcXZNwzqGKszmtbVRGjZeMV4+6TfHT39QxfQCeWf0c/aSvWFdSLKPB9QJZOZdKsFtXbAyLW1cHGl4aOaUssOLdtW2C7bCxBRvtAkGR3Za70KtAJ4haNVLdOj32c9btx5jdiFeqZJ9SPzBlJOHoqHmZO3y/03VqWZ15tl9i10bqP5ybJUAXAIGwPwZfMnKuuWjj1gO9Zm4pJhAzPSrFXcgjzsms5/uvGNSjVbbPhNqe3Z/gD5GDShkhPKp8i85bnY8yX9AbCmCAzt/5I3OrpxPos3mEmgk9/rzNCKw2CtsncpRzYXkJASMdbye2O77oX2f7QiGRoBTK0/JBnEedUZtnXm9UEn00erG8o2XpnrzjRKaW0lOc6Fm6vf84j2kcNaA9LUxrx8LNqvIHOIPxmU97Mmfs2G4la6uT9YflXUv2itVmHVhcfE9HGFxALeLzn7E6doLH7hqTy1l26oUS14UzPguvufVGGnaDNxITE1FGDFx800R8cuTZd8f/haV5lCeapcA+FWlmq1LCrJ1WuRrMSjlF0f8bDkygxVcGYtZf43wkJmSmujBeCHRSvtDUXs4B65/x7FA=
