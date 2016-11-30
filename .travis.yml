@@ -4,6 +4,8 @@ node_js:
   - '6'
   - node
   - iojs
+services:
+  - docker
 script:
   - npm run build
 deploy:
