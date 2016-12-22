@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom';
 import {AppContainer} from 'react-hot-loader';
 import App from './App';
 import {store, history} from './common';
+import './util/injectRelayNetworkLayer'
 
 function renderApp(PrimaryComponent, routerKey) {
   ReactDOM.render(
