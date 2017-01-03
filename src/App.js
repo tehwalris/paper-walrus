@@ -35,7 +35,7 @@ export default class App extends Component {
           <Router
             key={routerKey}
             history={history}
-            render={applyRouterMiddleware(ReactRouterRelay.default)}
+            render={applyRouterMiddleware(ReactRouterRelay)}
             environment={Relay.Store}
           >
             <Route path='/' component={ParentPage}>
