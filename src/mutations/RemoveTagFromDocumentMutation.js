@@ -17,6 +17,9 @@ export default class RemoveTagFromDocumentMutation extends Relay.Mutation {
       document {
        tags
      }
+     viewer {
+       documents
+     }
     }
   `
   getVariables() {
