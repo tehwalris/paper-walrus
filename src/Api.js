@@ -6,7 +6,11 @@ export default class Api {
   }
 
   authenticate(options) {
-    return this._apiCall('POST', '/authenticate', this._jsonBody(options)).then(res => res.token);
+    return this._apiCall('POST', '/authenticate', this._jsonBody(options));
+  }
+
+  authenticateWithRefreshToken(options) {
+    return this._apiCall('POST', '/authenticate/refresh', this._jsonBody(options));
   }
 
   _apiCall(method, endpoint, options = {}, token) {

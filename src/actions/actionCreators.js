@@ -1,8 +1,4 @@
-import Api from '../Api';
-import {apiBaseUrl} from '../util/apiConfig';
-import {history} from '../common';
-
-const api = new Api(apiBaseUrl);
+import {history, api} from '../common';
 
 const getToken = state => state.user.token;
 
@@ -18,12 +14,12 @@ export function uploadSourceFiles(files, cb) {
 
 export function login(options, cb) {
   return (dispatch) => {
-    api.authenticate(options).then(token => {
+    api.authenticate(options).then(tokens => {
       dispatch({type: 'reset'});
       dispatch({
         type: 'login',
         email: options.email,
-        token,
+        ...tokens,
       });
       cb();
     }).catch(err => cb(err));
@@ -31,6 +27,8 @@ export function login(options, cb) {
 }
 
 export function logout() {
-  history.push('/login');
-  return {type: 'reset'};
+  return (dispatch) => {
+    dispatch({type: 'reset'});
+    history.push('/login');
+  }
 }

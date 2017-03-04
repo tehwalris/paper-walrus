@@ -10,8 +10,14 @@ const fetchPlugin = new webpack.ProvidePlugin({
   fetch: 'imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch',
 });
 
+let entryPoints
+if(process.env.DEBUG)
+  entryPoints = ['babel-polyfill', './src/index.debug.js']
+else
+  entryPoints = ['babel-polyfill', './src/index.js']
+
 module.exports = {
-  entry: process.env.DEBUG ? './src/index.debug.js' : './src/index.js',
+  entry: entryPoints,
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
