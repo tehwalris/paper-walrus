@@ -6,7 +6,7 @@ node_js:
 services:
   - docker
 script:
-  - npm run build
+  - yarn build
 deploy:
   provider: script
   script: ./deploy.sh
